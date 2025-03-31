@@ -1,2 +1,2 @@
-# Portfolio
-Professional portfolio for my coding work
+# CRUD Program
+Program for class (IT102) connecting SQL database with VB.Net.
