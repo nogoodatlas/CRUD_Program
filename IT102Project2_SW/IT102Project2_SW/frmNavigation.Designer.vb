@@ -1,0 +1,74 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmNavigation
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.cboUserType = New System.Windows.Forms.ComboBox()
+        Me.btnSubmit = New System.Windows.Forms.Button()
+        Me.lblUserType = New System.Windows.Forms.Label()
+        Me.SuspendLayout()
+        '
+        'cboUserType
+        '
+        Me.cboUserType.FormattingEnabled = True
+        Me.cboUserType.Location = New System.Drawing.Point(195, 37)
+        Me.cboUserType.Name = "cboUserType"
+        Me.cboUserType.Size = New System.Drawing.Size(172, 24)
+        Me.cboUserType.TabIndex = 0
+        '
+        'btnSubmit
+        '
+        Me.btnSubmit.Location = New System.Drawing.Point(159, 87)
+        Me.btnSubmit.Name = "btnSubmit"
+        Me.btnSubmit.Size = New System.Drawing.Size(95, 40)
+        Me.btnSubmit.TabIndex = 1
+        Me.btnSubmit.Text = "Submit"
+        Me.btnSubmit.UseVisualStyleBackColor = True
+        '
+        'lblUserType
+        '
+        Me.lblUserType.AutoSize = True
+        Me.lblUserType.Location = New System.Drawing.Point(46, 45)
+        Me.lblUserType.Name = "lblUserType"
+        Me.lblUserType.Size = New System.Drawing.Size(115, 16)
+        Me.lblUserType.TabIndex = 2
+        Me.lblUserType.Text = "Select User Type:"
+        '
+        'frmNavigation
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(413, 165)
+        Me.Controls.Add(Me.lblUserType)
+        Me.Controls.Add(Me.btnSubmit)
+        Me.Controls.Add(Me.cboUserType)
+        Me.Name = "frmNavigation"
+        Me.Text = "Navigation"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+
+    Friend WithEvents cboUserType As ComboBox
+    Friend WithEvents btnSubmit As Button
+    Friend WithEvents lblUserType As Label
+End Class
