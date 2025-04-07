@@ -25,11 +25,13 @@ Partial Class frmNavigation
         Me.cboUserType = New System.Windows.Forms.ComboBox()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.lblUserType = New System.Windows.Forms.Label()
+        Me.btnExit = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cboUserType
         '
         Me.cboUserType.FormattingEnabled = True
+        Me.cboUserType.Items.AddRange(New Object() {"Customer", "Pilot", "Attendant", "Administrator"})
         Me.cboUserType.Location = New System.Drawing.Point(195, 37)
         Me.cboUserType.Name = "cboUserType"
         Me.cboUserType.Size = New System.Drawing.Size(172, 24)
@@ -37,7 +39,7 @@ Partial Class frmNavigation
         '
         'btnSubmit
         '
-        Me.btnSubmit.Location = New System.Drawing.Point(159, 87)
+        Me.btnSubmit.Location = New System.Drawing.Point(49, 87)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(95, 40)
         Me.btnSubmit.TabIndex = 1
@@ -53,12 +55,22 @@ Partial Class frmNavigation
         Me.lblUserType.TabIndex = 2
         Me.lblUserType.Text = "Select User Type:"
         '
+        'btnExit
+        '
+        Me.btnExit.Location = New System.Drawing.Point(272, 87)
+        Me.btnExit.Name = "btnExit"
+        Me.btnExit.Size = New System.Drawing.Size(95, 40)
+        Me.btnExit.TabIndex = 1
+        Me.btnExit.Text = "Exit"
+        Me.btnExit.UseVisualStyleBackColor = True
+        '
         'frmNavigation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(413, 165)
         Me.Controls.Add(Me.lblUserType)
+        Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.cboUserType)
         Me.Name = "frmNavigation"
@@ -71,4 +83,5 @@ Partial Class frmNavigation
     Friend WithEvents cboUserType As ComboBox
     Friend WithEvents btnSubmit As Button
     Friend WithEvents lblUserType As Label
+    Friend WithEvents btnExit As Button
 End Class
