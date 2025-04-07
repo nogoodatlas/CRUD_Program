@@ -73,6 +73,48 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAddAttendant.Designer.vb">
+      <DependentUpon>frmAddAttendant.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddAttendant.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddPilot.Designer.vb">
+      <DependentUpon>frmAddPilot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddPilot.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdminMain.Designer.vb">
+      <DependentUpon>frmAdminMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdminMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAttendantMain.Designer.vb">
+      <DependentUpon>frmAttendantMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAttendantMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCustomerMain.Designer.vb">
+      <DependentUpon>frmCustomerMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCustomerMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDeleteAttendant.Designer.vb">
+      <DependentUpon>frmDeleteAttendant.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDeleteAttendant.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDeletePilot.Designer.vb">
+      <DependentUpon>frmDeletePilot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDeletePilot.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmNavigation.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +122,25 @@
       <DependentUpon>frmNavigation.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmNewCustomer.Designer.vb">
+      <DependentUpon>frmNewCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPilotMain.Designer.vb">
+      <DependentUpon>frmPilotMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPilotMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUpdateCustomer.Designer.vb">
+      <DependentUpon>frmUpdateCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUpdateCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="modDatabaseUtilities.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -98,8 +159,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmAddAttendant.resx">
+      <DependentUpon>frmAddAttendant.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddPilot.resx">
+      <DependentUpon>frmAddPilot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDeleteAttendant.resx">
+      <DependentUpon>frmDeleteAttendant.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDeletePilot.resx">
+      <DependentUpon>frmDeletePilot.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmNavigation.resx">
       <DependentUpon>frmNavigation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewCustomer.resx">
+      <DependentUpon>frmNewCustomer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUpdateCustomer.resx">
+      <DependentUpon>frmUpdateCustomer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

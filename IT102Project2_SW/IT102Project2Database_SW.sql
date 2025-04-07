@@ -252,11 +252,11 @@ FOREIGN KEY ( intPilotID ) REFERENCES TPilots (intPilotID )
 
 --9
 ALTER TABLE TAttendantFlights	 ADD CONSTRAINT TAttendantFlights_TAttendants_FK 
-FOREIGN KEY ( intAttendantID ) REFERENCES TAttendants (intAttendantID )
+FOREIGN KEY ( intAttendantID ) REFERENCES TAttendants (intAttendantID ) ON DELETE CASCADE
 
 --10
 ALTER TABLE TPilots	 ADD CONSTRAINT TPilots_TPilotRoles_FK 
-FOREIGN KEY ( intPilotRoleID ) REFERENCES TPilotRoles (intPilotRoleID )  
+FOREIGN KEY ( intPilotRoleID ) REFERENCES TPilotRoles (intPilotRoleID ) ON DELETE CASCADE
 
 --11
 ALTER TABLE TPlanes	 ADD CONSTRAINT TPlanes_TPlaneTypes_FK 
