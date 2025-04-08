@@ -1,7 +1,7 @@
 ﻿Public Class frmNavigation
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         Dim blnValidated As Boolean = True
-        Dim frmCustomer As New frmCustomerMain
+        Dim frmCustomer As New frmCustomerSelect
         Dim frmPilot As New frmPilotMain
         Dim frmAttendant As New frmAttendantMain
         Dim frmAdmin As New frmAdminMain
@@ -10,7 +10,7 @@
 
         If blnValidated = True Then
             If cboUserType.Text = "Customer" Then
-                frmCustomer.ShowDialog()            'opens form for CustomerMain (main menu for customer)
+                frmCustomer.ShowDialog()            'opens form for CustomerSelect (select form for customer)
             ElseIf cboUserType.Text = "Pilot" Then
                 frmPilot.ShowDialog()               'opens form for PilotMain (main menu for pilot)
             ElseIf cboUserType.Text = "Attendant" Then

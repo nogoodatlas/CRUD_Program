@@ -1,14 +1,15 @@
 ﻿Public Class frmUpdateCustomer
     Private Sub frmUpdateCustomer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        '  On the event Form Load, we are going to populate the State combobox from the database
-        Try
-            Dim strSelect As String = ""
-            Dim cmdSelect As OleDb.OleDbCommand ' this will be used for our Select statement
-            Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
-            Dim dtp As DataTable = New DataTable 'this is the table we will load from our reader for Passengers
-            Dim dts As DataTable = New DataTable ' this is the table we will load from our reader for State
+        'this Sub() Is called anytime the selected item Is changed in the combo box.
+        Dim strSelect As String = ""
+        Dim strName As String = ""
+        Dim cmdSelect As OleDb.OleDbCommand ' this will be used for our Select statement
+        Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
+        Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
+        Dim dts As DataTable = New DataTable ' this is the table we will load from our reader for State
 
-            ' open the DB
+        Try
+            ' open the database this is in module
             If OpenDatabaseConnectionSQLServer() = False Then
 
                 ' No, warn the user ...
@@ -35,17 +36,31 @@
             cboStates.DisplayMember = "strState"
             cboStates.DataSource = dts
 
-            ' Clean up
-            drSourceTable.Close()
+            ' Build the select statement using PK from name selected
+            strSelect = "SELECT strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail " &
+                        " FROM TPassengers WHERE intPassengerID = " & strPassengerID
+
+            ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            drSourceTable = cmdSelect.ExecuteReader
+
+            drSourceTable.Read()
+
+            ' populate the text boxes with the data
+            txtFirstName.Text = drSourceTable("strFirstName")
+            txtLastName.Text = drSourceTable("strLastName")
+            txtAddress.Text = drSourceTable("strAddress")
+            txtCities.Text = drSourceTable("strCity")
+            cboStates.SelectedValue = drSourceTable("intStateID")
+            txtZip.Text = drSourceTable("strZip")
+            txtPhone.Text = drSourceTable("strPhoneNumber")
+            txtEmail.Text = drSourceTable("strEmail")
 
             ' close the database connection
             CloseDatabaseConnection()
 
         Catch ex As Exception
-
-            ' Log and display error message
             MessageBox.Show(ex.Message)
-
         End Try
     End Sub
 
@@ -106,13 +121,13 @@
                             "strZip = '" & strZip & "', " &
                             "strPhoneNumber = '" & strPhoneNumber & "', " &
                             "strEmail = '" & strEmail & "'" &
-                            "WHERE intPassengerID = " & intPassengerID
+                            "WHERE intPassengerID = " & strPassengerID
 
 
                 ' uncomment out the following message box line to use as a tool to check your sql statement
                 ' remember anything not a numeric value going into SQL Server must have single quotes '
                 ' around it, including dates.
-                'MessageBox.Show(strUpdate)
+                MessageBox.Show(strUpdate)
 
                 ' make the connection
                 cmdUpdate = New OleDb.OleDbCommand(strUpdate, m_conAdministrator)
@@ -121,7 +136,7 @@
                 intRowsAffected = cmdUpdate.ExecuteNonQuery()
 
                 ' have to let the user know what happened 
-                If intRowsAffected = 1 Then
+                If intRowsAffected >= 1 Then
                     MessageBox.Show("Update successful")
                 Else
                     MessageBox.Show("Update failed")
@@ -134,15 +149,8 @@
                 MessageBox.Show(ex.Message)
             End Try
 
-            'Clear fields upon button click
-            txtFirstName.Clear()
-            txtLastName.Clear()
-            txtAddress.Clear()
-            txtCities.Clear()
-            cboStates.ResetText()
-            txtZip.Clear()
-            txtPhone.Clear()
-            txtEmail.Clear()
+            'closes form upon update
+            Close()
         End If
     End Sub
 

@@ -32,7 +32,7 @@ Partial Class frmAddPilot
         Me.lblEmployeeID = New System.Windows.Forms.Label()
         Me.lblLastName = New System.Windows.Forms.Label()
         Me.lblFirstName = New System.Windows.Forms.Label()
-        Me.cboPilotRole = New System.Windows.Forms.ComboBox()
+        Me.cboPilotRoles = New System.Windows.Forms.ComboBox()
         Me.txtEmployeeID = New System.Windows.Forms.TextBox()
         Me.txtLastName = New System.Windows.Forms.TextBox()
         Me.txtFirstName = New System.Windows.Forms.TextBox()
@@ -74,7 +74,7 @@ Partial Class frmAddPilot
         Me.GroupBox1.Controls.Add(Me.lblEmployeeID)
         Me.GroupBox1.Controls.Add(Me.lblLastName)
         Me.GroupBox1.Controls.Add(Me.lblFirstName)
-        Me.GroupBox1.Controls.Add(Me.cboPilotRole)
+        Me.GroupBox1.Controls.Add(Me.cboPilotRoles)
         Me.GroupBox1.Controls.Add(Me.txtEmployeeID)
         Me.GroupBox1.Controls.Add(Me.txtLastName)
         Me.GroupBox1.Controls.Add(Me.txtFirstName)
@@ -156,14 +156,14 @@ Partial Class frmAddPilot
         Me.lblFirstName.TabIndex = 9
         Me.lblFirstName.Text = "First Name:"
         '
-        'cboPilotRole
+        'cboPilotRoles
         '
-        Me.cboPilotRole.FormattingEnabled = True
-        Me.cboPilotRole.Location = New System.Drawing.Point(214, 347)
-        Me.cboPilotRole.Margin = New System.Windows.Forms.Padding(4)
-        Me.cboPilotRole.Name = "cboPilotRole"
-        Me.cboPilotRole.Size = New System.Drawing.Size(160, 24)
-        Me.cboPilotRole.TabIndex = 4
+        Me.cboPilotRoles.FormattingEnabled = True
+        Me.cboPilotRoles.Location = New System.Drawing.Point(214, 347)
+        Me.cboPilotRoles.Margin = New System.Windows.Forms.Padding(4)
+        Me.cboPilotRoles.Name = "cboPilotRoles"
+        Me.cboPilotRoles.Size = New System.Drawing.Size(160, 24)
+        Me.cboPilotRoles.TabIndex = 4
         '
         'txtEmployeeID
         '
@@ -236,7 +236,7 @@ Partial Class frmAddPilot
     Friend WithEvents lblEmployeeID As Label
     Friend WithEvents lblLastName As Label
     Friend WithEvents lblFirstName As Label
-    Friend WithEvents cboPilotRole As ComboBox
+    Friend WithEvents cboPilotRoles As ComboBox
     Friend WithEvents txtEmployeeID As TextBox
     Friend WithEvents txtLastName As TextBox
     Friend WithEvents txtFirstName As TextBox

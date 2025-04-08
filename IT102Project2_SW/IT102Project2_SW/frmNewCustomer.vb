@@ -66,6 +66,7 @@
         Dim strPhoneNumber As String
         Dim strEmail As String
         Dim blnValidated As Boolean = True
+        Dim frmCustomer As New frmCustomerMain
 
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
         Dim cmdInsert As OleDb.OleDbCommand ' insert command object
@@ -130,7 +131,10 @@
                 strInsert = "INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail)" &
                     " VALUES (" & intNextPrimaryKey & ",'" & strFirstName & "','" & strLastName & "','" & strAddress & "','" & strCity & "'," & intState & ",'" & strZip & "','" & strPhoneNumber & "','" & strEmail & "')"
 
-                'MessageBox.Show(strInsert)
+                'set next primary key equal to global variable for passenger ID
+                strPassengerID = intNextPrimaryKey
+
+                MessageBox.Show(strInsert)
 
                 ' use insert command with sql string and connection object
                 cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
@@ -150,15 +154,11 @@
                 MessageBox.Show(ex.Message)
             End Try
 
-            'Clear fields upon button click
-            txtFirstName.Clear()
-            txtLastName.Clear()
-            txtAddress.Clear()
-            txtCities.Clear()
-            cboStates.ResetText()
-            txtZip.Clear()
-            txtPhone.Clear()
-            txtEmail.Clear()
+            'open customer main menu upon creating customer
+            frmCustomer.ShowDialog()
+
+            'closes form upon creating customer
+            Close()
         End If
     End Sub
 
