@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmCustomerSelect
+Partial Class frmAttendantSelect
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,28 +23,34 @@ Partial Class frmCustomerSelect
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.btnSubmit = New System.Windows.Forms.Button()
-        Me.cboPassengers = New System.Windows.Forms.ComboBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.btnCreateCustomer = New System.Windows.Forms.Button()
         Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnSubmit = New System.Windows.Forms.Button()
+        Me.cboAttendants = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.btnExit)
         Me.GroupBox1.Controls.Add(Me.btnSubmit)
-        Me.GroupBox1.Controls.Add(Me.cboPassengers)
+        Me.GroupBox1.Controls.Add(Me.cboAttendants)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Location = New System.Drawing.Point(40, 183)
+        Me.GroupBox1.Location = New System.Drawing.Point(33, 28)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(325, 198)
-        Me.GroupBox1.TabIndex = 0
+        Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Returning Customer"
+        Me.GroupBox1.Text = "Attendant Selection"
+        '
+        'btnExit
+        '
+        Me.btnExit.Location = New System.Drawing.Point(197, 120)
+        Me.btnExit.Name = "btnExit"
+        Me.btnExit.Size = New System.Drawing.Size(102, 44)
+        Me.btnExit.TabIndex = 3
+        Me.btnExit.Text = "Exit"
+        Me.btnExit.UseVisualStyleBackColor = True
         '
         'btnSubmit
         '
@@ -55,72 +61,40 @@ Partial Class frmCustomerSelect
         Me.btnSubmit.Text = "Submit"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
-        'cboPassengers
+        'cboAttendants
         '
-        Me.cboPassengers.FormattingEnabled = True
-        Me.cboPassengers.Location = New System.Drawing.Point(29, 71)
-        Me.cboPassengers.Name = "cboPassengers"
-        Me.cboPassengers.Size = New System.Drawing.Size(270, 24)
-        Me.cboPassengers.TabIndex = 1
+        Me.cboAttendants.FormattingEnabled = True
+        Me.cboAttendants.Location = New System.Drawing.Point(29, 71)
+        Me.cboAttendants.Name = "cboAttendants"
+        Me.cboAttendants.Size = New System.Drawing.Size(270, 24)
+        Me.cboAttendants.TabIndex = 1
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(26, 37)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(108, 16)
+        Me.Label1.Size = New System.Drawing.Size(107, 16)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Select Customer:"
+        Me.Label1.Text = "Select Attendant:"
         '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.btnCreateCustomer)
-        Me.GroupBox2.Location = New System.Drawing.Point(40, 35)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(325, 119)
-        Me.GroupBox2.TabIndex = 1
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "New Customer"
-        '
-        'btnCreateCustomer
-        '
-        Me.btnCreateCustomer.Location = New System.Drawing.Point(58, 37)
-        Me.btnCreateCustomer.Name = "btnCreateCustomer"
-        Me.btnCreateCustomer.Size = New System.Drawing.Size(208, 44)
-        Me.btnCreateCustomer.TabIndex = 0
-        Me.btnCreateCustomer.Text = "Create New Customer Profile"
-        Me.btnCreateCustomer.UseVisualStyleBackColor = True
-        '
-        'btnExit
-        '
-        Me.btnExit.Location = New System.Drawing.Point(197, 120)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(102, 44)
-        Me.btnExit.TabIndex = 4
-        Me.btnExit.Text = "Exit"
-        Me.btnExit.UseVisualStyleBackColor = True
-        '
-        'frmCustomerSelect
+        'frmAttendantSelect
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(404, 416)
-        Me.Controls.Add(Me.GroupBox2)
+        Me.ClientSize = New System.Drawing.Size(391, 255)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Name = "frmCustomerSelect"
-        Me.Text = "frmCustomerSelect"
+        Me.Name = "frmAttendantSelect"
+        Me.Text = "frmAttendantSelect"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents btnSubmit As Button
-    Friend WithEvents cboPassengers As ComboBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents btnCreateCustomer As Button
     Friend WithEvents btnExit As Button
+    Friend WithEvents btnSubmit As Button
+    Friend WithEvents cboAttendants As ComboBox
+    Friend WithEvents Label1 As Label
 End Class

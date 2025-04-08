@@ -132,7 +132,7 @@
                     " VALUES (" & intNextPrimaryKey & ",'" & strFirstName & "','" & strLastName & "','" & strAddress & "','" & strCity & "'," & intState & ",'" & strZip & "','" & strPhoneNumber & "','" & strEmail & "')"
 
                 'set next primary key equal to global variable for passenger ID
-                strPassengerID = intNextPrimaryKey
+                gblPassengerID = intNextPrimaryKey
 
                 MessageBox.Show(strInsert)
 

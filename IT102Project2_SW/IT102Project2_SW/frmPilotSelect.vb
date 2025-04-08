@@ -1,11 +1,11 @@
-﻿Public Class frmCustomerSelect
-    Private Sub frmCustomerSelect_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        '  On the event Form Load, we are going to populate the Passenger combobox from the database
+﻿Public Class frmPilotSelect
+    Private Sub frmPilotSelect_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '  On the event Form Load, we are going to populate the Pilot combobox from the database
         Try
             Dim strSelect As String = ""
             Dim cmdSelect As OleDb.OleDbCommand ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
-            Dim dtp As DataTable = New DataTable 'this is the table we will load from our reader for Passengers
+            Dim dtp As DataTable = New DataTable 'this is the table we will load from our reader for Pilots
 
             ' open the DB
             If OpenDatabaseConnectionSQLServer() = False Then
@@ -22,7 +22,7 @@
             End If
 
             ' Build the select statement
-            strSelect = "SELECT TP.intPassengerID, TP.strFirstName + ' ' + TP.strLastName AS PassengerName FROM TPassengers AS TP"
+            strSelect = "SELECT TP.intPilotID, TP.strFirstName + ' ' + TP.strLastName AS PilotName FROM TPilots AS TP"
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -30,12 +30,12 @@
             dtp.Load(drSourceTable)
 
             'load the Passenger result set into the combobox.  For VB, we do this by binding the data to the combobox
-            cboPassengers.ValueMember = "TP.intPassengerID"
-            cboPassengers.DisplayMember = "PassengerName"
-            cboPassengers.DataSource = dtp
+            cboPilots.ValueMember = "TP.intPilotID"
+            cboPilots.DisplayMember = "PilotName"
+            cboPilots.DataSource = dtp
 
             'makes combobox empty by default
-            cboPassengers.Text = String.Empty
+            cboPilots.Text = String.Empty
 
             ' Clean up
             drSourceTable.Close()
@@ -53,7 +53,7 @@
 
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         'declare variables
-        Dim frmCustomer As New frmCustomerMain
+        Dim frmPilot As New frmPilotMain
         Dim blnValidated As Boolean = True
 
         Dim strSelect As String = ""
@@ -80,7 +80,7 @@
                 End If
 
                 ' Build the select statement using PK from name selected
-                strSelect = "SELECT TP.intPassengerID, TP.strFirstName + ' ' + TP.strLastName AS PassengerName FROM TPassengers AS TP"
+                strSelect = "SELECT TP.intPilotID, TP.strFirstName + ' ' + TP.strLastName AS PilotName FROM TPilots AS TP"
 
                 ' Retrieve all the records 
                 cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -89,7 +89,7 @@
                 drSourceTable.Read()
 
                 ' populate the variable with the data
-                gblPassengerID = drSourceTable("intPassengerID")
+                gblPilotID = drSourceTable("intPilotID")
 
                 ' close the database connection
                 CloseDatabaseConnection()
@@ -98,24 +98,16 @@
                 MessageBox.Show(ex.Message)
             End Try
 
-            frmCustomer.ShowDialog()        'opens form for customer main menu
+            frmPilot.ShowDialog()        'opens form for pilot main menu
         End If
     End Sub
 
     Private Sub ValidateInput(ByRef blnValidated As Boolean)
         'validate combobox is not empty
-        If cboPassengers.Text = String.Empty Then
+        If cboPilots.Text = String.Empty Then
             MessageBox.Show("Please make a selection.")
             blnValidated = False
         End If
-    End Sub
-
-    Private Sub btnCreateCustomer_Click(sender As Object, e As EventArgs) Handles btnCreateCustomer.Click
-        'declare variable
-        Dim frmNewCustomer As New frmNewCustomer
-
-        'open form for new customer
-        frmNewCustomer.ShowDialog()
     End Sub
 
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click

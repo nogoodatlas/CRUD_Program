@@ -159,7 +159,7 @@
 
             ' build insert statement (columns must match DB columns in name and the # of columns)
             strInsert = "INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)" &
-                " VALUES (" & intNextPrimaryKey & "," & intFlightID & "," & strPassengerID & ",'" & strSeat & "')"
+                " VALUES (" & intNextPrimaryKey & "," & intFlightID & "," & gblPassengerID & ",'" & strSeat & "')"
 
             MessageBox.Show(strInsert)
 

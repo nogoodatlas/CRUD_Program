@@ -97,6 +97,12 @@
     <Compile Include="frmAttendantMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmAttendantSelect.Designer.vb">
+      <DependentUpon>frmAttendantSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAttendantSelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmBookFlight.Designer.vb">
       <DependentUpon>frmBookFlight.vb</DependentUpon>
     </Compile>
@@ -146,10 +152,22 @@
     <Compile Include="frmPilotMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmPilotSelect.Designer.vb">
+      <DependentUpon>frmPilotSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPilotSelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmUpdateCustomer.Designer.vb">
       <DependentUpon>frmUpdateCustomer.vb</DependentUpon>
     </Compile>
     <Compile Include="frmUpdateCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUpdatePilot.Designer.vb">
+      <DependentUpon>frmUpdatePilot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUpdatePilot.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="modDatabaseUtilities.vb" />
@@ -177,6 +195,9 @@
     <EmbeddedResource Include="frmAddPilot.resx">
       <DependentUpon>frmAddPilot.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAttendantSelect.resx">
+      <DependentUpon>frmAttendantSelect.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmBookFlight.resx">
       <DependentUpon>frmBookFlight.vb</DependentUpon>
     </EmbeddedResource>
@@ -198,8 +219,17 @@
     <EmbeddedResource Include="frmNewCustomer.resx">
       <DependentUpon>frmNewCustomer.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPilotMain.resx">
+      <DependentUpon>frmPilotMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPilotSelect.resx">
+      <DependentUpon>frmPilotSelect.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmUpdateCustomer.resx">
       <DependentUpon>frmUpdateCustomer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUpdatePilot.resx">
+      <DependentUpon>frmUpdatePilot.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
