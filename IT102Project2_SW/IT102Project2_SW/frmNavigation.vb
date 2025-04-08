@@ -2,7 +2,7 @@
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         Dim blnValidated As Boolean = True
         Dim frmCustomer As New frmCustomerSelect
-        Dim frmPilot As New frmPilotMain
+        Dim frmPilot As New frmPilotSelect
         Dim frmAttendant As New frmAttendantMain
         Dim frmAdmin As New frmAdminMain
 

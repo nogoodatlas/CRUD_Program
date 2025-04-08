@@ -45,14 +45,14 @@
             End If
 
             ' Build the select statement
-            strSelect = "SELECT DISTINCT TP.strLastName, TF.dtmFlightDate, TF.strFlightNumber, TF.dtmTimeofDeparture, TF.dtmTimeofLanding, TF.intMilesFlown, " &
+            strSelect = "SELECT DISTINCT TF.dtmFlightDate, TF.strFlightNumber, TF.dtmTimeofDeparture, TF.dtmTimeofLanding, TF.intMilesFlown, " &
                         "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity, " &
                         "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity, " &
                         "(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum " &
                         "FROM TFlights AS TF JOIN TFlightPassengers AS TFP " &
                         "ON TF.intFlightID = TFP.intFlightID " &
                         "JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID " &
-                        "WHERE TFP.intPassengerID = " & strPassengerID & " AND TF.dtmFlightDate <= GETDATE() " &
+                        "WHERE TFP.intPassengerID = " & gblPassengerID & " AND TF.dtmFlightDate <= GETDATE() " &
                         "ORDER BY TF.dtmFlightDate"
 
 
@@ -126,7 +126,7 @@
                         "FROM TFlights AS TF JOIN TFlightPassengers AS TFP " &
                         "ON TF.intFlightID = TFP.intFlightID " &
                         "JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID " &
-                        "WHERE TFP.intPassengerID = " & strPassengerID & " AND TF.dtmFlightDate <= GETDATE()"
+                        "WHERE TFP.intPassengerID = " & gblPassengerID & " AND TF.dtmFlightDate <= GETDATE()"
 
             'Retrieve all the records for past miles flown
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -184,14 +184,14 @@
             End If
 
             ' Build the select statement
-            strSelect = "SELECT DISTINCT TP.strLastName, TF.dtmFlightDate, TF.strFlightNumber, TF.dtmTimeofDeparture, TF.dtmTimeofLanding, TF.intMilesFlown, " &
+            strSelect = "SELECT DISTINCT TF.dtmFlightDate, TF.strFlightNumber, TF.dtmTimeofDeparture, TF.dtmTimeofLanding, TF.intMilesFlown, " &
                         "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity, " &
                         "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity, " &
                         "(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum " &
                         "FROM TFlights AS TF JOIN TFlightPassengers AS TFP " &
                         "ON TF.intFlightID = TFP.intFlightID " &
                         "JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID " &
-                        "WHERE TFP.intPassengerID = " & strPassengerID & " AND TF.dtmFlightDate >= GETDATE() " &
+                        "WHERE TFP.intPassengerID = " & gblPassengerID & " AND TF.dtmFlightDate >= GETDATE() " &
                         "ORDER BY TF.dtmFlightDate"
 
 
@@ -263,7 +263,7 @@
                         "FROM TFlights AS TF JOIN TFlightPassengers AS TFP " &
                         "ON TF.intFlightID = TFP.intFlightID " &
                         "JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID " &
-                        "WHERE TFP.intPassengerID = " & strPassengerID & " AND TF.dtmFlightDate >= GETDATE()"
+                        "WHERE TFP.intPassengerID = " & gblPassengerID & " AND TF.dtmFlightDate >= GETDATE()"
 
             'Retrieve all the records for past miles flown
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)

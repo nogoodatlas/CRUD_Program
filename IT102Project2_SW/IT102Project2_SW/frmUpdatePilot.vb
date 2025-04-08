@@ -1,11 +1,11 @@
-﻿Public Class frmUpdateCustomer
-    Private Sub frmUpdateCustomer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+﻿Public Class frmUpdatePilot
+    Private Sub frmUpdatePilot_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'declare variables
         Dim strSelect As String = ""
         Dim cmdSelect As OleDb.OleDbCommand ' this will be used for our Select statement
         Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
-        Dim dts As DataTable = New DataTable ' this is the table we will load from our reader for State
+        Dim dtp As DataTable = New DataTable ' this is the table we will load from our reader for pilot roles
 
         Try
             ' open the database this is in module
@@ -23,21 +23,21 @@
             End If
 
             ' Build the select statement
-            strSelect = "SELECT intStateID, strState FROM TStates"
+            strSelect = "SELECT intPilotRoleID, strPilotRole FROM TPilotRoles"
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             drSourceTable = cmdSelect.ExecuteReader
-            dts.Load(drSourceTable)
+            dtp.Load(drSourceTable)
 
-            'load the State result set into the combobox.  For VB, we do this by binding the data to the combobox
-            cboStates.ValueMember = "intStateID"
-            cboStates.DisplayMember = "strState"
-            cboStates.DataSource = dts
+            'load the Pilot Role result set into the combobox.  For VB, we do this by binding the data to the combobox
+            cboPilotRoles.ValueMember = "intPilotRoleID"
+            cboPilotRoles.DisplayMember = "strPilotRole"
+            cboPilotRoles.DataSource = dtp
 
             ' Build the select statement using PK from name selected
-            strSelect = "SELECT strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail " &
-                        " FROM TPassengers WHERE intPassengerID = " & gblPassengerID
+            strSelect = "SELECT strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID " &
+                        "FROM TPilots WHERE intPilotID = " & gblPilotID
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -45,15 +45,20 @@
 
             drSourceTable.Read()
 
+            'If drSourceTable("dtmDateofTermination") Is DBNull.Value Then
+            '    dtmTerminationDate.CustomFormat = " " 'if dtmDateofTermination is Null, makes datetimepicker empty
+            'Else
+            '    dtmTerminationDate.Value = drSourceTable("dtmDateofTermination")
+            'End If
+
             ' populate the text boxes with the data
             txtFirstName.Text = drSourceTable("strFirstName")
             txtLastName.Text = drSourceTable("strLastName")
-            txtAddress.Text = drSourceTable("strAddress")
-            txtCities.Text = drSourceTable("strCity")
-            cboStates.SelectedValue = drSourceTable("intStateID")
-            txtZip.Text = drSourceTable("strZip")
-            txtPhone.Text = drSourceTable("strPhoneNumber")
-            txtEmail.Text = drSourceTable("strEmail")
+            txtEmployeeID.Text = drSourceTable("strEmployeeID")
+            dtmHireDate.Value = drSourceTable("dtmDateofHire")
+            dtmTerminationDate.Value = drSourceTable("dtmDateofTermination")
+            dtmLicenseDate.Value = drSourceTable("dtmDateofLicense")
+            cboPilotRoles.SelectedValue = drSourceTable("intPilotRoleID")
 
             ' close the database connection
             CloseDatabaseConnection()
@@ -63,16 +68,16 @@
         End Try
     End Sub
 
-    Private Sub btnUpdateCustomer_Click(sender As Object, e As EventArgs) Handles btnUpdateCustomer.Click
+    Private Sub btnUpdatePilot_Click(sender As Object, e As EventArgs) Handles btnUpdatePilot.Click
+        'declare variables
         Dim strUpdate As String
         Dim strFirstName As String
         Dim strLastName As String
-        Dim strAddress As String
-        Dim strCity As String
-        Dim intState As Integer
-        Dim strZip As String
-        Dim strPhoneNumber As String
-        Dim strEmail As String
+        Dim strEmployeeID As String
+        Dim dteHireDate As Date
+        Dim dteTerminationDate As Date
+        Dim dteLicenseDate As Date
+        Dim intPilotRoleID As Integer
         Dim blnValidated As Boolean = True
         Dim intRowsAffected As Integer
 
@@ -82,15 +87,14 @@
         ' put values into strings
         strFirstName = txtFirstName.Text
         strLastName = txtLastName.Text
-        strAddress = txtAddress.Text
-        strCity = txtCities.Text
-        intState = cboStates.SelectedValue
-        strZip = txtZip.Text
-        strPhoneNumber = txtPhone.Text
-        strEmail = txtEmail.Text
+        strEmployeeID = txtEmployeeID.Text
+        dteHireDate = dtmHireDate.Value
+        dteTerminationDate = dtmTerminationDate.Value
+        dteLicenseDate = dtmLicenseDate.Value
+        intPilotRoleID = cboPilotRoles.SelectedValue
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, strEmail)
+        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, dteLicenseDate)
 
         If blnValidated = True Then
 
@@ -111,22 +115,21 @@
                 End If
 
                 ' Build the select statement using PK from name selected
-                strUpdate = "UPDATE TPassengers SET " &
+                strUpdate = "UPDATE TPilots SET " &
                             "strFirstName = '" & strFirstName & "', " &
                             "strLastName = '" & strLastName & "', " &
-                            "strAddress = '" & strAddress & "', " &
-                            "strCity = '" & strCity & "', " &
-                            "intStateID = " & intState & ", " &
-                            "strZip = '" & strZip & "', " &
-                            "strPhoneNumber = '" & strPhoneNumber & "', " &
-                            "strEmail = '" & strEmail & "'" &
-                            "WHERE intPassengerID = " & gblPassengerID
+                            "strEmployeeID = '" & strEmployeeID & "', " &
+                            "dtmDateofHire = '" & dteHireDate & "', " &
+                            "dtmDateofTermination = '" & dteTerminationDate & "', " &
+                            "dtmDateofLicense = '" & dteLicenseDate & "', " &
+                            "intPilotRoleID = " & intPilotRoleID & " " &
+                            "WHERE intPilotID = " & gblPilotID
 
 
                 ' uncomment out the following message box line to use as a tool to check your sql statement
                 ' remember anything not a numeric value going into SQL Server must have single quotes '
                 ' around it, including dates.
-                'MessageBox.Show(strUpdate)
+                MessageBox.Show(strUpdate)
 
                 ' make the connection
                 cmdUpdate = New OleDb.OleDbCommand(strUpdate, m_conAdministrator)
@@ -153,14 +156,12 @@
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal strEmail As String)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date, ByVal dteLicenseDate As Date)
         Call ValidateName(blnValidated)
-        Call ValidateAddress(blnValidated)
-        Call ValidateCity(blnValidated)
-        Call ValidateState(blnValidated)
-        Call ValidateZipcode(blnValidated)
-        Call ValidatePhone(blnValidated)
-        Call ValidateEmail(blnValidated, strEmail)
+        Call ValidateEmployeeID(blnValidated)
+        Call ValidateHireTerminationDate(blnValidated, dteHireDate, dteTerminationDate)
+        Call ValidateLicenseDate(blnValidated, dteLicenseDate)
+        Call ValidatePilotRole(blnValidated)
     End Sub
 
     Private Sub ValidateName(ByRef blnValidated As Boolean)
@@ -179,74 +180,51 @@
         End If
     End Sub
 
-    Private Sub ValidateAddress(ByRef blnValidated As Boolean)
-        'validate txtaddress is not empty
-        If txtAddress.Text = String.Empty Then
-            MessageBox.Show("Please enter your address.")
-            txtAddress.Focus()
+    Private Sub ValidateEmployeeID(ByRef blnValidated As Boolean)
+        'validate txtemployeeid is not empty
+        If txtEmployeeID.Text = String.Empty Then
+            MessageBox.Show("Please enter your first name.")
+            txtEmployeeID.Focus()
             blnValidated = False
         End If
     End Sub
 
-    Private Sub ValidateCity(ByRef blnValidated As Boolean)
-        'validate txtcities is not empty
-        If txtCities.Text = String.Empty Then
-            MessageBox.Show("Please enter your city.")
-            txtCities.Focus()
+    Private Sub ValidateHireTerminationDate(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date)
+        'validate that hire date is not later than current date
+        If dteHireDate > DateTime.Now Then
+            MessageBox.Show("Date of hire cannot be later than current date.")
+            dtmHireDate.Focus()
+            blnValidated = False
+        End If
+
+        'validate that termination date later than hire date
+        If dteHireDate > dteTerminationDate Then
+            MessageBox.Show("Termination date must be later than hire date.")
+            dtmTerminationDate.Focus()
             blnValidated = False
         End If
     End Sub
 
-    Private Sub ValidateState(ByRef blnValidated As Boolean)
-        'validate State combobox is not empty
-        If cboStates.Text = String.Empty Then
-            MessageBox.Show("Please make a selection.")
+    Private Sub ValidateLicenseDate(ByRef blnValidated As Boolean, ByVal dteLicenseDate As Date)
+        'validate that license date is later than current date
+        If dteLicenseDate > DateTime.Now Then
+            MessageBox.Show("Date of license cannot be later than current date.")
+            dtmLicenseDate.Focus()
             blnValidated = False
         End If
     End Sub
 
-    Private Sub ValidateZipcode(ByRef blnValidated As Boolean)
-        'validate txtzip is not empty
-        If txtZip.Text = String.Empty Then
-            MessageBox.Show("Please enter your zipcode.")
-            txtZip.Focus()
+    Private Sub ValidatePilotRole(ByRef blnValidated As Boolean)
+        'validate that pilot role combobox is not empty
+        If cboPilotRoles.Text = String.Empty Then
+            MessageBox.Show("Select a pilot role.")
+            cboPilotRoles.Focus()
             blnValidated = False
-        End If
-    End Sub
-
-    Private Sub ValidatePhone(ByRef blnValidated As Boolean)
-        'validate txtphone is not empty
-        If txtPhone.Text = String.Empty Then
-            MessageBox.Show("Please enter your phone number.")
-            txtPhone.Focus()
-            blnValidated = False
-        End If
-    End Sub
-
-    Private Sub ValidateEmail(ByRef blnValidated As Boolean, ByVal strEmail As String)
-        Dim intIndex As Integer
-        'validate txtemail is not empty
-        If txtEmail.Text = String.Empty Then
-            MessageBox.Show("Please enter your email.")
-            txtEmail.Focus()
-            blnValidated = False
-        Else
-            'validate that txtemail contains '@'
-            intIndex = strEmail.IndexOf("@")
-            If intIndex = -1 Then
-                MessageBox.Show("Please enter a valid email.")
-                txtEmail.Focus()
-                blnValidated = False
-            End If
         End If
     End Sub
 
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
         'closes form
         Close()
-    End Sub
-
-    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
-
     End Sub
 End Class
