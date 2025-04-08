@@ -1,11 +1,10 @@
-﻿Public Class frmUpdatePilot
-    Private Sub frmUpdatePilot_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+﻿Public Class frmUpdateAttendant
+    Private Sub frmUpdateAttendant_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'declare variables
         Dim strSelect As String = ""
         Dim cmdSelect As OleDb.OleDbCommand ' this will be used for our Select statement
         Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
-        Dim dtp As DataTable = New DataTable ' this is the table we will load from our reader for pilot roles
 
         Try
             ' open the database this is in module
@@ -22,22 +21,9 @@
 
             End If
 
-            ' Build the select statement
-            strSelect = "SELECT intPilotRoleID, strPilotRole FROM TPilotRoles"
-
-            ' Retrieve all the records 
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-            drSourceTable = cmdSelect.ExecuteReader
-            dtp.Load(drSourceTable)
-
-            'load the Pilot Role result set into the combobox.  For VB, we do this by binding the data to the combobox
-            cboPilotRoles.ValueMember = "intPilotRoleID"
-            cboPilotRoles.DisplayMember = "strPilotRole"
-            cboPilotRoles.DataSource = dtp
-
             ' Build the select statement using PK from name selected
-            strSelect = "SELECT strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID " &
-                        "FROM TPilots WHERE intPilotID = " & gblPilotID
+            strSelect = "SELECT strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination " &
+                        "FROM TAttendants WHERE intAttendantID = " & gblAttendantID
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -51,8 +37,6 @@
             txtEmployeeID.Text = drSourceTable("strEmployeeID")
             dtmHireDate.Value = drSourceTable("dtmDateofHire")
             dtmTerminationDate.Value = drSourceTable("dtmDateofTermination")
-            dtmLicenseDate.Value = drSourceTable("dtmDateofLicense")
-            cboPilotRoles.SelectedValue = drSourceTable("intPilotRoleID")
 
             ' close the database connection
             CloseDatabaseConnection()
@@ -62,7 +46,7 @@
         End Try
     End Sub
 
-    Private Sub btnUpdatePilot_Click(sender As Object, e As EventArgs) Handles btnUpdatePilot.Click
+    Private Sub btnUpdateAttendant_Click(sender As Object, e As EventArgs) Handles btnUpdateAttendant.Click
         'declare variables
         Dim strUpdate As String
         Dim strFirstName As String
@@ -70,8 +54,6 @@
         Dim strEmployeeID As String
         Dim dteHireDate As Date
         Dim dteTerminationDate As Date
-        Dim dteLicenseDate As Date
-        Dim intPilotRoleID As Integer
         Dim blnValidated As Boolean = True
         Dim intRowsAffected As Integer
 
@@ -84,11 +66,9 @@
         strEmployeeID = txtEmployeeID.Text
         dteHireDate = dtmHireDate.Value
         dteTerminationDate = dtmTerminationDate.Value
-        dteLicenseDate = dtmLicenseDate.Value
-        intPilotRoleID = cboPilotRoles.SelectedValue
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, dteLicenseDate)
+        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate)
 
         If blnValidated = True Then
 
@@ -109,21 +89,19 @@
                 End If
 
                 ' Build the select statement using PK from name selected
-                strUpdate = "UPDATE TPilots SET " &
+                strUpdate = "UPDATE TAttendants SET " &
                             "strFirstName = '" & strFirstName & "', " &
                             "strLastName = '" & strLastName & "', " &
                             "strEmployeeID = '" & strEmployeeID & "', " &
                             "dtmDateofHire = '" & dteHireDate & "', " &
-                            "dtmDateofTermination = '" & dteTerminationDate & "', " &
-                            "dtmDateofLicense = '" & dteLicenseDate & "', " &
-                            "intPilotRoleID = " & intPilotRoleID & " " &
-                            "WHERE intPilotID = " & gblPilotID
+                            "dtmDateofTermination = '" & dteTerminationDate & "' " &
+                            "WHERE intAttendantID = " & gblAttendantID
 
 
                 ' uncomment out the following message box line to use as a tool to check your sql statement
                 ' remember anything not a numeric value going into SQL Server must have single quotes '
                 ' around it, including dates.
-                'MessageBox.Show(strUpdate)
+                MessageBox.Show(strUpdate)
 
                 ' make the connection
                 cmdUpdate = New OleDb.OleDbCommand(strUpdate, m_conAdministrator)
@@ -150,12 +128,10 @@
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date, ByVal dteLicenseDate As Date)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date)
         Call ValidateName(blnValidated)
         Call ValidateEmployeeID(blnValidated)
         Call ValidateHireTerminationDate(blnValidated, dteHireDate, dteTerminationDate)
-        Call ValidateLicenseDate(blnValidated, dteLicenseDate)
-        Call ValidatePilotRole(blnValidated)
     End Sub
 
     Private Sub ValidateName(ByRef blnValidated As Boolean)
@@ -195,24 +171,6 @@
         If dteHireDate > dteTerminationDate Then
             MessageBox.Show("Termination date must be later than hire date.")
             dtmTerminationDate.Focus()
-            blnValidated = False
-        End If
-    End Sub
-
-    Private Sub ValidateLicenseDate(ByRef blnValidated As Boolean, ByVal dteLicenseDate As Date)
-        'validate that license date is later than current date
-        If dteLicenseDate > DateTime.Now Then
-            MessageBox.Show("Date of license cannot be later than current date.")
-            dtmLicenseDate.Focus()
-            blnValidated = False
-        End If
-    End Sub
-
-    Private Sub ValidatePilotRole(ByRef blnValidated As Boolean)
-        'validate that pilot role combobox is not empty
-        If cboPilotRoles.Text = String.Empty Then
-            MessageBox.Show("Select a pilot role.")
-            cboPilotRoles.Focus()
             blnValidated = False
         End If
     End Sub

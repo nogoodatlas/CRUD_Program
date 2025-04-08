@@ -7,7 +7,7 @@ Public Module modDatabaseUtilities
     'declare global variables
     Public gblPassengerID As String
     Public gblPilotID As String
-    Public intAttendantID As Integer
+    Public gblAttendantID As String
     ' --------------------------------------------------------------------------------
     ' Properties
     ' --------------------------------------------------------------------------------

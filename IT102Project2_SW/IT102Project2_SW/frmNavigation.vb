@@ -3,7 +3,7 @@
         Dim blnValidated As Boolean = True
         Dim frmCustomer As New frmCustomerSelect
         Dim frmPilot As New frmPilotSelect
-        Dim frmAttendant As New frmAttendantMain
+        Dim frmAttendant As New frmAttendantSelect
         Dim frmAdmin As New frmAdminMain
 
         Call ValidateInput(blnValidated)

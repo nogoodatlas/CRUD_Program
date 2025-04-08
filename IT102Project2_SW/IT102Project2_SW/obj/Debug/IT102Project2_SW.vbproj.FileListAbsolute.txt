@@ -22,3 +22,6 @@ C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT10
 C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmPilotSelect.resources
 C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmPilotMain.resources
 C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmUpdatePilot.resources
+C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmAttendantMain.resources
+C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmAttendantSelect.resources
+C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmUpdateAttendant.resources
