@@ -97,10 +97,22 @@
     <Compile Include="frmAttendantMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmBookFlight.Designer.vb">
+      <DependentUpon>frmBookFlight.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBookFlight.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmCustomerMain.Designer.vb">
       <DependentUpon>frmCustomerMain.vb</DependentUpon>
     </Compile>
     <Compile Include="frmCustomerMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCustomerSelect.Designer.vb">
+      <DependentUpon>frmCustomerSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCustomerSelect.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmDeleteAttendant.Designer.vb">
@@ -164,6 +176,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAddPilot.resx">
       <DependentUpon>frmAddPilot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBookFlight.resx">
+      <DependentUpon>frmBookFlight.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCustomerMain.resx">
+      <DependentUpon>frmCustomerMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCustomerSelect.resx">
+      <DependentUpon>frmCustomerSelect.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDeleteAttendant.resx">
       <DependentUpon>frmDeleteAttendant.vb</DependentUpon>

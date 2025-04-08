@@ -16,3 +16,6 @@ C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT10
 C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmDeletePilot.resources
 C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmNewCustomer.resources
 C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmUpdateCustomer.resources
+C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmCustomerMain.resources
+C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmCustomerSelect.resources
+C:\Users\slwoy\OneDrive\Documents\School Assignments\IT102\IT102Project2_SW\IT102Project2_SW\obj\Debug\IT102Project2_SW.frmBookFlight.resources

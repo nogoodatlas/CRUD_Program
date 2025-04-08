@@ -105,11 +105,11 @@ CREATE TABLE TFlights
 	 intFlightID			INTEGER			NOT NULL
 	,strFlightNumber		VARCHAR(255)	NOT NULL
 	,dtmFlightDate			DATETIME		NOT NULL
-	,dtmTimeofDeparture		TIME			NOT NULL
-	,dtmTimeOfLanding		TIME			NOT NULL
+	,dtmTimeofDeparture		TIME			
+	,dtmTimeOfLanding		TIME			
 	,intFromAirportID		INTEGER			NOT NULL
 	,intToAirportID			INTEGER			NOT NULL
-	,intMilesFlown			INTEGER			NOT NULL
+	,intMilesFlown			INTEGER			
 	,intPlaneID				INTEGER			NOT NULL
 	,CONSTRAINT TFlights_PK PRIMARY KEY ( intFlightID )
 )
@@ -369,6 +369,9 @@ VALUES				  (1, '4/1/2022', '111', '10:00:00', '12:00:00', 1, 2, 1200, 2)
 					 ,(8, '3/17/2022', '888','09:00:00', '11:00:00', 6, 4, 1100, 5)
 					 ,(9, '4/19/2022', '999','08:00:00', '10:00:00', 4, 2, 1000, 6)
 					 ,(10, '4/22/2022', '091','10:00:00', '12:00:00', 2, 1, 1200, 6)
+					 ,(11, '4/16/2025','321', NULL, NULL, 4, 6, 1100, 3)
+					 ,(12, '7/14/2025','123', NULL, NULL, 2, 1, 1200, 4)
+					 ,(13, '3/21/2026','246', NULL, NULL, 3, 1, 1000, 1)
 
 
 INSERT INTO TPilotFlights ( intPilotFlightID, intPilotID, intFlightID)
@@ -785,3 +788,36 @@ WHERE
 	TP.strAddress LIKE '%Oak%'
 
 
+
+
+
+SELECT 
+	 TF.dtmFlightDate
+	,TA.strAirportCity
+FROM TFlights AS TF JOIN TAirports AS TA 
+     ON TF.intFromAirportID = TA.intAirportID
+WHERE TF.dtmFlightDate >= GETDATE()
+
+
+SELECT DISTINCT
+	 TF.dtmFlightDate
+	,TF.strFlightNumber
+	,TF.dtmTimeofDeparture
+	,TF.dtmTimeofLanding
+	,TF.intMilesFlown
+    ,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+    ,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+    ,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+FROM TFlights AS TF JOIN TFlightPassengers AS TFP
+     ON TF.intFlightID = TFP.intFlightID
+     JOIN TPassengers AS TP 
+	 ON TP.intPassengerID = TFP.intPassengerID
+WHERE TFP.intPassengerID = 1 AND TF.dtmFlightDate <= GETDATE()
+
+
+SELECT 
+	 SUM(TF.intMilesFlown) AS TotalMiles
+FROM TFlights AS TF JOIN TFlightPassengers AS TFP
+     ON TF.intFlightID = TFP.intFlightID
+     JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
+WHERE TFP.intPassengerID = 1 AND TF.dtmFlightDate <= GETDATE()

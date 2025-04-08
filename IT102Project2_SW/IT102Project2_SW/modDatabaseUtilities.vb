@@ -5,7 +5,7 @@ Option Explicit On
 
 Public Module modDatabaseUtilities
     'declare global variables
-    Public intPassengerID As Integer
+    Public strPassengerID As String
     Public intPilotID As Integer
     Public intAttendantID As Integer
     ' --------------------------------------------------------------------------------
