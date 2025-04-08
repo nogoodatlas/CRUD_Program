@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmUpdatePilot
+Partial Class frmUpdateAttendant
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,19 +23,15 @@ Partial Class frmUpdatePilot
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.btnExit = New System.Windows.Forms.Button()
-        Me.btnUpdatePilot = New System.Windows.Forms.Button()
+        Me.btnUpdateAttendant = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.dtmLicenseDate = New System.Windows.Forms.DateTimePicker()
         Me.dtmTerminationDate = New System.Windows.Forms.DateTimePicker()
         Me.dtmHireDate = New System.Windows.Forms.DateTimePicker()
-        Me.lblPhone = New System.Windows.Forms.Label()
         Me.lblTerminationDate = New System.Windows.Forms.Label()
-        Me.lblPilotRole = New System.Windows.Forms.Label()
         Me.lblDateofHire = New System.Windows.Forms.Label()
         Me.lblEmployeeID = New System.Windows.Forms.Label()
         Me.lblLastName = New System.Windows.Forms.Label()
         Me.lblFirstName = New System.Windows.Forms.Label()
-        Me.cboPilotRoles = New System.Windows.Forms.ComboBox()
         Me.txtEmployeeID = New System.Windows.Forms.TextBox()
         Me.txtLastName = New System.Windows.Forms.TextBox()
         Me.txtFirstName = New System.Windows.Forms.TextBox()
@@ -44,103 +40,72 @@ Partial Class frmUpdatePilot
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(320, 458)
+        Me.btnExit.Location = New System.Drawing.Point(322, 385)
         Me.btnExit.Margin = New System.Windows.Forms.Padding(4)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(139, 57)
-        Me.btnExit.TabIndex = 15
+        Me.btnExit.TabIndex = 18
         Me.btnExit.Text = "&Exit"
         Me.btnExit.UseVisualStyleBackColor = True
         '
-        'btnUpdatePilot
+        'btnUpdateAttendant
         '
-        Me.btnUpdatePilot.Location = New System.Drawing.Point(115, 458)
-        Me.btnUpdatePilot.Margin = New System.Windows.Forms.Padding(4)
-        Me.btnUpdatePilot.Name = "btnUpdatePilot"
-        Me.btnUpdatePilot.Size = New System.Drawing.Size(139, 57)
-        Me.btnUpdatePilot.TabIndex = 14
-        Me.btnUpdatePilot.Text = "&Update Pilot"
-        Me.btnUpdatePilot.UseVisualStyleBackColor = True
+        Me.btnUpdateAttendant.Location = New System.Drawing.Point(117, 385)
+        Me.btnUpdateAttendant.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnUpdateAttendant.Name = "btnUpdateAttendant"
+        Me.btnUpdateAttendant.Size = New System.Drawing.Size(139, 57)
+        Me.btnUpdateAttendant.TabIndex = 17
+        Me.btnUpdateAttendant.Text = "&Update Attendant"
+        Me.btnUpdateAttendant.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.dtmLicenseDate)
         Me.GroupBox1.Controls.Add(Me.dtmTerminationDate)
         Me.GroupBox1.Controls.Add(Me.dtmHireDate)
-        Me.GroupBox1.Controls.Add(Me.lblPhone)
         Me.GroupBox1.Controls.Add(Me.lblTerminationDate)
-        Me.GroupBox1.Controls.Add(Me.lblPilotRole)
         Me.GroupBox1.Controls.Add(Me.lblDateofHire)
         Me.GroupBox1.Controls.Add(Me.lblEmployeeID)
         Me.GroupBox1.Controls.Add(Me.lblLastName)
         Me.GroupBox1.Controls.Add(Me.lblFirstName)
-        Me.GroupBox1.Controls.Add(Me.cboPilotRoles)
         Me.GroupBox1.Controls.Add(Me.txtEmployeeID)
         Me.GroupBox1.Controls.Add(Me.txtLastName)
         Me.GroupBox1.Controls.Add(Me.txtFirstName)
-        Me.GroupBox1.Location = New System.Drawing.Point(37, 20)
+        Me.GroupBox1.Location = New System.Drawing.Point(39, 40)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox1.Size = New System.Drawing.Size(501, 411)
-        Me.GroupBox1.TabIndex = 13
+        Me.GroupBox1.Size = New System.Drawing.Size(501, 311)
+        Me.GroupBox1.TabIndex = 16
         Me.GroupBox1.TabStop = False
-        '
-        'dtmLicenseDate
-        '
-        Me.dtmLicenseDate.Location = New System.Drawing.Point(205, 298)
-        Me.dtmLicenseDate.Name = "dtmLicenseDate"
-        Me.dtmLicenseDate.Size = New System.Drawing.Size(250, 22)
-        Me.dtmLicenseDate.TabIndex = 16
         '
         'dtmTerminationDate
         '
-        Me.dtmTerminationDate.Location = New System.Drawing.Point(205, 247)
+        Me.dtmTerminationDate.Location = New System.Drawing.Point(207, 248)
         Me.dtmTerminationDate.Name = "dtmTerminationDate"
-        Me.dtmTerminationDate.Size = New System.Drawing.Size(250, 22)
+        Me.dtmTerminationDate.Size = New System.Drawing.Size(245, 22)
         Me.dtmTerminationDate.TabIndex = 16
         '
         'dtmHireDate
         '
-        Me.dtmHireDate.Location = New System.Drawing.Point(205, 199)
+        Me.dtmHireDate.Location = New System.Drawing.Point(207, 200)
         Me.dtmHireDate.Name = "dtmHireDate"
-        Me.dtmHireDate.Size = New System.Drawing.Size(250, 22)
+        Me.dtmHireDate.Size = New System.Drawing.Size(245, 22)
         Me.dtmHireDate.TabIndex = 16
-        '
-        'lblPhone
-        '
-        Me.lblPhone.AutoSize = True
-        Me.lblPhone.Location = New System.Drawing.Point(46, 304)
-        Me.lblPhone.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblPhone.Name = "lblPhone"
-        Me.lblPhone.Size = New System.Drawing.Size(103, 16)
-        Me.lblPhone.TabIndex = 15
-        Me.lblPhone.Text = "Date of License:"
         '
         'lblTerminationDate
         '
         Me.lblTerminationDate.AutoSize = True
-        Me.lblTerminationDate.Location = New System.Drawing.Point(46, 253)
+        Me.lblTerminationDate.Location = New System.Drawing.Point(48, 254)
         Me.lblTerminationDate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTerminationDate.Name = "lblTerminationDate"
         Me.lblTerminationDate.Size = New System.Drawing.Size(127, 16)
         Me.lblTerminationDate.TabIndex = 14
         Me.lblTerminationDate.Text = "Date of Termination:"
         '
-        'lblPilotRole
-        '
-        Me.lblPilotRole.AutoSize = True
-        Me.lblPilotRole.Location = New System.Drawing.Point(46, 355)
-        Me.lblPilotRole.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblPilotRole.Name = "lblPilotRole"
-        Me.lblPilotRole.Size = New System.Drawing.Size(68, 16)
-        Me.lblPilotRole.TabIndex = 13
-        Me.lblPilotRole.Text = "Pilot Role:"
-        '
         'lblDateofHire
         '
         Me.lblDateofHire.AutoSize = True
-        Me.lblDateofHire.Location = New System.Drawing.Point(46, 199)
+        Me.lblDateofHire.Location = New System.Drawing.Point(48, 200)
         Me.lblDateofHire.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblDateofHire.Name = "lblDateofHire"
         Me.lblDateofHire.Size = New System.Drawing.Size(78, 16)
@@ -150,7 +115,7 @@ Partial Class frmUpdatePilot
         'lblEmployeeID
         '
         Me.lblEmployeeID.AutoSize = True
-        Me.lblEmployeeID.Location = New System.Drawing.Point(46, 147)
+        Me.lblEmployeeID.Location = New System.Drawing.Point(48, 148)
         Me.lblEmployeeID.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmployeeID.Name = "lblEmployeeID"
         Me.lblEmployeeID.Size = New System.Drawing.Size(88, 16)
@@ -160,7 +125,7 @@ Partial Class frmUpdatePilot
         'lblLastName
         '
         Me.lblLastName.AutoSize = True
-        Me.lblLastName.Location = New System.Drawing.Point(46, 95)
+        Me.lblLastName.Location = New System.Drawing.Point(48, 96)
         Me.lblLastName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblLastName.Name = "lblLastName"
         Me.lblLastName.Size = New System.Drawing.Size(75, 16)
@@ -170,25 +135,16 @@ Partial Class frmUpdatePilot
         'lblFirstName
         '
         Me.lblFirstName.AutoSize = True
-        Me.lblFirstName.Location = New System.Drawing.Point(46, 43)
+        Me.lblFirstName.Location = New System.Drawing.Point(48, 44)
         Me.lblFirstName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFirstName.Name = "lblFirstName"
         Me.lblFirstName.Size = New System.Drawing.Size(75, 16)
         Me.lblFirstName.TabIndex = 9
         Me.lblFirstName.Text = "First Name:"
         '
-        'cboPilotRoles
-        '
-        Me.cboPilotRoles.FormattingEnabled = True
-        Me.cboPilotRoles.Location = New System.Drawing.Point(205, 347)
-        Me.cboPilotRoles.Margin = New System.Windows.Forms.Padding(4)
-        Me.cboPilotRoles.Name = "cboPilotRoles"
-        Me.cboPilotRoles.Size = New System.Drawing.Size(160, 24)
-        Me.cboPilotRoles.TabIndex = 4
-        '
         'txtEmployeeID
         '
-        Me.txtEmployeeID.Location = New System.Drawing.Point(205, 141)
+        Me.txtEmployeeID.Location = New System.Drawing.Point(207, 142)
         Me.txtEmployeeID.Margin = New System.Windows.Forms.Padding(4)
         Me.txtEmployeeID.Name = "txtEmployeeID"
         Me.txtEmployeeID.Size = New System.Drawing.Size(160, 22)
@@ -196,7 +152,7 @@ Partial Class frmUpdatePilot
         '
         'txtLastName
         '
-        Me.txtLastName.Location = New System.Drawing.Point(205, 90)
+        Me.txtLastName.Location = New System.Drawing.Point(207, 91)
         Me.txtLastName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLastName.Name = "txtLastName"
         Me.txtLastName.Size = New System.Drawing.Size(132, 22)
@@ -204,22 +160,22 @@ Partial Class frmUpdatePilot
         '
         'txtFirstName
         '
-        Me.txtFirstName.Location = New System.Drawing.Point(205, 39)
+        Me.txtFirstName.Location = New System.Drawing.Point(207, 40)
         Me.txtFirstName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFirstName.Name = "txtFirstName"
         Me.txtFirstName.Size = New System.Drawing.Size(132, 22)
         Me.txtFirstName.TabIndex = 0
         '
-        'frmUpdatePilot
+        'frmUpdateAttendant
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(574, 534)
+        Me.ClientSize = New System.Drawing.Size(578, 483)
         Me.Controls.Add(Me.btnExit)
-        Me.Controls.Add(Me.btnUpdatePilot)
+        Me.Controls.Add(Me.btnUpdateAttendant)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Name = "frmUpdatePilot"
-        Me.Text = "frmUpdatePilot"
+        Me.Name = "frmUpdateAttendant"
+        Me.Text = "frmUpdateAttendant"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
@@ -227,19 +183,15 @@ Partial Class frmUpdatePilot
     End Sub
 
     Friend WithEvents btnExit As Button
-    Friend WithEvents btnUpdatePilot As Button
+    Friend WithEvents btnUpdateAttendant As Button
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents dtmLicenseDate As DateTimePicker
     Friend WithEvents dtmTerminationDate As DateTimePicker
     Friend WithEvents dtmHireDate As DateTimePicker
-    Friend WithEvents lblPhone As Label
     Friend WithEvents lblTerminationDate As Label
-    Friend WithEvents lblPilotRole As Label
     Friend WithEvents lblDateofHire As Label
     Friend WithEvents lblEmployeeID As Label
     Friend WithEvents lblLastName As Label
     Friend WithEvents lblFirstName As Label
-    Friend WithEvents cboPilotRoles As ComboBox
     Friend WithEvents txtEmployeeID As TextBox
     Friend WithEvents txtLastName As TextBox
     Friend WithEvents txtFirstName As TextBox

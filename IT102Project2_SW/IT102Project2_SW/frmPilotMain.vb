@@ -4,7 +4,7 @@
         lstDisplayFlights.Items.Clear()
 
         'calls data loads
-        Call PastFlights() 'displays data of all past flights for passenger
+        Call PastFlights() 'displays data of all past flights for pilot
         Call PastMiles()   'displays total of past miles flown
     End Sub
 
@@ -143,7 +143,7 @@
         lstDisplayFlights.Items.Clear()
 
         'calls data loads
-        Call FutureFlights() 'displays data of all future flights for passenger
+        Call FutureFlights() 'displays data of all future flights for pilot
         Call PlannedMiles()  'displays total of all future miles planned
     End Sub
 
