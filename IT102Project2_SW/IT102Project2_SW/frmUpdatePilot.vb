@@ -71,7 +71,7 @@
         Dim dteHireDate As Date
         Dim dteTerminationDate As Date
         Dim dteLicenseDate As Date
-        Dim intPilotRoleID As Integer
+        Dim intPilotRole As Integer
         Dim blnValidated As Boolean = True
         Dim intRowsAffected As Integer
 
@@ -85,7 +85,7 @@
         dteHireDate = dtmHireDate.Value
         dteTerminationDate = dtmTerminationDate.Value
         dteLicenseDate = dtmLicenseDate.Value
-        intPilotRoleID = cboPilotRoles.SelectedValue
+        intPilotRole = cboPilotRoles.SelectedValue
 
         ' validate data is entered
         Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, dteLicenseDate)
@@ -116,7 +116,7 @@
                             "dtmDateofHire = '" & dteHireDate & "', " &
                             "dtmDateofTermination = '" & dteTerminationDate & "', " &
                             "dtmDateofLicense = '" & dteLicenseDate & "', " &
-                            "intPilotRoleID = " & intPilotRoleID & " " &
+                            "intPilotRoleID = " & intPilotRole & " " &
                             "WHERE intPilotID = " & gblPilotID
 
 

@@ -89,7 +89,7 @@
                 drSourceTable.Read()
 
                 ' populate the variable with the data
-                gblPilotID = drSourceTable("intPilotID")
+                gblPilotID = cboPilots.SelectedValue
 
                 ' close the database connection
                 CloseDatabaseConnection()

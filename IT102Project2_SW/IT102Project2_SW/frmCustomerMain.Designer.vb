@@ -96,7 +96,7 @@ Partial Class frmCustomerMain
         Me.Controls.Add(Me.btnBookFlight)
         Me.Controls.Add(Me.btnUpdate)
         Me.Name = "frmCustomerMain"
-        Me.Text = "frmCustomerMain"
+        Me.Text = "Customer Main Menu"
         Me.ResumeLayout(False)
 
     End Sub

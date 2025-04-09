@@ -101,7 +101,7 @@
                 ' uncomment out the following message box line to use as a tool to check your sql statement
                 ' remember anything not a numeric value going into SQL Server must have single quotes '
                 ' around it, including dates.
-                MessageBox.Show(strUpdate)
+                'MessageBox.Show(strUpdate)
 
                 ' make the connection
                 cmdUpdate = New OleDb.OleDbCommand(strUpdate, m_conAdministrator)

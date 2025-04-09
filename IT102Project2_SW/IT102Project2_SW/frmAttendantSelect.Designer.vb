@@ -41,7 +41,6 @@ Partial Class frmAttendantSelect
         Me.GroupBox1.Size = New System.Drawing.Size(325, 198)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Attendant Selection"
         '
         'btnExit
         '
@@ -85,7 +84,7 @@ Partial Class frmAttendantSelect
         Me.ClientSize = New System.Drawing.Size(391, 255)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmAttendantSelect"
-        Me.Text = "frmAttendantSelect"
+        Me.Text = "Select Attendant"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)

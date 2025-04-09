@@ -37,8 +37,6 @@
             cboAttendants.DisplayMember = "AttendantName"
             cboAttendants.DataSource = dt
 
-            ' Select the first item in the list by default
-            If cboAttendants.Items.Count > 0 Then cboAttendants.SelectedIndex = 0
 
             'keep combobox empty upon load
             cboAttendants.Text = String.Empty
@@ -59,13 +57,14 @@
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Dim strDelete As String = ""
-        Dim strSelect As String = String.Empty
-        Dim strName As String = ""
+        Dim frmAttendant As New frmAttendantSelect
         Dim intRowsAffected As Integer
+        Dim blnValidated As Boolean = True
+
         Dim cmdDelete As OleDb.OleDbCommand ' this will be used for our Delete statement
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
         Dim result As DialogResult  ' this is the result of which button the user selects
-        Dim blnValidated As Boolean = True
+
 
         Call ValidateInput(blnValidated)
 
@@ -123,6 +122,11 @@
                 MessageBox.Show(ex.Message)
             End Try
 
+            'open attendant select upon deleting attendant
+            frmAttendant.ShowDialog()
+
+            'closes form upon deleting attendant
+            Close()
         End If
     End Sub
 

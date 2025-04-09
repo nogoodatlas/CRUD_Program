@@ -85,7 +85,7 @@ Partial Class frmAttendantMain
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnUpdate)
         Me.Name = "frmAttendantMain"
-        Me.Text = "frmAttendantMain"
+        Me.Text = "Attendant Main Menu"
         Me.ResumeLayout(False)
 
     End Sub

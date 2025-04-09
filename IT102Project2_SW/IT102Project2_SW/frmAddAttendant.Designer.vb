@@ -40,7 +40,7 @@ Partial Class frmAddAttendant
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(326, 383)
+        Me.btnExit.Location = New System.Drawing.Point(326, 380)
         Me.btnExit.Margin = New System.Windows.Forms.Padding(4)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(139, 57)
@@ -50,7 +50,7 @@ Partial Class frmAddAttendant
         '
         'btnAddAttendant
         '
-        Me.btnAddAttendant.Location = New System.Drawing.Point(121, 383)
+        Me.btnAddAttendant.Location = New System.Drawing.Point(121, 380)
         Me.btnAddAttendant.Margin = New System.Windows.Forms.Padding(4)
         Me.btnAddAttendant.Name = "btnAddAttendant"
         Me.btnAddAttendant.Size = New System.Drawing.Size(139, 57)
@@ -70,32 +70,32 @@ Partial Class frmAddAttendant
         Me.GroupBox1.Controls.Add(Me.txtEmployeeID)
         Me.GroupBox1.Controls.Add(Me.txtLastName)
         Me.GroupBox1.Controls.Add(Me.txtFirstName)
-        Me.GroupBox1.Location = New System.Drawing.Point(43, 38)
+        Me.GroupBox1.Location = New System.Drawing.Point(43, 42)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Size = New System.Drawing.Size(501, 311)
-        Me.GroupBox1.TabIndex = 13
+        Me.GroupBox1.TabIndex = 17
         Me.GroupBox1.TabStop = False
         '
         'dtmTerminationDate
         '
-        Me.dtmTerminationDate.Location = New System.Drawing.Point(214, 248)
+        Me.dtmTerminationDate.Location = New System.Drawing.Point(207, 248)
         Me.dtmTerminationDate.Name = "dtmTerminationDate"
-        Me.dtmTerminationDate.Size = New System.Drawing.Size(232, 22)
+        Me.dtmTerminationDate.Size = New System.Drawing.Size(245, 22)
         Me.dtmTerminationDate.TabIndex = 16
         '
         'dtmHireDate
         '
-        Me.dtmHireDate.Location = New System.Drawing.Point(214, 200)
+        Me.dtmHireDate.Location = New System.Drawing.Point(207, 200)
         Me.dtmHireDate.Name = "dtmHireDate"
-        Me.dtmHireDate.Size = New System.Drawing.Size(232, 22)
+        Me.dtmHireDate.Size = New System.Drawing.Size(245, 22)
         Me.dtmHireDate.TabIndex = 16
         '
         'lblTerminationDate
         '
         Me.lblTerminationDate.AutoSize = True
-        Me.lblTerminationDate.Location = New System.Drawing.Point(55, 254)
+        Me.lblTerminationDate.Location = New System.Drawing.Point(48, 254)
         Me.lblTerminationDate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTerminationDate.Name = "lblTerminationDate"
         Me.lblTerminationDate.Size = New System.Drawing.Size(127, 16)
@@ -105,7 +105,7 @@ Partial Class frmAddAttendant
         'lblDateofHire
         '
         Me.lblDateofHire.AutoSize = True
-        Me.lblDateofHire.Location = New System.Drawing.Point(55, 200)
+        Me.lblDateofHire.Location = New System.Drawing.Point(48, 200)
         Me.lblDateofHire.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblDateofHire.Name = "lblDateofHire"
         Me.lblDateofHire.Size = New System.Drawing.Size(78, 16)
@@ -115,7 +115,7 @@ Partial Class frmAddAttendant
         'lblEmployeeID
         '
         Me.lblEmployeeID.AutoSize = True
-        Me.lblEmployeeID.Location = New System.Drawing.Point(55, 148)
+        Me.lblEmployeeID.Location = New System.Drawing.Point(48, 148)
         Me.lblEmployeeID.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmployeeID.Name = "lblEmployeeID"
         Me.lblEmployeeID.Size = New System.Drawing.Size(88, 16)
@@ -125,7 +125,7 @@ Partial Class frmAddAttendant
         'lblLastName
         '
         Me.lblLastName.AutoSize = True
-        Me.lblLastName.Location = New System.Drawing.Point(55, 96)
+        Me.lblLastName.Location = New System.Drawing.Point(48, 96)
         Me.lblLastName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblLastName.Name = "lblLastName"
         Me.lblLastName.Size = New System.Drawing.Size(75, 16)
@@ -135,7 +135,7 @@ Partial Class frmAddAttendant
         'lblFirstName
         '
         Me.lblFirstName.AutoSize = True
-        Me.lblFirstName.Location = New System.Drawing.Point(55, 44)
+        Me.lblFirstName.Location = New System.Drawing.Point(48, 44)
         Me.lblFirstName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFirstName.Name = "lblFirstName"
         Me.lblFirstName.Size = New System.Drawing.Size(75, 16)
@@ -144,7 +144,7 @@ Partial Class frmAddAttendant
         '
         'txtEmployeeID
         '
-        Me.txtEmployeeID.Location = New System.Drawing.Point(214, 142)
+        Me.txtEmployeeID.Location = New System.Drawing.Point(207, 142)
         Me.txtEmployeeID.Margin = New System.Windows.Forms.Padding(4)
         Me.txtEmployeeID.Name = "txtEmployeeID"
         Me.txtEmployeeID.Size = New System.Drawing.Size(160, 22)
@@ -152,7 +152,7 @@ Partial Class frmAddAttendant
         '
         'txtLastName
         '
-        Me.txtLastName.Location = New System.Drawing.Point(214, 91)
+        Me.txtLastName.Location = New System.Drawing.Point(207, 91)
         Me.txtLastName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLastName.Name = "txtLastName"
         Me.txtLastName.Size = New System.Drawing.Size(132, 22)
@@ -160,7 +160,7 @@ Partial Class frmAddAttendant
         '
         'txtFirstName
         '
-        Me.txtFirstName.Location = New System.Drawing.Point(214, 40)
+        Me.txtFirstName.Location = New System.Drawing.Point(207, 40)
         Me.txtFirstName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFirstName.Name = "txtFirstName"
         Me.txtFirstName.Size = New System.Drawing.Size(132, 22)
@@ -171,11 +171,11 @@ Partial Class frmAddAttendant
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(586, 479)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnAddAttendant)
-        Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmAddAttendant"
-        Me.Text = "frmAddAttendant"
+        Me.Text = "Add Attendant"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)

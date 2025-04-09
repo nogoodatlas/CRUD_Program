@@ -244,7 +244,7 @@ Partial Class frmUpdateCustomer
         Me.Controls.Add(Me.btnUpdateCustomer)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmUpdateCustomer"
-        Me.Text = "frmUpdateCustomer"
+        Me.Text = "Update Customer"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)

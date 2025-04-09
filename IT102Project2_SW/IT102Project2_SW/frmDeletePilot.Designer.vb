@@ -77,7 +77,7 @@ Partial Class frmDeletePilot
         Me.Controls.Add(Me.cboPilots)
         Me.Controls.Add(Me.btnDelete)
         Me.Name = "frmDeletePilot"
-        Me.Text = "frmDeleteCustomer"
+        Me.Text = "Delete Customer"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

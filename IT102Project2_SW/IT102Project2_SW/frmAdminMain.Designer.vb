@@ -74,7 +74,7 @@ Partial Class frmAdminMain
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnStatistics)
         Me.Name = "frmAdminMain"
-        Me.Text = "frmAdminMain"
+        Me.Text = "Admin Main Menu"
         Me.ResumeLayout(False)
 
     End Sub

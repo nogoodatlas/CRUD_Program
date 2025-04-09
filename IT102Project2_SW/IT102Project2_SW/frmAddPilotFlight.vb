@@ -1,11 +1,14 @@
-﻿Public Class frmBookFlight
-    Private Sub frmBookFlight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        '  On the event Form Load, we are going to populate the Flight combobox from the database
+﻿Imports System.Net.WebRequestMethods
+
+Public Class frmAddPilotFlight
+    Private Sub frmAddPilotFlight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '  On the event Form Load, we are going to populate the Flight and Pilot comboboxes from the database
         Try
             Dim strSelect As String = ""
             Dim cmdSelect As OleDb.OleDbCommand ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
             Dim dtf As DataTable = New DataTable ' this is the table we will load from our reader for flights
+            Dim dtp As DataTable = New DataTable 'this is the table we will load from our reader for Pilots
 
             ' open the DB
             If OpenDatabaseConnectionSQLServer() = False Then
@@ -22,6 +25,19 @@
             End If
 
             ' Build the select statement
+            strSelect = "SELECT TP.intPilotID, TP.strFirstName + ' ' + TP.strLastName AS PilotName FROM TPilots AS TP"
+
+            ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            drSourceTable = cmdSelect.ExecuteReader
+            dtp.Load(drSourceTable)
+
+            'load the Passenger result set into the combobox.  For VB, we do this by binding the data to the combobox
+            cboPilots.ValueMember = "intPilotID"
+            cboPilots.DisplayMember = "PilotName"
+            cboPilots.DataSource = dtp
+
+            ' Build the select statement
             strSelect = "SELECT TF.intFlightID, 'Flight ' + TF.strFlightNumber + ' - ' + TA.strAirportCode AS FlightInfo" &
                         " FROM TFlights AS TF JOIN TAirports AS TA " &
                         " ON TF.intFromAirportID = TA.intAirportID " &
@@ -36,6 +52,10 @@
             cboFlights.ValueMember = "intFlightID"
             cboFlights.DisplayMember = "FlightInfo"
             cboFlights.DataSource = dtf
+
+            'makes combobox empty by default
+            cboPilots.Text = String.Empty
+            cboFlights.Text = String.Empty
 
             ' Clean up
             drSourceTable.Close()
@@ -103,8 +123,9 @@
         'declare variables
         Dim strSelect As String
         Dim strInsert As String
-        Dim intFlightID As Integer
-        Dim strSeat As String
+        Dim frmPilot As New frmPilotMain
+        Dim intFlight As Integer 'stores flight ID
+        Dim intPilot As Integer 'stores Pilot ID
         Dim result As DialogResult  ' this is the result of which button the user selects
         Dim blnValidated As Boolean = True
 
@@ -118,8 +139,8 @@
         Call ValidateInput(blnValidated)
 
         'put values into strings
-        intFlightID = cboFlights.SelectedValue
-        strSeat = cboSeats.Text
+        intPilot = cboPilots.SelectedValue
+        intFlight = cboFlights.SelectedValue
 
         If blnValidated = True Then
 
@@ -139,7 +160,7 @@
                 End If
 
                 ' always ask before inserting info into the database!!!!
-                result = MessageBox.Show("Are you sure you want to book this flight?", "Booking Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                result = MessageBox.Show("Are you sure you want to assign " & cboPilots.Text & " to this flight?", "Flight Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
                 ' this will figure out which button was selected. Cancel and No does nothing, Yes will allow info to be stored
                 Select Case result
@@ -149,8 +170,8 @@
                         MessageBox.Show("Action Canceled")
                     Case DialogResult.Yes
 
-                        strSelect = "SELECT MAX(intFlightPassengerID) + 1 AS intNextPrimaryKey " &
-                                " FROM TFlightPassengers"
+                        strSelect = "Select MAX(intPilotFlightID) + 1 As intNextPrimaryKey " &
+                                " FROM TPilotFlights"
 
                         ' Execute command
                         cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -173,8 +194,11 @@
                         End If
 
                         ' build insert statement (columns must match DB columns in name and the # of columns)
-                        strInsert = "INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)" &
-                            " VALUES (" & intNextPrimaryKey & "," & intFlightID & "," & gblPassengerID & ",'" & strSeat & "')"
+                        strInsert = "INSERT INTO TPilotFlights (intPilotFlightID, intPilotID, intFlightID)" &
+                            " VALUES (" & intNextPrimaryKey & "," & intPilot & "," & intFlight & ")"
+
+                        'assign global variable
+                        gblPilotID = intPilot
 
                         'MessageBox.Show(strInsert)
 
@@ -186,7 +210,7 @@
 
                         ' If not 0 insert successful
                         If intRowsAffected > 0 Then
-                            MessageBox.Show("Passenger flight has been added.")    ' let user know success
+                            MessageBox.Show("Pilot has been added to flight.")    ' let user know success
                             ' close new player form
                         End If
                 End Select
@@ -195,7 +219,10 @@
                 MessageBox.Show(ex.Message)
             End Try
 
-            'close form after submit
+            'open pilot select upon adding pilot to flight
+            frmPilot.ShowDialog()
+
+            'closes form upon adding pilot to flight
             Close()
         End If
     End Sub
@@ -209,9 +236,9 @@
         End If
 
         'validate seat has been chosen
-        If cboSeats.Text = String.Empty Then
-            MessageBox.Show("Please select a seat.")
-            cboSeats.Focus()
+        If cboPilots.Text = String.Empty Then
+            MessageBox.Show("Please select a pilot.")
+            cboPilots.Focus()
             blnValidated = False
         End If
     End Sub

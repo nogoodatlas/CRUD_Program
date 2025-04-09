@@ -54,7 +54,7 @@
     End Sub
 
     Private Sub btnCreateCustomer_Click(sender As Object, e As EventArgs) Handles btnCreateCustomer.Click
-        'variables for new player data and select and insert statements
+        'variables for new customer data and select and insert statements
         Dim strSelect As String
         Dim strInsert As String
         Dim strFirstName As String
@@ -134,7 +134,7 @@
                 'set next primary key equal to global variable for passenger ID
                 gblPassengerID = intNextPrimaryKey
 
-                MessageBox.Show(strInsert)
+                'MessageBox.Show(strInsert)
 
                 ' use insert command with sql string and connection object
                 cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)

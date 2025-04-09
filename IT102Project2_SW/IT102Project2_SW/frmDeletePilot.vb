@@ -59,13 +59,14 @@
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Dim strDelete As String = ""
-        Dim strSelect As String = String.Empty
-        Dim strName As String = ""
+        Dim frmPilot As New frmPilotSelect
         Dim intRowsAffected As Integer
+        Dim blnValidated As Boolean = True
+
         Dim cmdDelete As OleDb.OleDbCommand ' this will be used for our Delete statement
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
         Dim result As DialogResult  ' this is the result of which button the user selects
-        Dim blnValidated As Boolean = True
+
 
         Call ValidateInput(blnValidated)
 
@@ -98,7 +99,7 @@
                     Case DialogResult.Yes
 
                         ' Build the delete statement using PK from name selected
-                        strDelete = "DELETE FROM TPilots WHERE intPilotID = " & cboPilots.SelectedValue.ToString
+                        strDelete = "DELETE FROM TPilots WHERE intPilotID = " & cboPilots.SelectedValue
 
                         ' Delete the record(s) 
                         cmdDelete = New OleDb.OleDbCommand(strDelete, m_conAdministrator)
@@ -123,6 +124,11 @@
                 MessageBox.Show(ex.Message)
             End Try
 
+            'open pilot select upon deleting pilot
+            frmPilot.ShowDialog()
+
+            'closes form upon deleting pilot
+            Close()
         End If
     End Sub
 

@@ -175,7 +175,7 @@ Partial Class frmUpdateAttendant
         Me.Controls.Add(Me.btnUpdateAttendant)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmUpdateAttendant"
-        Me.Text = "frmUpdateAttendant"
+        Me.Text = "Update Attendant"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
