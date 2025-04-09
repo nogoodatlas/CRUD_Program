@@ -122,7 +122,7 @@
             End If
 
             'Build the miles statement
-            strSelect = "SELECT SUM(TF.intMilesFlown) AS TotalMiles " &
+            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
                         "FROM TFlights AS TF JOIN TFlightPassengers AS TFP " &
                         "ON TF.intFlightID = TFP.intFlightID " &
                         "JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID " &
@@ -259,7 +259,7 @@
             End If
 
             'Build the miles statement
-            strSelect = "SELECT SUM(TF.intMilesFlown) AS TotalMiles " &
+            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
                         "FROM TFlights AS TF JOIN TFlightPassengers AS TFP " &
                         "ON TF.intFlightID = TFP.intFlightID " &
                         "JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID " &

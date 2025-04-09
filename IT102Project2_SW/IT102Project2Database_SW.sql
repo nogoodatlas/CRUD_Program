@@ -248,7 +248,7 @@ FOREIGN KEY ( intFlightID ) REFERENCES TFlights (intFlightID )
 
 --8
 ALTER TABLE TPilotFlights	 ADD CONSTRAINT TPilotFlights_TPilots_FK 
-FOREIGN KEY ( intPilotID ) REFERENCES TPilots (intPilotID ) 
+FOREIGN KEY ( intPilotID ) REFERENCES TPilots (intPilotID ) ON DELETE CASCADE
 
 --9
 ALTER TABLE TAttendantFlights	 ADD CONSTRAINT TAttendantFlights_TAttendants_FK 
@@ -256,7 +256,7 @@ FOREIGN KEY ( intAttendantID ) REFERENCES TAttendants (intAttendantID ) ON DELET
 
 --10
 ALTER TABLE TPilots	 ADD CONSTRAINT TPilots_TPilotRoles_FK 
-FOREIGN KEY ( intPilotRoleID ) REFERENCES TPilotRoles (intPilotRoleID ) ON DELETE CASCADE
+FOREIGN KEY ( intPilotRoleID ) REFERENCES TPilotRoles (intPilotRoleID )
 
 --11
 ALTER TABLE TPlanes	 ADD CONSTRAINT TPlanes_TPlaneTypes_FK 
@@ -821,3 +821,13 @@ FROM TFlights AS TF JOIN TFlightPassengers AS TFP
      ON TF.intFlightID = TFP.intFlightID
      JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
 WHERE TFP.intPassengerID = 1 AND TF.dtmFlightDate <= GETDATE()
+
+
+SELECT
+	 COUNT(DISTINCT TP.intPassengerID) AS TotalCustomers
+	,COUNT(TFP.intFlightPassengerID) AS TotalFlights
+	,AVG(TF.intMilesFlown) AS AvgMiles
+FROM TPassengers AS TP JOIN TFlightPassengers AS TFP
+	 ON TP.intPassengerID = TFP.intPassengerID
+	 JOIN TFlights AS TF
+	 ON TF.intFlightID = TFP.intFlightID

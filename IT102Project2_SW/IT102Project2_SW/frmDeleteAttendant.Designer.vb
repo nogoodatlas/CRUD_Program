@@ -77,7 +77,7 @@ Partial Class frmDeleteAttendant
         Me.Controls.Add(Me.cboAttendants)
         Me.Controls.Add(Me.btnDelete)
         Me.Name = "frmDeleteAttendant"
-        Me.Text = "frmDeleteAttendant"
+        Me.Text = "Delete Attendant"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

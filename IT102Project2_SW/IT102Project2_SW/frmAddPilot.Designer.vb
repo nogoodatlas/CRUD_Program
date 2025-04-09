@@ -25,6 +25,9 @@ Partial Class frmAddPilot
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnAddPilot = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.dtmLicenseDate = New System.Windows.Forms.DateTimePicker()
+        Me.dtmTerminationDate = New System.Windows.Forms.DateTimePicker()
+        Me.dtmHireDate = New System.Windows.Forms.DateTimePicker()
         Me.lblPhone = New System.Windows.Forms.Label()
         Me.lblTerminationDate = New System.Windows.Forms.Label()
         Me.lblPilotRole = New System.Windows.Forms.Label()
@@ -36,9 +39,6 @@ Partial Class frmAddPilot
         Me.txtEmployeeID = New System.Windows.Forms.TextBox()
         Me.txtLastName = New System.Windows.Forms.TextBox()
         Me.txtFirstName = New System.Windows.Forms.TextBox()
-        Me.dtmHireDate = New System.Windows.Forms.DateTimePicker()
-        Me.dtmTerminationDate = New System.Windows.Forms.DateTimePicker()
-        Me.dtmLicenseDate = New System.Windows.Forms.DateTimePicker()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -83,13 +83,34 @@ Partial Class frmAddPilot
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Size = New System.Drawing.Size(501, 411)
-        Me.GroupBox1.TabIndex = 10
+        Me.GroupBox1.TabIndex = 14
         Me.GroupBox1.TabStop = False
+        '
+        'dtmLicenseDate
+        '
+        Me.dtmLicenseDate.Location = New System.Drawing.Point(205, 298)
+        Me.dtmLicenseDate.Name = "dtmLicenseDate"
+        Me.dtmLicenseDate.Size = New System.Drawing.Size(250, 22)
+        Me.dtmLicenseDate.TabIndex = 16
+        '
+        'dtmTerminationDate
+        '
+        Me.dtmTerminationDate.Location = New System.Drawing.Point(205, 247)
+        Me.dtmTerminationDate.Name = "dtmTerminationDate"
+        Me.dtmTerminationDate.Size = New System.Drawing.Size(250, 22)
+        Me.dtmTerminationDate.TabIndex = 16
+        '
+        'dtmHireDate
+        '
+        Me.dtmHireDate.Location = New System.Drawing.Point(205, 199)
+        Me.dtmHireDate.Name = "dtmHireDate"
+        Me.dtmHireDate.Size = New System.Drawing.Size(250, 22)
+        Me.dtmHireDate.TabIndex = 16
         '
         'lblPhone
         '
         Me.lblPhone.AutoSize = True
-        Me.lblPhone.Location = New System.Drawing.Point(55, 304)
+        Me.lblPhone.Location = New System.Drawing.Point(46, 304)
         Me.lblPhone.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPhone.Name = "lblPhone"
         Me.lblPhone.Size = New System.Drawing.Size(103, 16)
@@ -99,7 +120,7 @@ Partial Class frmAddPilot
         'lblTerminationDate
         '
         Me.lblTerminationDate.AutoSize = True
-        Me.lblTerminationDate.Location = New System.Drawing.Point(55, 253)
+        Me.lblTerminationDate.Location = New System.Drawing.Point(46, 253)
         Me.lblTerminationDate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTerminationDate.Name = "lblTerminationDate"
         Me.lblTerminationDate.Size = New System.Drawing.Size(127, 16)
@@ -109,7 +130,7 @@ Partial Class frmAddPilot
         'lblPilotRole
         '
         Me.lblPilotRole.AutoSize = True
-        Me.lblPilotRole.Location = New System.Drawing.Point(55, 355)
+        Me.lblPilotRole.Location = New System.Drawing.Point(46, 355)
         Me.lblPilotRole.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPilotRole.Name = "lblPilotRole"
         Me.lblPilotRole.Size = New System.Drawing.Size(68, 16)
@@ -119,7 +140,7 @@ Partial Class frmAddPilot
         'lblDateofHire
         '
         Me.lblDateofHire.AutoSize = True
-        Me.lblDateofHire.Location = New System.Drawing.Point(55, 199)
+        Me.lblDateofHire.Location = New System.Drawing.Point(46, 199)
         Me.lblDateofHire.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblDateofHire.Name = "lblDateofHire"
         Me.lblDateofHire.Size = New System.Drawing.Size(78, 16)
@@ -129,7 +150,7 @@ Partial Class frmAddPilot
         'lblEmployeeID
         '
         Me.lblEmployeeID.AutoSize = True
-        Me.lblEmployeeID.Location = New System.Drawing.Point(55, 147)
+        Me.lblEmployeeID.Location = New System.Drawing.Point(46, 147)
         Me.lblEmployeeID.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmployeeID.Name = "lblEmployeeID"
         Me.lblEmployeeID.Size = New System.Drawing.Size(88, 16)
@@ -139,7 +160,7 @@ Partial Class frmAddPilot
         'lblLastName
         '
         Me.lblLastName.AutoSize = True
-        Me.lblLastName.Location = New System.Drawing.Point(55, 95)
+        Me.lblLastName.Location = New System.Drawing.Point(46, 95)
         Me.lblLastName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblLastName.Name = "lblLastName"
         Me.lblLastName.Size = New System.Drawing.Size(75, 16)
@@ -149,7 +170,7 @@ Partial Class frmAddPilot
         'lblFirstName
         '
         Me.lblFirstName.AutoSize = True
-        Me.lblFirstName.Location = New System.Drawing.Point(55, 43)
+        Me.lblFirstName.Location = New System.Drawing.Point(46, 43)
         Me.lblFirstName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFirstName.Name = "lblFirstName"
         Me.lblFirstName.Size = New System.Drawing.Size(75, 16)
@@ -159,7 +180,7 @@ Partial Class frmAddPilot
         'cboPilotRoles
         '
         Me.cboPilotRoles.FormattingEnabled = True
-        Me.cboPilotRoles.Location = New System.Drawing.Point(214, 347)
+        Me.cboPilotRoles.Location = New System.Drawing.Point(205, 347)
         Me.cboPilotRoles.Margin = New System.Windows.Forms.Padding(4)
         Me.cboPilotRoles.Name = "cboPilotRoles"
         Me.cboPilotRoles.Size = New System.Drawing.Size(160, 24)
@@ -167,7 +188,7 @@ Partial Class frmAddPilot
         '
         'txtEmployeeID
         '
-        Me.txtEmployeeID.Location = New System.Drawing.Point(214, 141)
+        Me.txtEmployeeID.Location = New System.Drawing.Point(205, 141)
         Me.txtEmployeeID.Margin = New System.Windows.Forms.Padding(4)
         Me.txtEmployeeID.Name = "txtEmployeeID"
         Me.txtEmployeeID.Size = New System.Drawing.Size(160, 22)
@@ -175,7 +196,7 @@ Partial Class frmAddPilot
         '
         'txtLastName
         '
-        Me.txtLastName.Location = New System.Drawing.Point(214, 90)
+        Me.txtLastName.Location = New System.Drawing.Point(205, 90)
         Me.txtLastName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLastName.Name = "txtLastName"
         Me.txtLastName.Size = New System.Drawing.Size(132, 22)
@@ -183,43 +204,22 @@ Partial Class frmAddPilot
         '
         'txtFirstName
         '
-        Me.txtFirstName.Location = New System.Drawing.Point(214, 39)
+        Me.txtFirstName.Location = New System.Drawing.Point(205, 39)
         Me.txtFirstName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFirstName.Name = "txtFirstName"
         Me.txtFirstName.Size = New System.Drawing.Size(132, 22)
         Me.txtFirstName.TabIndex = 0
-        '
-        'dtmHireDate
-        '
-        Me.dtmHireDate.Location = New System.Drawing.Point(214, 199)
-        Me.dtmHireDate.Name = "dtmHireDate"
-        Me.dtmHireDate.Size = New System.Drawing.Size(232, 22)
-        Me.dtmHireDate.TabIndex = 16
-        '
-        'dtmTerminationDate
-        '
-        Me.dtmTerminationDate.Location = New System.Drawing.Point(214, 247)
-        Me.dtmTerminationDate.Name = "dtmTerminationDate"
-        Me.dtmTerminationDate.Size = New System.Drawing.Size(232, 22)
-        Me.dtmTerminationDate.TabIndex = 16
-        '
-        'dtmLicenseDate
-        '
-        Me.dtmLicenseDate.Location = New System.Drawing.Point(214, 298)
-        Me.dtmLicenseDate.Name = "dtmLicenseDate"
-        Me.dtmLicenseDate.Size = New System.Drawing.Size(232, 22)
-        Me.dtmLicenseDate.TabIndex = 16
         '
         'frmAddPilot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(585, 557)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnAddPilot)
-        Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmAddPilot"
-        Me.Text = "frmAddPilot"
+        Me.Text = "Add Pilot"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
@@ -229,6 +229,9 @@ Partial Class frmAddPilot
     Friend WithEvents btnExit As Button
     Friend WithEvents btnAddPilot As Button
     Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents dtmLicenseDate As DateTimePicker
+    Friend WithEvents dtmTerminationDate As DateTimePicker
+    Friend WithEvents dtmHireDate As DateTimePicker
     Friend WithEvents lblPhone As Label
     Friend WithEvents lblTerminationDate As Label
     Friend WithEvents lblPilotRole As Label
@@ -240,7 +243,4 @@ Partial Class frmAddPilot
     Friend WithEvents txtEmployeeID As TextBox
     Friend WithEvents txtLastName As TextBox
     Friend WithEvents txtFirstName As TextBox
-    Friend WithEvents dtmLicenseDate As DateTimePicker
-    Friend WithEvents dtmTerminationDate As DateTimePicker
-    Friend WithEvents dtmHireDate As DateTimePicker
 End Class

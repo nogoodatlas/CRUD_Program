@@ -23,12 +23,12 @@ Partial Class frmCustomerSelect
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnExit = New System.Windows.Forms.Button()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.cboPassengers = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.btnCreateCustomer = New System.Windows.Forms.Button()
-        Me.btnExit = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -45,6 +45,15 @@ Partial Class frmCustomerSelect
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Returning Customer"
+        '
+        'btnExit
+        '
+        Me.btnExit.Location = New System.Drawing.Point(197, 120)
+        Me.btnExit.Name = "btnExit"
+        Me.btnExit.Size = New System.Drawing.Size(102, 44)
+        Me.btnExit.TabIndex = 4
+        Me.btnExit.Text = "Exit"
+        Me.btnExit.UseVisualStyleBackColor = True
         '
         'btnSubmit
         '
@@ -91,15 +100,6 @@ Partial Class frmCustomerSelect
         Me.btnCreateCustomer.Text = "Create New Customer Profile"
         Me.btnCreateCustomer.UseVisualStyleBackColor = True
         '
-        'btnExit
-        '
-        Me.btnExit.Location = New System.Drawing.Point(197, 120)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(102, 44)
-        Me.btnExit.TabIndex = 4
-        Me.btnExit.Text = "Exit"
-        Me.btnExit.UseVisualStyleBackColor = True
-        '
         'frmCustomerSelect
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -108,7 +108,7 @@ Partial Class frmCustomerSelect
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmCustomerSelect"
-        Me.Text = "frmCustomerSelect"
+        Me.Text = "Select Customer"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)

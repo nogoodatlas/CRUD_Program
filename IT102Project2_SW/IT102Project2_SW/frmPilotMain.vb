@@ -43,7 +43,7 @@
                         "ORDER BY TF.dtmFlightDate"
 
 
-            MessageBox.Show(strSelect)
+            'MessageBox.Show(strSelect)
 
             'retrieve all the records for past flights
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -108,8 +108,8 @@
 
             End If
 
-            'Build the miles statement
-            strSelect = "SELECT SUM(TF.intMilesFlown) AS TotalMiles " &
+            'Build the select statement
+            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
                         "FROM TFlights AS TF JOIN TPilotFlights AS TPF " &
                         "ON TF.intFlightID = TPF.intFlightID " &
                         "JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID " &
@@ -246,7 +246,7 @@
             End If
 
             'Build the miles statement
-            strSelect = "SELECT SUM(TF.intMilesFlown) AS TotalMiles " &
+            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
                         "FROM TFlights AS TF JOIN TPilotFlights AS TPF " &
                         "ON TF.intFlightID = TPF.intFlightID " &
                         "JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID " &

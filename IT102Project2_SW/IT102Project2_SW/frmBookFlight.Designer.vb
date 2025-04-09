@@ -158,7 +158,7 @@ Partial Class frmBookFlight
         Me.Controls.Add(Me.cboFlights)
         Me.Controls.Add(Me.lblSelect)
         Me.Name = "frmBookFlight"
-        Me.Text = "frmBookFlight"
+        Me.Text = "Book Flight"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

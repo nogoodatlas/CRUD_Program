@@ -219,7 +219,7 @@ Partial Class frmUpdatePilot
         Me.Controls.Add(Me.btnUpdatePilot)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmUpdatePilot"
-        Me.Text = "frmUpdatePilot"
+        Me.Text = "Update Pilot"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)

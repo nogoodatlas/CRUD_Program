@@ -43,7 +43,7 @@
                         "ORDER BY TF.dtmFlightDate"
 
 
-            MessageBox.Show(strSelect)
+            'MessageBox.Show(strSelect)
 
             'retrieve all the records for past flights
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -109,7 +109,7 @@
             End If
 
             'Build the miles statement
-            strSelect = "SELECT SUM(TF.intMilesFlown) AS TotalMiles " &
+            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
                         "FROM TFlights AS TF JOIN TAttendantFlights AS TAF " &
                         "ON TF.intFlightID = TAF.intFlightID " &
                         "JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID " &
@@ -182,7 +182,7 @@
                         "ORDER BY TF.dtmFlightDate"
 
 
-            MessageBox.Show(strSelect)
+            'MessageBox.Show(strSelect)
 
             'retrieve all the records for past flights
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -246,7 +246,7 @@
             End If
 
             'Build the miles statement
-            strSelect = "SELECT SUM(TF.intMilesFlown) AS TotalMiles " &
+            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
                         "FROM TFlights AS TF JOIN TAttendantFlights AS TAF " &
                         "ON TF.intFlightID = TAF.intFlightID " &
                         "JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID " &
@@ -279,7 +279,7 @@
         'declare variable
         Dim frmUpdate As New frmUpdateAttendant
 
-        'opens form to update pilot profile
+        'opens form to update attendant profile
         frmUpdate.ShowDialog()
     End Sub
 

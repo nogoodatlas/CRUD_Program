@@ -85,7 +85,7 @@ Partial Class frmPilotMain
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnUpdate)
         Me.Name = "frmPilotMain"
-        Me.Text = "frmPilotMain"
+        Me.Text = "Pilot Main Menu"
         Me.ResumeLayout(False)
 
     End Sub
