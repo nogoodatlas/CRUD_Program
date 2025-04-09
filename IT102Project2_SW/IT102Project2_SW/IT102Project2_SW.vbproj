@@ -201,6 +201,9 @@
     <EmbeddedResource Include="frmAddPilot.resx">
       <DependentUpon>frmAddPilot.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAdminMain.resx">
+      <DependentUpon>frmAdminMain.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAttendantMain.resx">
       <DependentUpon>frmAttendantMain.vb</DependentUpon>
     </EmbeddedResource>

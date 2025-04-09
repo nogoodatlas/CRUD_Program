@@ -105,6 +105,7 @@
         Dim strInsert As String
         Dim intFlightID As Integer
         Dim strSeat As String
+        Dim result As DialogResult  ' this is the result of which button the user selects
         Dim blnValidated As Boolean = True
 
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
@@ -121,59 +122,78 @@
         strSeat = cboSeats.Text
 
         If blnValidated = True Then
-            If OpenDatabaseConnectionSQLServer() = False Then
 
-                ' No, warn the user ...
-                MessageBox.Show(Me, "Database connection error." & vbNewLine &
+            Try
+                ' open the database this is in module
+                If OpenDatabaseConnectionSQLServer() = False Then
+
+                    ' No, warn the user ...
+                    MessageBox.Show(Me, "Database connection error." & vbNewLine &
                                         "The application will now close.",
                                         Me.Text + " Error",
                                         MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-                ' and close the form/application
-                Me.Close()
+                    ' and close the form/application
+                    Me.Close()
 
-            End If
+                End If
 
-            strSelect = "SELECT MAX(intFlightPassengerID) + 1 AS intNextPrimaryKey " &
-                            " FROM TFlightPassengers"
+                ' always ask before deleting!!!!
+                result = MessageBox.Show("Are you sure you want to book this flight?", "Booking Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
-            ' Execute command
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-            drSourceTable = cmdSelect.ExecuteReader
+                ' this will figure out which button was selected. Cancel and No does nothing, Yes will allow deletion
+                Select Case result
+                    Case DialogResult.Cancel
+                        MessageBox.Show("Action Canceled")
+                    Case DialogResult.No
+                        MessageBox.Show("Action Canceled")
+                    Case DialogResult.Yes
 
-            ' Read result( highest ID )
-            drSourceTable.Read()
+                        strSelect = "SELECT MAX(intFlightPassengerID) + 1 AS intNextPrimaryKey " &
+                                " FROM TFlightPassengers"
 
-            ' Null? (empty table)
-            If drSourceTable.IsDBNull(0) = True Then
+                        ' Execute command
+                        cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+                        drSourceTable = cmdSelect.ExecuteReader
 
-                ' Yes, start numbering at 1
-                intNextPrimaryKey = 1
+                        ' Read result( highest ID )
+                        drSourceTable.Read()
 
-            Else
+                        ' Null? (empty table)
+                        If drSourceTable.IsDBNull(0) = True Then
 
-                ' No, get the next highest ID
-                intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
+                            ' Yes, start numbering at 1
+                            intNextPrimaryKey = 1
 
-            End If
+                        Else
 
-            ' build insert statement (columns must match DB columns in name and the # of columns)
-            strInsert = "INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)" &
-                " VALUES (" & intNextPrimaryKey & "," & intFlightID & "," & gblPassengerID & ",'" & strSeat & "')"
+                            ' No, get the next highest ID
+                            intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
 
-            MessageBox.Show(strInsert)
+                        End If
 
-            ' use insert command with sql string and connection object
-            cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
+                        ' build insert statement (columns must match DB columns in name and the # of columns)
+                        strInsert = "INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)" &
+                            " VALUES (" & intNextPrimaryKey & "," & intFlightID & "," & gblPassengerID & ",'" & strSeat & "')"
 
-            ' execute query to insert data
-            intRowsAffected = cmdInsert.ExecuteNonQuery()
+                        MessageBox.Show(strInsert)
 
-            ' If not 0 insert successful
-            If intRowsAffected > 0 Then
-                MessageBox.Show("Passenger flight has been added.")    ' let user know success
-                ' close new player form
-            End If
+                        ' use insert command with sql string and connection object
+                        cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
+
+                        ' execute query to insert data
+                        intRowsAffected = cmdInsert.ExecuteNonQuery()
+
+                        ' If not 0 insert successful
+                        If intRowsAffected > 0 Then
+                            MessageBox.Show("Passenger flight has been added.")    ' let user know success
+                            ' close new player form
+                        End If
+                End Select
+
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
         End If
     End Sub
 

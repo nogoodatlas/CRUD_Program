@@ -22,9 +22,65 @@ Partial Class frmAdminMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container
+        Me.btnManageAttendants = New System.Windows.Forms.Button()
+        Me.btnManagePilots = New System.Windows.Forms.Button()
+        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnStatistics = New System.Windows.Forms.Button()
+        Me.SuspendLayout()
+        '
+        'btnManageAttendants
+        '
+        Me.btnManageAttendants.Location = New System.Drawing.Point(229, 43)
+        Me.btnManageAttendants.Name = "btnManageAttendants"
+        Me.btnManageAttendants.Size = New System.Drawing.Size(160, 59)
+        Me.btnManageAttendants.TabIndex = 13
+        Me.btnManageAttendants.Text = "Manage &Attendants"
+        Me.btnManageAttendants.UseVisualStyleBackColor = True
+        '
+        'btnManagePilots
+        '
+        Me.btnManagePilots.Location = New System.Drawing.Point(24, 43)
+        Me.btnManagePilots.Name = "btnManagePilots"
+        Me.btnManagePilots.Size = New System.Drawing.Size(160, 59)
+        Me.btnManagePilots.TabIndex = 12
+        Me.btnManagePilots.Text = "Manage &Pilots"
+        Me.btnManagePilots.UseVisualStyleBackColor = True
+        '
+        'btnExit
+        '
+        Me.btnExit.Location = New System.Drawing.Point(229, 143)
+        Me.btnExit.Name = "btnExit"
+        Me.btnExit.Size = New System.Drawing.Size(160, 59)
+        Me.btnExit.TabIndex = 11
+        Me.btnExit.Text = "&Done"
+        Me.btnExit.UseVisualStyleBackColor = True
+        '
+        'btnStatistics
+        '
+        Me.btnStatistics.Location = New System.Drawing.Point(24, 143)
+        Me.btnStatistics.Name = "btnStatistics"
+        Me.btnStatistics.Size = New System.Drawing.Size(160, 59)
+        Me.btnStatistics.TabIndex = 10
+        Me.btnStatistics.Text = "Airline &Statistics"
+        Me.btnStatistics.UseVisualStyleBackColor = True
+        '
+        'frmAdminMain
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(413, 244)
+        Me.Controls.Add(Me.btnManageAttendants)
+        Me.Controls.Add(Me.btnManagePilots)
+        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnStatistics)
+        Me.Name = "frmAdminMain"
         Me.Text = "frmAdminMain"
+        Me.ResumeLayout(False)
+
     End Sub
+
+    Friend WithEvents btnManageAttendants As Button
+    Friend WithEvents btnManagePilots As Button
+    Friend WithEvents btnExit As Button
+    Friend WithEvents btnStatistics As Button
 End Class
