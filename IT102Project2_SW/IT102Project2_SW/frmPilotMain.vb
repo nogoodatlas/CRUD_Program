@@ -15,6 +15,7 @@
             Dim cmdSelect As OleDb.OleDbCommand            ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader     ' this will be where our flight result set will 
             Dim dt As DataTable = New DataTable            ' this is the table we will load from our reader
+            Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
 
             ' open the DB
@@ -31,22 +32,16 @@
 
             End If
 
-            ' Build the select statement
-            strSelect = "SELECT DISTINCT TF.dtmFlightDate, TF.strFlightNumber, TF.dtmTimeofDeparture, TF.dtmTimeofLanding, TF.intMilesFlown, " &
-                        "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity, " &
-                        "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity, " &
-                        "(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum " &
-                        "FROM TFlights AS TF JOIN TPilotFlights AS TPF " &
-                        "ON TF.intFlightID = TPF.intFlightID " &
-                        "JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID " &
-                        "WHERE TPF.intPilotID = " & gblPilotID & " AND TF.dtmFlightDate <= GETDATE() " &
-                        "ORDER BY TF.dtmFlightDate"
+            ' Build the select statement using the stored procedure uspPilotPastFlights
+            cmdSelect = New OleDb.OleDbCommand("uspPilotPastFlights", m_conAdministrator)
+            cmdSelect.CommandType = CommandType.StoredProcedure
 
+            ' here we are defining the parameter used within uspPilotFutureMiles
+            objParam = cmdSelect.Parameters.Add("@intPilotID", OleDb.OleDbType.Integer)
+            objParam.Direction = ParameterDirection.Input
+            objParam.Value = gblPilotID
 
-            'MessageBox.Show(strSelect)
-
-            'retrieve all the records for past flights
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            ' Retrieve all the records 
             drSourceTable = cmdSelect.ExecuteReader
 
             'loop through result set and display in Listbox
@@ -92,6 +87,7 @@
             Dim cmdSelect As OleDb.OleDbCommand            ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader     ' this will be where our flight result set will 
             Dim dt As DataTable = New DataTable            ' this is the table we will load from our reader
+            Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
 
             ' open the DB
@@ -108,15 +104,16 @@
 
             End If
 
-            'Build the select statement
-            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
-                        "FROM TFlights AS TF JOIN TPilotFlights AS TPF " &
-                        "ON TF.intFlightID = TPF.intFlightID " &
-                        "JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID " &
-                        "WHERE TPF.intPilotID = " & gblPilotID & " AND TF.dtmFlightDate <= GETDATE()"
+            ' Build the select statement using the stored procedure uspPilotPastMiles
+            cmdSelect = New OleDb.OleDbCommand("uspPilotPastMiles", m_conAdministrator)
+            cmdSelect.CommandType = CommandType.StoredProcedure
 
-            'Retrieve all the records for past miles flown
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            ' here we are defining the parameter used within uspPilotPastMiles
+            objParam = cmdSelect.Parameters.Add("@intPilotID", OleDb.OleDbType.Integer)
+            objParam.Direction = ParameterDirection.Input
+            objParam.Value = gblPilotID
+
+            ' Retrieve all the records 
             drSourceTable = cmdSelect.ExecuteReader
             drSourceTable.Read()
 
@@ -154,6 +151,7 @@
             Dim cmdSelect As OleDb.OleDbCommand            ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader     ' this will be where our flight result set will 
             Dim dt As DataTable = New DataTable            ' this is the table we will load from our reader
+            Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
 
             ' open the DB
@@ -170,22 +168,16 @@
 
             End If
 
-            ' Build the select statement
-            strSelect = "SELECT DISTINCT TF.dtmFlightDate, TF.strFlightNumber, TF.dtmTimeofDeparture, TF.dtmTimeofLanding, TF.intMilesFlown, " &
-                        "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity, " &
-                        "(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity, " &
-                        "(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum " &
-                        "FROM TFlights AS TF JOIN TPilotFlights AS TPF " &
-                        "ON TF.intFlightID = TPF.intFlightID " &
-                        "JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID " &
-                        "WHERE TPF.intPilotID = " & gblPilotID & " AND TF.dtmFlightDate >= GETDATE() " &
-                        "ORDER BY TF.dtmFlightDate"
+            ' Build the select statement using the stored procedure uspPilotFutureFlights
+            cmdSelect = New OleDb.OleDbCommand("uspPilotFutureFlights", m_conAdministrator)
+            cmdSelect.CommandType = CommandType.StoredProcedure
 
+            ' here we are defining the parameter used within uspPilotFutureFlights
+            objParam = cmdSelect.Parameters.Add("@intPilotID", OleDb.OleDbType.Integer)
+            objParam.Direction = ParameterDirection.Input
+            objParam.Value = gblPilotID
 
-            'MessageBox.Show(strSelect)
-
-            'retrieve all the records for past flights
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            ' Retrieve all the records 
             drSourceTable = cmdSelect.ExecuteReader
 
             'loop through result set and display in Listbox
@@ -229,6 +221,7 @@
             Dim cmdSelect As OleDb.OleDbCommand            ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader     ' this will be where our flight result set will 
             Dim dt As DataTable = New DataTable            ' this is the table we will load from our reader
+            Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
 
             ' open the DB
@@ -245,15 +238,16 @@
 
             End If
 
-            'Build the miles statement
-            strSelect = "SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles " &
-                        "FROM TFlights AS TF JOIN TPilotFlights AS TPF " &
-                        "ON TF.intFlightID = TPF.intFlightID " &
-                        "JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID " &
-                        "WHERE TPF.intPilotID = " & gblPilotID & " AND TF.dtmFlightDate >= GETDATE()"
+            ' Build the select statement using the stored procedure uspPilotFutureMiles
+            cmdSelect = New OleDb.OleDbCommand("uspPilotFutureMiles", m_conAdministrator)
+            cmdSelect.CommandType = CommandType.StoredProcedure
 
-            'Retrieve all the records for past miles flown
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            ' here we are defining the parameter used within uspPilotFutureMiles
+            objParam = cmdSelect.Parameters.Add("@intPilotID", OleDb.OleDbType.Integer)
+            objParam.Direction = ParameterDirection.Input
+            objParam.Value = gblPilotID
+
+            ' Retrieve all the records 
             drSourceTable = cmdSelect.ExecuteReader
             drSourceTable.Read()
 
