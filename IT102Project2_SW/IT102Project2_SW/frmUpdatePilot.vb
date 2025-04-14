@@ -6,6 +6,7 @@
         Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
         Dim dtp As DataTable = New DataTable ' this is the table we will load from our reader for pilot roles
+        Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
         Try
             ' open the database this is in module
@@ -35,14 +36,17 @@
             cboPilotRoles.DisplayMember = "strPilotRole"
             cboPilotRoles.DataSource = dtp
 
-            ' Build the select statement using PK from name selected
-            strSelect = "SELECT strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID " &
-                        "FROM TPilots WHERE intPilotID = " & gblPilotID
+            ' Build the select statement using the stored procedure uspPilotDataCall
+            cmdSelect = New OleDb.OleDbCommand("uspPilotDataCall", m_conAdministrator)
+            cmdSelect.CommandType = CommandType.StoredProcedure
+
+            ' here we are defining the parameter used within uspPilotDataCall
+            objParam = cmdSelect.Parameters.Add("@intPilotID", OleDb.OleDbType.Integer)
+            objParam.Direction = ParameterDirection.Input
+            objParam.Value = gblPilotID
 
             ' Retrieve all the records 
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             drSourceTable = cmdSelect.ExecuteReader
-
             drSourceTable.Read()
 
             ' populate the text boxes with the data

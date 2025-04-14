@@ -6,6 +6,7 @@
         Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
         Dim dts As DataTable = New DataTable ' this is the table we will load from our reader for State
+        Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
         Try
             ' open the database this is in module
@@ -35,14 +36,17 @@
             cboStates.DisplayMember = "strState"
             cboStates.DataSource = dts
 
-            ' Build the select statement using PK from name selected
-            strSelect = "SELECT strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail " &
-                        " FROM TPassengers WHERE intPassengerID = " & gblPassengerID
+            ' Build the select statement using the stored procedure uspPassengerDataCall
+            cmdSelect = New OleDb.OleDbCommand("uspPassengerDataCall", m_conAdministrator)
+            cmdSelect.CommandType = CommandType.StoredProcedure
+
+            ' here we are defining the parameter used within uspPassengerDataCall
+            objParam = cmdSelect.Parameters.Add("@intPassengerID", OleDb.OleDbType.Integer)
+            objParam.Direction = ParameterDirection.Input
+            objParam.Value = gblPassengerID
 
             ' Retrieve all the records 
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             drSourceTable = cmdSelect.ExecuteReader
-
             drSourceTable.Read()
 
             ' populate the text boxes with the data

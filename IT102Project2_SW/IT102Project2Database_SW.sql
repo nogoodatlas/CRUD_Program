@@ -33,6 +33,25 @@ IF OBJECT_ID ('TPilotRoles')			IS NOT NULL DROP TABLE TPilotRoles
 IF OBJECT_ID ('TAirports')				IS NOT NULL DROP TABLE TAirports
 IF OBJECT_ID ('TStates')				IS NOT NULL DROP TABLE TStates
 
+-- Drop Stored Procedures
+IF OBJECT_ID('uspPassengerDataCall')	IS NOT NULL DROP PROCEDURE uspPassengerDataCall
+IF OBJECT_ID('uspPassengerPastFlights')	IS NOT NULL DROP PROCEDURE uspPassengerPastFlights
+IF OBJECT_ID('uspPassengerPastMiles')	IS NOT NULL DROP PROCEDURE uspPassengerPastMiles
+IF OBJECT_ID('uspPassengerFutureFlights')	IS NOT NULL DROP PROCEDURE uspPassengerFutureFlights
+IF OBJECT_ID('uspPassengerFutureMiles')	IS NOT NULL DROP PROCEDURE uspPassengerFutureMiles
+
+IF OBJECT_ID('uspPilotDataCall')		IS NOT NULL DROP PROCEDURE uspPilotDataCall
+IF OBJECT_ID('uspPilotPastFlights')		IS NOT NULL DROP PROCEDURE uspPilotPastFlights
+IF OBJECT_ID('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
+IF OBJECT_ID('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
+IF OBJECT_ID('uspPilotFutureMiles')		IS NOT NULL DROP PROCEDURE uspPilotFutureMiles
+
+IF OBJECT_ID('uspAttendantDataCall')	IS NOT NULL DROP PROCEDURE uspAttendantDataCall
+IF OBJECT_ID('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
+IF OBJECT_ID('uspAttendantPastMiles')	IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
+IF OBJECT_ID('uspAttendantFutureFlights')	IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
+IF OBJECT_ID('uspAttendantFutureMiles')	IS NOT NULL DROP PROCEDURE uspAttendantFutureMiles
+
 -- --------------------------------------------------------------------------------
 --	Step #1 : Create table 
 -- --------------------------------------------------------------------------------
@@ -789,45 +808,325 @@ WHERE
 
 
 
+-- ----------------------
+--	PASSENGERS
+-- ----------------------
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PassengerDataCall (populates passenger data in case of update)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPassengerDataCall
+     @intPassengerID AS INTEGER
+AS
+BEGIN
+	SELECT 
+		 strFirstName
+		,strLastName
+		,strAddress
+		,strCity
+		,intStateID
+		,strZip
+		,strPhoneNumber
+		,strEmail
+	FROM TPassengers
+	WHERE TPassengers.intPassengerID = @intPassengerID
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PassengerPastFlights (displays past flight data for passenger)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPassengerPastFlights
+     @intPassengerID AS INTEGER
+AS
+BEGIN
+	SELECT DISTINCT 
+		 TF.dtmFlightDate
+		,TF.strFlightNumber
+		,TF.dtmTimeofDeparture
+		,TF.dtmTimeofLanding
+		,TF.intMilesFlown
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+	FROM TFlights AS TF JOIN TFlightPassengers AS TFP
+		 ON TF.intFlightID = TFP.intFlightID
+		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
+	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate <= GETDATE() 
+	ORDER BY TF.dtmFlightDate
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PassengerPastMiles (displays total past flight miles for passenger)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPassengerPastMiles
+	@intPassengerID AS INTEGER
+AS
+BEGIN
+	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
+	FROM TFlights AS TF JOIN TFlightPassengers AS TFP
+		 ON TF.intFlightID = TFP.intFlightID
+		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
+	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate <= GETDATE()
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PassengerFutureFlights (displays future flight data for passenger)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPassengerFutureFlights
+     @intPassengerID AS INTEGER
+AS
+BEGIN
+	SELECT DISTINCT 
+		 TF.dtmFlightDate
+		,TF.strFlightNumber
+		,TF.dtmTimeofDeparture
+		,TF.dtmTimeofLanding
+		,TF.intMilesFlown
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+	FROM TFlights AS TF JOIN TFlightPassengers AS TFP
+		 ON TF.intFlightID = TFP.intFlightID
+		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
+	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate >= GETDATE() 
+	ORDER BY TF.dtmFlightDate
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PassengerFutureMiles (displays total future flight miles for passenger)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPassengerFutureMiles
+	@intPassengerID AS INTEGER
+AS
+BEGIN
+	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
+	FROM TFlights AS TF JOIN TFlightPassengers AS TFP
+		 ON TF.intFlightID = TFP.intFlightID
+		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
+	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate >= GETDATE()
+END
+GO
 
 
-SELECT 
-	 TF.dtmFlightDate
-	,TA.strAirportCity
-FROM TFlights AS TF JOIN TAirports AS TA 
-     ON TF.intFromAirportID = TA.intAirportID
-WHERE TF.dtmFlightDate >= GETDATE()
+-- ----------------------
+--	PILOTS
+-- ----------------------
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PilotDataCall (populates pilot data in case of update)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPilotDataCall
+     @intPilotID AS INTEGER
+AS
+BEGIN
+	SELECT 
+		 strFirstName
+		,strLastName
+		,strEmployeeID
+		,dtmDateofHire
+		,dtmDateofTermination
+		,dtmDateofLicense
+		,intPilotRoleID
+	FROM TPilots
+	WHERE TPilots.intPilotID = @intPilotID
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PilotPastFlights (displays past flight data for pilot)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPilotPastFlights
+     @intPilotID AS INTEGER
+AS
+BEGIN
+	SELECT DISTINCT 
+		 TF.dtmFlightDate
+		,TF.strFlightNumber
+		,TF.dtmTimeofDeparture
+		,TF.dtmTimeofLanding
+		,TF.intMilesFlown
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+	FROM TFlights AS TF JOIN TPilotFlights AS TPF
+		 ON TF.intFlightID = TPF.intFlightID
+		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
+	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate <= GETDATE() 
+	ORDER BY TF.dtmFlightDate
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PilotPastMiles (displays total past flight miles for pilot)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPilotPastMiles
+	@intPilotID AS INTEGER
+AS
+BEGIN
+	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
+	FROM TFlights AS TF JOIN TPilotFlights AS TPF
+		 ON TF.intFlightID = TPF.intFlightID
+		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
+	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate <= GETDATE() 
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PilotFutureFlights (displays future flight data for pilot)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPilotFutureFlights
+     @intPilotID AS INTEGER
+AS
+BEGIN
+	SELECT DISTINCT 
+		 TF.dtmFlightDate
+		,TF.strFlightNumber
+		,TF.dtmTimeofDeparture
+		,TF.dtmTimeofLanding
+		,TF.intMilesFlown
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+	FROM TFlights AS TF JOIN TPilotFlights AS TPF
+		 ON TF.intFlightID = TPF.intFlightID
+		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
+	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate >= GETDATE() 
+	ORDER BY TF.dtmFlightDate
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for PilotFutureMiles (displays total future flight miles for pilot)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspPilotFutureMiles
+	@intPilotID AS INTEGER
+AS
+BEGIN
+	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
+	FROM TFlights AS TF JOIN TPilotFlights AS TPF
+		 ON TF.intFlightID = TPF.intFlightID
+		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
+	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate >= GETDATE() 
+END
+GO
 
 
-SELECT DISTINCT
-	 TF.dtmFlightDate
-	,TF.strFlightNumber
-	,TF.dtmTimeofDeparture
-	,TF.dtmTimeofLanding
-	,TF.intMilesFlown
-    ,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
-    ,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
-    ,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
-FROM TFlights AS TF JOIN TFlightPassengers AS TFP
-     ON TF.intFlightID = TFP.intFlightID
-     JOIN TPassengers AS TP 
-	 ON TP.intPassengerID = TFP.intPassengerID
-WHERE TFP.intPassengerID = 1 AND TF.dtmFlightDate <= GETDATE()
+-- ----------------------
+--	ATTENDANTS
+-- ----------------------
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AttendantDataCall (populates attendant data in case of update)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAttendantDataCall
+     @intAttendantID AS INTEGER
+AS
+BEGIN
+	SELECT 
+		 strFirstName
+		,strLastName
+		,strEmployeeID
+		,dtmDateofHire
+		,dtmDateofTermination
+	FROM TAttendants
+	WHERE TAttendants.intAttendantID = @intAttendantID
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AttendantPastFlights (displays past flight data for attendant)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAttendantPastFlights
+     @intAttendantID AS INTEGER
+AS
+BEGIN
+	SELECT DISTINCT 
+		 TF.dtmFlightDate
+		,TF.strFlightNumber
+		,TF.dtmTimeofDeparture
+		,TF.dtmTimeofLanding
+		,TF.intMilesFlown
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+	FROM TFlights AS TF JOIN TAttendantFlights AS TAF
+		 ON TF.intFlightID = TAF.intFlightID
+		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
+	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate <= GETDATE() 
+	ORDER BY TF.dtmFlightDate
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AttendantPastMiles (displays total past flight miles for attendant)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAttendantPastMiles
+	@intAttendantID AS INTEGER
+AS
+BEGIN
+	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
+	FROM TFlights AS TF JOIN TAttendantFlights AS TAF
+		 ON TF.intFlightID = TAF.intFlightID
+		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
+	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate <= GETDATE() 
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AttendantFutureFlights (displays future flight data for attendant)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAttendantFutureFlights
+     @intAttendantID AS INTEGER
+AS
+BEGIN
+	SELECT DISTINCT 
+		 TF.dtmFlightDate
+		,TF.strFlightNumber
+		,TF.dtmTimeofDeparture
+		,TF.dtmTimeofLanding
+		,TF.intMilesFlown
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
+		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
+		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
+	FROM TFlights AS TF JOIN TAttendantFlights AS TAF
+		 ON TF.intFlightID = TAF.intFlightID
+		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
+	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate >= GETDATE() 
+	ORDER BY TF.dtmFlightDate
+END
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AttendantFutureMiles (displays total future flight miles for attendant)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAttendantFutureMiles
+	@intAttendantID AS INTEGER
+AS
+BEGIN
+	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
+	FROM TFlights AS TF JOIN TAttendantFlights AS TAF
+		 ON TF.intFlightID = TAF.intFlightID
+		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
+	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate >= GETDATE() 
+END
+GO
 
 
-SELECT 
-	 SUM(TF.intMilesFlown) AS TotalMiles
-FROM TFlights AS TF JOIN TFlightPassengers AS TFP
-     ON TF.intFlightID = TFP.intFlightID
-     JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
-WHERE TFP.intPassengerID = 1 AND TF.dtmFlightDate <= GETDATE()
 
 
-SELECT
-	 COUNT(DISTINCT TP.intPassengerID) AS TotalCustomers
-	,COUNT(TFP.intFlightPassengerID) AS TotalFlights
-	,AVG(TF.intMilesFlown) AS AvgMiles
-FROM TPassengers AS TP JOIN TFlightPassengers AS TFP
-	 ON TP.intPassengerID = TFP.intPassengerID
-	 JOIN TFlights AS TF
-	 ON TF.intFlightID = TFP.intFlightID
