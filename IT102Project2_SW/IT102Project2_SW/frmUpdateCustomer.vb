@@ -108,7 +108,7 @@
 
                 End If
 
-                cmdUpdate.CommandText = "EXECUTE uspUpdateCustomer " & gblPassengerID & ", '" & strFirstName & "', '" & strLastName & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strPhoneNumber & ", '" & strEmail & "'"
+                cmdUpdate.CommandText = "EXECUTE uspUpdateCustomer " & gblPassengerID & ", '" & strFirstName & "', '" & strLastName & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strPhoneNumber & "', '" & strEmail & "'"
                 cmdUpdate.CommandType = CommandType.StoredProcedure
 
                 ' call stored procedures which will insert the record
