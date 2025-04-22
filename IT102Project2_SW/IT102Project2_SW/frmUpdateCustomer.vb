@@ -6,7 +6,6 @@
         Dim drSourceTable As OleDb.OleDbDataReader ' this will be where our data is retrieved to
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
         Dim dts As DataTable = New DataTable ' this is the table we will load from our reader for State
-        Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
 
         Try
             ' open the database this is in module
@@ -36,17 +35,13 @@
             cboStates.DisplayMember = "strState"
             cboStates.DataSource = dts
 
-            ' Build the select statement using the stored procedure uspPassengerDataCall
-            cmdSelect = New OleDb.OleDbCommand("uspPassengerDataCall", m_conAdministrator)
-            cmdSelect.CommandType = CommandType.StoredProcedure
-
-            ' here we are defining the parameter used within uspPassengerDataCall
-            objParam = cmdSelect.Parameters.Add("@intPassengerID", OleDb.OleDbType.Integer)
-            objParam.Direction = ParameterDirection.Input
-            objParam.Value = gblPassengerID
-
+            ' Build the select statement using PK from name selected
+            strSelect = "SELECT strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail " &
+                        " FROM TPassengers WHERE intPassengerID = " & gblPassengerID
             ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             drSourceTable = cmdSelect.ExecuteReader
+
             drSourceTable.Read()
 
             ' populate the text boxes with the data
@@ -68,7 +63,6 @@
     End Sub
 
     Private Sub btnUpdateCustomer_Click(sender As Object, e As EventArgs) Handles btnUpdateCustomer.Click
-        Dim strUpdate As String
         Dim strFirstName As String
         Dim strLastName As String
         Dim strAddress As String
@@ -80,8 +74,8 @@
         Dim blnValidated As Boolean = True
         Dim intRowsAffected As Integer
 
-        ' this will hold our Update statement
-        Dim cmdUpdate As OleDb.OleDbCommand
+        ' this will hold our Update command
+        Dim cmdUpdate As New OleDb.OleDbCommand()
 
         ' put values into strings
         strFirstName = txtFirstName.Text
@@ -114,28 +108,13 @@
 
                 End If
 
-                ' Build the select statement using PK from name selected
-                strUpdate = "UPDATE TPassengers SET " &
-                            "strFirstName = '" & strFirstName & "', " &
-                            "strLastName = '" & strLastName & "', " &
-                            "strAddress = '" & strAddress & "', " &
-                            "strCity = '" & strCity & "', " &
-                            "intStateID = " & intState & ", " &
-                            "strZip = '" & strZip & "', " &
-                            "strPhoneNumber = '" & strPhoneNumber & "', " &
-                            "strEmail = '" & strEmail & "'" &
-                            "WHERE intPassengerID = " & gblPassengerID
+                cmdUpdate.CommandText = "EXECUTE uspUpdateCustomer " & gblPassengerID & ", '" & strFirstName & "', '" & strLastName & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strPhoneNumber & ", '" & strEmail & "'"
+                cmdUpdate.CommandType = CommandType.StoredProcedure
 
+                ' call stored procedures which will insert the record
+                cmdUpdate = New OleDb.OleDbCommand(cmdUpdate.CommandText, m_conAdministrator)
 
-                ' uncomment out the following message box line to use as a tool to check your sql statement
-                ' remember anything not a numeric value going into SQL Server must have single quotes '
-                ' around it, including dates.
-                'MessageBox.Show(strUpdate)
-
-                ' make the connection
-                cmdUpdate = New OleDb.OleDbCommand(strUpdate, m_conAdministrator)
-
-                ' IUpdate the row with execute the statement
+                ' execute query to insert data
                 intRowsAffected = cmdUpdate.ExecuteNonQuery()
 
                 ' have to let the user know what happened 

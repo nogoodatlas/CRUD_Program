@@ -56,7 +56,6 @@
     Private Sub btnCreateCustomer_Click(sender As Object, e As EventArgs) Handles btnCreateCustomer.Click
         'variables for new customer data and select and insert statements
         Dim strSelect As String
-        Dim strInsert As String
         Dim strFirstName As String
         Dim strLastName As String
         Dim strAddress As String
@@ -69,7 +68,7 @@
         Dim frmCustomer As New frmCustomerMain
 
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
-        Dim cmdInsert As OleDb.OleDbCommand ' insert command object
+        Dim cmdCreateCustomer As New OleDb.OleDbCommand() ' stored procedure command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
         Dim intNextPrimaryKey As Integer ' holds next highest PK value
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
@@ -105,7 +104,7 @@
                 End If
 
                 strSelect = "SELECT MAX(intPassengerID) + 1 AS intNextPrimaryKey " &
-                                " FROM TPassengers"
+                                "FROM TPassengers"
 
                 ' Execute command
                 cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -127,20 +126,16 @@
 
                 End If
 
-                ' build insert statement (columns must match DB columns in name and the # of columns)
-                strInsert = "INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail)" &
-                    " VALUES (" & intNextPrimaryKey & ",'" & strFirstName & "','" & strLastName & "','" & strAddress & "','" & strCity & "'," & intState & ",'" & strZip & "','" & strPhoneNumber & "','" & strEmail & "')"
+                ' text to call stored procedures
+                cmdCreateCustomer.CommandText = "EXECUTE uspCreateCustomer " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strPhoneNumber & "', '" & strEmail & "'"
+                cmdCreateCustomer.CommandType = CommandType.StoredProcedure
 
-                'set next primary key equal to global variable for passenger ID
+                ' call stored procedures which will insert the record
+                cmdCreateCustomer = New OleDb.OleDbCommand(cmdCreateCustomer.CommandText, m_conAdministrator)
                 gblPassengerID = intNextPrimaryKey
 
-                'MessageBox.Show(strInsert)
-
-                ' use insert command with sql string and connection object
-                cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
-
                 ' execute query to insert data
-                intRowsAffected = cmdInsert.ExecuteNonQuery()
+                intRowsAffected = cmdCreateCustomer.ExecuteNonQuery()
 
                 ' If not 0 insert successful
                 If intRowsAffected > 0 Then

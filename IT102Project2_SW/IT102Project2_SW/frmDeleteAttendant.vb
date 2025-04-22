@@ -56,12 +56,11 @@
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        Dim strDelete As String = ""
         Dim frmAttendant As New frmAttendantSelect
         Dim intRowsAffected As Integer
         Dim blnValidated As Boolean = True
 
-        Dim cmdDelete As OleDb.OleDbCommand ' this will be used for our Delete statement
+        Dim cmdDelete As New OleDb.OleDbCommand() ' this will be used for our Delete statement
         Dim dt As DataTable = New DataTable ' this is the table we will load from our reader
         Dim result As DialogResult  ' this is the result of which button the user selects
 
@@ -96,11 +95,14 @@
                         MessageBox.Show("Action Canceled")
                     Case DialogResult.Yes
 
-                        ' Build the delete statement using PK from name selected
-                        strDelete = "DELETE FROM TAttendants WHERE intAttendantID = " & cboAttendants.SelectedValue.ToString
+                        ' Build the delete statement using the stored procedure uspDeleteAttendant
+                        cmdDelete.CommandText = "EXECUTE uspDeleteAttendant " & cboAttendants.SelectedValue
+                        cmdDelete.CommandType = CommandType.StoredProcedure
+
+                        ' call stored procedures which will insert the record
+                        cmdDelete = New OleDb.OleDbCommand(cmdDelete.CommandText, m_conAdministrator)
 
                         ' Delete the record(s) 
-                        cmdDelete = New OleDb.OleDbCommand(strDelete, m_conAdministrator)
                         intRowsAffected = cmdDelete.ExecuteNonQuery()
 
                         ' Did it work?

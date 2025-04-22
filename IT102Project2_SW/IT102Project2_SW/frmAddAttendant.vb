@@ -1,7 +1,8 @@
-﻿Public Class frmAddAttendant
+﻿Imports System.Data.OleDb
+
+Public Class frmAddAttendant
     Private Sub btnAddAttendant_Click(sender As Object, e As EventArgs) Handles btnAddAttendant.Click
         'variables for new attendant data and select and insert statements
-        Dim strInsert As String
         Dim strSelect As String
         Dim frmAttendant As New frmAttendantMain
         Dim strFirstName As String
@@ -11,8 +12,8 @@
         Dim dteTerminationDate As Date
         Dim blnValidated As Boolean = True
 
+        Dim cmdCreateAttendant As New OleDb.OleDbCommand() 'select command object
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
-        Dim cmdInsert As OleDb.OleDbCommand ' insert command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
         Dim intNextPrimaryKey As Integer ' holds next highest PK value
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
@@ -67,20 +68,16 @@
 
                 End If
 
-                ' build insert statement (columns must match DB columns in name and the # of columns)
-                strInsert = "INSERT INTO TAttendants (intAttendantID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination)" &
-                    " VALUES (" & intNextPrimaryKey & ",'" & strFirstName & "','" & strLastName & "','" & strEmployeeID & "','" & dteHireDate & "','" & dteTerminationDate & "')"
+                ' text to call stored procedures
+                cmdCreateAttendant.CommandText = "EXECUTE uspCreateAttendant " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
+                cmdCreateAttendant.CommandType = CommandType.StoredProcedure
 
-                'set next primary key equal to global variable for pilot ID
+                ' call stored procedures which will insert the record
+                cmdCreateAttendant = New OleDb.OleDbCommand(cmdCreateAttendant.CommandText, m_conAdministrator)
                 gblAttendantID = intNextPrimaryKey
 
-                'MessageBox.Show(strInsert)
-
-                ' use insert command with sql string and connection object
-                cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
-
                 ' execute query to insert data
-                intRowsAffected = cmdInsert.ExecuteNonQuery()
+                intRowsAffected = cmdCreateAttendant.ExecuteNonQuery()
 
                 ' If not 0 insert successful
                 If intRowsAffected > 0 Then

@@ -18,13 +18,15 @@ SET NOCOUNT ON;
 IF OBJECT_ID ('TPilotFlights')			IS NOT NULL DROP TABLE TPilotFlights
 IF OBJECT_ID ('TAttendantFlights')		IS NOT NULL DROP TABLE TAttendantFlights
 IF OBJECT_ID ('TFlightPassengers')		IS NOT NULL DROP TABLE TFlightPassengers
-IF OBJECT_ID ('TMaintenanceMaintenanceWorkers')			IS NOT NULL DROP TABLE TMaintenanceMaintenanceWorkers
+IF OBJECT_ID ('TMaintenanceMaintenanceWorkers')	IS NOT NULL DROP TABLE TMaintenanceMaintenanceWorkers
 
+IF OBJECT_ID ('TEmployees')				IS NOT NULL DROP TABLE TEmployees
 IF OBJECT_ID ('TPassengers')			IS NOT NULL DROP TABLE TPassengers
 IF OBJECT_ID ('TPilots')				IS NOT NULL DROP TABLE TPilots
 IF OBJECT_ID ('TAttendants')			IS NOT NULL DROP TABLE TAttendants
 IF OBJECT_ID ('TMaintenanceWorkers')	IS NOT NULL DROP TABLE TMaintenanceWorkers
 
+IF OBJECT_ID ('TEmployeeRoles')			IS NOT NULL DROP TABLE TEmployeeRoles
 IF OBJECT_ID ('TFlights')				IS NOT NULL DROP TABLE TFlights
 IF OBJECT_ID ('TMaintenances')			IS NOT NULL DROP TABLE TMaintenances
 IF OBJECT_ID ('TPlanes')				IS NOT NULL DROP TABLE TPlanes
@@ -33,29 +35,48 @@ IF OBJECT_ID ('TPilotRoles')			IS NOT NULL DROP TABLE TPilotRoles
 IF OBJECT_ID ('TAirports')				IS NOT NULL DROP TABLE TAirports
 IF OBJECT_ID ('TStates')				IS NOT NULL DROP TABLE TStates
 
--- Drop Stored Procedures
-IF OBJECT_ID('uspPassengerDataCall')	IS NOT NULL DROP PROCEDURE uspPassengerDataCall
-IF OBJECT_ID('uspPassengerPastFlights')	IS NOT NULL DROP PROCEDURE uspPassengerPastFlights
-IF OBJECT_ID('uspPassengerPastMiles')	IS NOT NULL DROP PROCEDURE uspPassengerPastMiles
-IF OBJECT_ID('uspPassengerFutureFlights')	IS NOT NULL DROP PROCEDURE uspPassengerFutureFlights
-IF OBJECT_ID('uspPassengerFutureMiles')	IS NOT NULL DROP PROCEDURE uspPassengerFutureMiles
+-- --------------------------------------------------------------------------------
+--						Drop Stored Procedures
+-- --------------------------------------------------------------------------------
+-- -----------------------------------
+--	Customers/Passengers
+-- -----------------------------------
+IF OBJECT_ID('uspCreateCustomer')		IS NOT NULL DROP PROCEDURE uspCreateCustomer
+IF OBJECT_ID('uspDeleteCustomer')		IS NOT NULL DROP PROCEDURE uspDeleteCustomer
+IF OBJECT_ID('uspUpdateCustomer')		IS NOT NULL DROP PROCEDURE uspUpdateCustomer
 
-IF OBJECT_ID('uspPilotDataCall')		IS NOT NULL DROP PROCEDURE uspPilotDataCall
+IF OBJECT_ID('uspCustomerPastFlights')	IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
+IF OBJECT_ID('uspCustomerPastMiles')	IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
+IF OBJECT_ID('uspCustomerFutureFlights') IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
+IF OBJECT_ID('uspCustomerFutureMiles')	IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
+
+-- -----------------------------------
+--	Pilots
+-- -----------------------------------
+IF OBJECT_ID('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
+IF OBJECT_ID('uspDeletePilot')			IS NOT NULL DROP PROCEDURE uspDeletePilot
+IF OBJECT_ID('uspUpdatePilot')			IS NOT NULL DROP PROCEDURE uspUpdatePilot
+
 IF OBJECT_ID('uspPilotPastFlights')		IS NOT NULL DROP PROCEDURE uspPilotPastFlights
 IF OBJECT_ID('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
 IF OBJECT_ID('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
 IF OBJECT_ID('uspPilotFutureMiles')		IS NOT NULL DROP PROCEDURE uspPilotFutureMiles
 
-IF OBJECT_ID('uspAttendantDataCall')	IS NOT NULL DROP PROCEDURE uspAttendantDataCall
+-- -----------------------------------
+--	Attendants
+-- -----------------------------------
+IF OBJECT_ID('uspCreateAttendant')		IS NOT NULL DROP PROCEDURE uspCreateAttendant
+IF OBJECT_ID('uspDeleteAttendant')		IS NOT NULL DROP PROCEDURE uspDeleteAttendant
+IF OBJECT_ID('uspUpdateAttendant')		IS NOT NULL DROP PROCEDURE uspUpdateAttendant
+
 IF OBJECT_ID('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
 IF OBJECT_ID('uspAttendantPastMiles')	IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
-IF OBJECT_ID('uspAttendantFutureFlights')	IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
+IF OBJECT_ID('uspAttendantFutureFlights') IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
 IF OBJECT_ID('uspAttendantFutureMiles')	IS NOT NULL DROP PROCEDURE uspAttendantFutureMiles
 
 -- --------------------------------------------------------------------------------
 --	Step #1 : Create table 
 -- --------------------------------------------------------------------------------
-
 CREATE TABLE TPassengers
 (
 	 intPassengerID			INTEGER			NOT NULL
@@ -69,7 +90,6 @@ CREATE TABLE TPassengers
 	,strEmail				VARCHAR(255)	NOT NULL
 	,CONSTRAINT TPassengers_PK PRIMARY KEY ( intPassengerID )
 )
-
 
 CREATE TABLE TPilots
 (
@@ -110,6 +130,22 @@ CREATE TABLE TMaintenanceWorkers
 	,CONSTRAINT TMaintenanceWorkers_PK PRIMARY KEY ( intMaintenanceWorkerID )
 )
 
+CREATE TABLE TEmployeeRoles
+(
+	 intEmployeeRoleID		INTEGER			NOT NULL
+	,strEmployeeRole		VARCHAR(50)		NOT NULL
+	,CONSTRAINT TEmployeeRole_PK PRIMARY KEY ( intEmployeeRoleID )
+)
+
+CREATE TABLE TEmployees
+(
+	 intEmployeeID			INTEGER			NOT NULL
+	,strEmployeeLoginID		VARCHAR(255)	NOT NULL
+	,strEmployeePassword	VARCHAR(255)	NOT NULL
+	,intEmployeeRoleID		INTEGER			NOT NULL
+	,intEmployeeNum			INTEGER	NOT NULL 
+	,CONSTRAINT TEmployees_PF PRIMARY KEY ( intEmployeeID )
+)
 
 CREATE TABLE TStates
 (
@@ -236,6 +272,9 @@ CREATE TABLE TMaintenanceMaintenanceWorkers
 -- 13	TMaintenanceMaintenanceWorkers	TMaintenance				intMaintenanceID
 -- 14	TMaintenanceMaintenanceWorkers	TMaintenanceWorker			intMaintenanceWorkerID
 -- 15	TFlightPassenger				TFlights					intFlightID
+-- 16	TEmployees						TEmployeeRoleID				intEmployeeRoleID
+-- 17	TEmployees						TAttendants					strEmployeeID
+-- 18	TEmployees						TPilots						strEmployeeID
 
 --1
 ALTER TABLE TPassengers ADD CONSTRAINT TPassengers_TStates_FK 
@@ -246,78 +285,96 @@ ALTER TABLE TFlightPassengers ADD CONSTRAINT TPFlightPassengers_TPassengers_FK
 FOREIGN KEY ( intPassengerID ) REFERENCES TPassengers ( intPassengerID )
 
 --3
-ALTER TABLE TFlights	 ADD CONSTRAINT TFlights_TPlanes_FK 
+ALTER TABLE TFlights ADD CONSTRAINT TFlights_TPlanes_FK 
 FOREIGN KEY ( intPlaneID ) REFERENCES TPlanes ( intPlaneID )
 
 --4
-ALTER TABLE TFlights	 ADD CONSTRAINT TFlights_TFromAirports_FK 
+ALTER TABLE TFlights ADD CONSTRAINT TFlights_TFromAirports_FK 
 FOREIGN KEY ( intFromAirportID ) REFERENCES TAirports ( intAirportID )
 
 --5
-ALTER TABLE TFlights	 ADD CONSTRAINT TFlights_TToAirports_FK 
+ALTER TABLE TFlights ADD CONSTRAINT TFlights_TToAirports_FK 
 FOREIGN KEY ( intToAirportID ) REFERENCES TAirports ( intAirportID )
 
 --6
-ALTER TABLE TPilotFlights	 ADD CONSTRAINT TPilotFlights_TFlights_FK 
+ALTER TABLE TPilotFlights ADD CONSTRAINT TPilotFlights_TFlights_FK 
 FOREIGN KEY ( intFlightID ) REFERENCES TFlights (intFlightID )  
 
 --7
-ALTER TABLE TAttendantFlights	 ADD CONSTRAINT TAttendantFlights_TFlights_FK 
+ALTER TABLE TAttendantFlights ADD CONSTRAINT TAttendantFlights_TFlights_FK 
 FOREIGN KEY ( intFlightID ) REFERENCES TFlights (intFlightID ) 
 
 --8
-ALTER TABLE TPilotFlights	 ADD CONSTRAINT TPilotFlights_TPilots_FK 
+ALTER TABLE TPilotFlights ADD CONSTRAINT TPilotFlights_TPilots_FK 
 FOREIGN KEY ( intPilotID ) REFERENCES TPilots (intPilotID ) ON DELETE CASCADE
 
 --9
-ALTER TABLE TAttendantFlights	 ADD CONSTRAINT TAttendantFlights_TAttendants_FK 
+ALTER TABLE TAttendantFlights ADD CONSTRAINT TAttendantFlights_TAttendants_FK 
 FOREIGN KEY ( intAttendantID ) REFERENCES TAttendants (intAttendantID ) ON DELETE CASCADE
 
 --10
-ALTER TABLE TPilots	 ADD CONSTRAINT TPilots_TPilotRoles_FK 
+ALTER TABLE TPilots	ADD CONSTRAINT TPilots_TPilotRoles_FK 
 FOREIGN KEY ( intPilotRoleID ) REFERENCES TPilotRoles (intPilotRoleID )
 
 --11
-ALTER TABLE TPlanes	 ADD CONSTRAINT TPlanes_TPlaneTypes_FK 
+ALTER TABLE TPlanes	ADD CONSTRAINT TPlanes_TPlaneTypes_FK 
 FOREIGN KEY ( intPlaneTypeID ) REFERENCES TPlaneTypes (intPlaneTypeID )  
 
 --12
-ALTER TABLE TMaintenances	 ADD CONSTRAINT TMaintenances_TPlanes_FK 
+ALTER TABLE TMaintenances ADD CONSTRAINT TMaintenances_TPlanes_FK 
 FOREIGN KEY ( intPlaneID ) REFERENCES TPlanes (intPlaneID )  
 
 --13
-ALTER TABLE TMaintenanceMaintenanceWorkers	 ADD CONSTRAINT TMaintenanceMaintenanceWorkers_TMaintenances_FK 
+ALTER TABLE TMaintenanceMaintenanceWorkers ADD CONSTRAINT TMaintenanceMaintenanceWorkers_TMaintenances_FK 
 FOREIGN KEY ( intMaintenanceID ) REFERENCES TMaintenances (intMaintenanceID ) 
 
 --14
-ALTER TABLE TMaintenanceMaintenanceWorkers	 ADD CONSTRAINT TMaintenanceMaintenanceWorkers_TMaintenanceWorkers_FK 
+ALTER TABLE TMaintenanceMaintenanceWorkers ADD CONSTRAINT TMaintenanceMaintenanceWorkers_TMaintenanceWorkers_FK 
 FOREIGN KEY ( intMaintenanceWorkerID ) REFERENCES TMaintenanceWorkers (intMaintenanceWorkerID ) 
 
 --15
-ALTER TABLE TFlightPassengers	 ADD CONSTRAINT TFlightPassengers_TFlights_FK 
+ALTER TABLE TFlightPassengers ADD CONSTRAINT TFlightPassengers_TFlights_FK 
 FOREIGN KEY ( intFlightID ) REFERENCES TFlights (intFlightID ) 
+
+--16
+ALTER TABLE TEmployees ADD CONSTRAINT TEmployees_TEmployeeRoles_FK
+FOREIGN KEY ( intEmployeeRoleID ) REFERENCES TEmployeeRoles ( intEmployeeRoleID )
+
+--17
+ALTER TABLE TEmployees ADD CONSTRAINT TEmployees_TAttendants_FK
+FOREIGN KEY ( intEmployeeNum ) REFERENCES TAttendants ( intAttendantID )
+
+--18
+ALTER TABLE TEmployees ADD CONSTRAINT TEmployees_TPilots_FK
+FOREIGN KEY ( intEmployeeNum ) REFERENCES TPilots ( intPilotID )
 
 -- --------------------------------------------------------------------------------
 --	Step #3 : Add Data - INSERTS
 -- --------------------------------------------------------------------------------
-INSERT INTO TStates( intStateID, strState)
+INSERT INTO TStates (intStateID, strState)
 VALUES				(1, 'Ohio')
 				   ,(2, 'Kentucky')
 				   ,(3, 'Indiana')
 
 
-INSERT INTO TPilotRoles( intPilotRoleID, strPilotRole)
+INSERT INTO TPilotRoles (intPilotRoleID, strPilotRole)
 VALUES				(1, 'Co-Pilot')
 				   ,(2, 'Captain')
 
+
+INSERT INTO TEmployeeRoles (intEmployeeRoleID, strEmployeeRole)
+VALUES		 (1, 'Pilot')
+			,(2, 'Attendant')
+			,(3, 'Admin')
+
 				
-INSERT INTO TPlaneTypes( intPlaneTypeID, strPlaneType)
-VALUES				(1, 'Airbus A350')
-				   ,(2, 'Boeing 747-8')
-				   ,(3, 'Boeing 767-300F')
+INSERT INTO TPlaneTypes (intPlaneTypeID, strPlaneType)
+VALUES		 (1, 'Airbus A350')
+			,(2, 'Boeing 747-8')
+			,(3, 'Boeing 767-300F')
 
 
-INSERT INTO TPlanes( intPlaneID, strPlaneNumber, intPlaneTypeID)
+INSERT INTO TPlanes (intPlaneID, strPlaneNumber, intPlaneTypeID)
 VALUES				(1, '4X887G', 1)
 				   ,(2, '5HT78F', 2)
 				   ,(3, '5TYY65', 2)
@@ -326,17 +383,17 @@ VALUES				(1, '4X887G', 1)
 				   ,(6, '67TYHH', 3)
 
 
-INSERT INTO TAirports( intAirportID, strAirportCity, strAirportCode)
+INSERT INTO TAirports ( intAirportID, strAirportCity, strAirportCode)
 VALUES				(1, 'Cincinnati', 'CVG')
 				   ,(2, 'Miami', 'MIA')
 				   ,(3, 'Ft. Meyer', 'RSW')
-				   ,(4, 'Louisville',  'SDF')
+				   ,(4, 'Louisville', 'SDF')
 				   ,(5, 'Denver', 'DEN')
-				   ,(6, 'Orlando', 'MCO' )
+				   ,(6, 'Orlando', 'MCO')
 
 
 INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail)
-VALUES				  (1, 'Knelly', 'Nervious', '321 Elm St.', 'Cincinnati', 1, '45201', '5135553333', 'nnelly@gmail.com')
+VALUES				  (1, 'Knelly', 'Nervious','321 Elm St.', 'Cincinnati', 1, '45201', '5135553333', 'nnelly@gmail.com')
 					 ,(2, 'Orville', 'Waite', '987 Oak St.', 'Cleveland', 1, '45218', '5135556333', 'owright@gmail.com')
 					 ,(3, 'Eileen', 'Awnewe', '1569 Windisch Rd.', 'Dayton', 1, '45069', '5135555333', 'eonewe1@yahoo.com')
 					 ,(4, 'Bob', 'Eninocean', '44561 Oak Ave.', 'Florence', 2, '45246', '8596663333', 'bobenocean@gmail.com')
@@ -365,6 +422,20 @@ VALUES				  (1, 'Gressy', 'Nuckles', '32121', '1/1/2015', '1/1/2099', '12/1/2014
 					 ,(2, 'Bolt', 'Izamiss', '33322', '1/1/2016', '1/1/2099', '12/1/2015')
 					 ,(3, 'Sharon', 'Urphood', '36666', '1/1/2017', '1/1/2099','12/1/2016')
 					 ,(4, 'Ides', 'Racrozed', '37676', '1/1/2014', '1/1/2015','12/1/2013')
+
+
+INSERT INTO TEmployees (intEmployeeID, strEmployeeLoginID, strEmployeePassword, intEmployeeRoleID, intEmployeeNum)
+VALUES				 (1, 'admin', 'admin', 3, 1)
+					,(2, 'roennair', 'ennair', 1, 5)
+					,(3, 'watoexet', 'toexet', 2, 5)
+					,(4, 'iwknapp', 'knapp', 1, 4)
+					,(5, 'myamanie', 'amanie', 2, 4)
+					,(6, 'tiseenow', 'seenow', 1, 1)
+					,(7, 'mityme', 'tyme', 2, 1)
+					,(8, 'imsoring', 'soring', 1, 2)
+					,(9, 'shujest', 'ujest', 2, 2)
+					,(10, 'huencharge', 'encharge', 1, 3)
+					,(11, 'bubiy', 'biy', 2, 3)
 					
 
 INSERT INTO TMaintenances (intMaintenanceID, strWorkCompleted, dtmMaintenanceDate, intPlaneID)
@@ -393,76 +464,76 @@ VALUES				  (1, '4/1/2022', '111', '10:00:00', '12:00:00', 1, 2, 1200, 2)
 					 ,(13, '3/21/2026','246', NULL, NULL, 3, 1, 1000, 1)
 
 
-INSERT INTO TPilotFlights ( intPilotFlightID, intPilotID, intFlightID)
-VALUES				 ( 1, 1, 2 )
-					,( 2, 1, 3 )
-					,( 3, 3, 3 )
-					,( 4, 3, 2 )
-					,( 5, 5, 1 )
-					,( 6, 2, 1 )
-					,( 7, 3, 4 )
-					,( 8, 2, 4 )
-					,( 9, 2, 5 )
-					,( 10, 3, 5 )
-					,( 11, 5, 6 )
-					,( 12, 1, 6 )
+INSERT INTO TPilotFlights (intPilotFlightID, intPilotID, intFlightID)
+VALUES				 (1, 1, 2)
+					,(2, 1, 3)
+					,(3, 3, 3)
+					,(4, 3, 2)
+					,(5, 5, 1)
+					,(6, 2, 1)
+					,(7, 3, 4)
+					,(8, 2, 4)
+					,(9, 2, 5)
+					,(10, 3, 5)
+					,(11, 5, 6)
+					,(12, 1, 6)
 
 
-INSERT INTO TAttendantFlights ( intAttendantFlightID, intAttendantID, intFlightID)
-VALUES				( 1, 1, 2 )
-					,( 2, 2, 3 )
-					,( 3, 3, 3 )
-					,( 4, 4, 2 )
-					,( 5, 5, 1 )
-					,( 6, 1, 1 )
-					,( 7, 2, 4 )
-					,( 8, 3, 4 )
-					,( 9, 4, 5 )
-					,( 10, 5, 5 )
-					,( 11, 5, 6 )
-					,( 12, 1, 6 )
+INSERT INTO TAttendantFlights (intAttendantFlightID, intAttendantID, intFlightID)
+VALUES				 (1, 1, 2)
+					,(2, 2, 3)
+					,(3, 3, 3)
+					,(4, 4, 2)
+					,(5, 5, 1)
+					,(6, 1, 1)
+					,(7, 2, 4)
+					,(8, 3, 4)
+					,(9, 4, 5)
+					,(10, 5, 5)
+					,(11, 5, 6)
+					,(12, 1, 6)
 					
 
-INSERT INTO TFlightPassengers ( intFlightPassengerID, intFlightID, intPassengerID, strSeat)
-VALUES				 ( 1, 1, 1, '1A')
-					,( 2, 1, 2, '2A' )
-					,( 3, 1, 3, '1B' )
-					,( 4, 1, 4, '1C' )
-					,( 5, 1, 5, '1D' )
-					,( 6, 2, 5, '1A' )
-					,( 7, 2, 4, '2A' )
-					,( 8, 2, 3, '1B' )
-					,( 9, 3, 1, '1B' )
-					,( 10, 3, 2, '2A' )
-					,( 11, 3, 3, '1B' )
-					,( 12, 3, 4, '1C' )
-					,( 13, 3, 5, '1D' )
-					,( 14, 4, 2, '1A' )
-					,( 15, 4, 3, '1B' )
-					,( 16, 4, 4, '1C' )
-					,( 17, 4, 5, '1D' )
-					,( 18, 5, 1, '1A' )
-					,( 19, 5, 2, '2A' )
-					,( 20, 5, 3, '1B' )
-					,( 21, 5, 4, '2B' )
-					,( 22, 6, 1, '1A' )
-					,( 23, 6, 2, '2A' )
-					,( 24, 6, 3, '3A' )
+INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)
+VALUES				 (1, 1, 1, '1A')
+					,(2, 1, 2, '2A')
+					,(3, 1, 3, '1B')
+					,(4, 1, 4, '1C')
+					,(5, 1, 5, '1D')
+					,(6, 2, 5, '1A')
+					,(7, 2, 4, '2A')
+					,(8, 2, 3, '1B')
+					,(9, 3, 1, '1B')
+					,(10, 3, 2, '2A')
+					,(11, 3, 3, '1B')
+					,(12, 3, 4, '1C')
+					,(13, 3, 5, '1D')
+					,(14, 4, 2, '1A')
+					,(15, 4, 3, '1B')
+					,(16, 4, 4, '1C')
+					,(17, 4, 5, '1D')
+					,(18, 5, 1, '1A')
+					,(19, 5, 2, '2A')
+					,(20, 5, 3, '1B')
+					,(21, 5, 4, '2B')
+					,(22, 6, 1, '1A')
+					,(23, 6, 2, '2A')
+					,(24, 6, 3, '3A')
 					
 
-INSERT INTO TMaintenanceMaintenanceWorkers ( intMaintenanceMaintenanceWorkerID, intMaintenanceID, intMaintenanceWorkerID, intHours)
-VALUES				 ( 1, 2, 1, 2 )
-					,( 2, 4, 1, 3 )
-					,( 3, 2, 3, 4 )
-					,( 4, 1, 4, 2 )
-					,( 5, 3, 4, 2 )
-					,( 6, 4, 3, 5 )
-					,( 7, 5, 1, 7 )
-					,( 8, 6, 1, 2 )
-					,( 9, 7, 3, 4 )
-					,( 10, 4, 4, 1 )
-					,( 11, 3, 3, 4 )
-					,( 12, 7, 3, 8 )
+INSERT INTO TMaintenanceMaintenanceWorkers (intMaintenanceMaintenanceWorkerID, intMaintenanceID, intMaintenanceWorkerID, intHours)
+VALUES				 (1, 2, 1, 2)
+					,(2, 4, 1, 3)
+					,(3, 2, 3, 4)
+					,(4, 1, 4, 2)
+					,(5, 3, 4, 2)
+					,(6, 4, 3, 5)
+					,(7, 5, 1, 7)
+					,(8, 6, 1, 2)
+					,(9, 7, 3, 4)
+					,(10, 4, 4, 1)
+					,(11, 3, 3, 4)
+					,(12, 7, 3, 8)
 
 
 -- --------------------------------------------------------------------------------
@@ -812,32 +883,85 @@ WHERE
 --	PASSENGERS
 -- ----------------------
 -- --------------------------------------------------------------------------------
---	Create Procedure for PassengerDataCall (populates passenger data in case of update)
+--	Create Procedure for CreateCustomer (inserts new passenger data into TPassengers)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspPassengerDataCall
-     @intPassengerID AS INTEGER
+CREATE PROCEDURE uspCreateCustomer
+	 @intPassengerID	AS INTEGER OUTPUT
+	,@strFirstName		AS VARCHAR(255)
+	,@strLastName		AS VARCHAR(255)
+	,@strAddress		AS VARCHAR(255)
+	,@strCity			AS VARCHAR(255)
+	,@intStateID		AS INTEGER		
+	,@strZip			AS VARCHAR(255)
+	,@strPhoneNumber	AS VARCHAR(255)
+	,@strEmail			AS VARCHAR(255)
+AS
+SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
+BEGIN TRANSACTION
+	
+	SELECT @intPassengerID = MAX(intPassengerID) + 1
+	FROM TPassengers
+
+	SELECT @intPassengerID = COALESCE(@intPassengerID, 1) -- first ID is 1 if table is empty
+
+	INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail)
+	VALUES		(@intPassengerID, @strFirstName, @strLastName, @strAddress, @strCity, @intStateID, @strZip, @strPhoneNumber, @strEmail)
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for DeleteCustomer (deletes selected passenger from TPassengers)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspDeleteCustomer
+	@intPassengerID		AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+
+	DELETE FROM TPassengers
+	WHERE intPassengerID = @intPassengerID
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for UpdateCustomer (updates passenger data in TPassengers)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspUpdateCustomer
+     @intPassengerID	AS INTEGER
+	,@strFirstName		AS VARCHAR(255)
+	,@strLastName		AS VARCHAR(255)
+	,@strAddress		AS VARCHAR(255)
+	,@strCity			AS VARCHAR(255)
+	,@intStateID		AS INTEGER
+	,@strZip			AS VARCHAR(20)
+	,@strPhoneNumber	AS VARCHAR(20)
+	,@strEmail			AS VARCHAR(255)
 AS
 BEGIN
 	SELECT 
-		 strFirstName
-		,strLastName
-		,strAddress
-		,strCity
-		,intStateID
-		,strZip
-		,strPhoneNumber
-		,strEmail
+		 strFirstName = @strFirstName
+		,strLastName = @strLastName
+		,strAddress = @strAddress
+		,strCity = @strCity
+		,intStateID = @intStateID
+		,strZip = @strZip
+		,strPhoneNumber = @strPhoneNumber
+		,strEmail = @strEmail
 	FROM TPassengers
 	WHERE TPassengers.intPassengerID = @intPassengerID
 END
 GO
 
 -- --------------------------------------------------------------------------------
---	Create Procedure for PassengerPastFlights (displays past flight data for passenger)
+--	Create Procedure for CustomerPastFlights (displays past flight data for passenger)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspPassengerPastFlights
+CREATE PROCEDURE uspCustomerPastFlights
      @intPassengerID AS INTEGER
 AS
 BEGIN
@@ -859,10 +983,10 @@ END
 GO
 
 -- --------------------------------------------------------------------------------
---	Create Procedure for PassengerPastMiles (displays total past flight miles for passenger)
+--	Create Procedure for CustomerPastMiles (displays total past flight miles for passenger)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspPassengerPastMiles
+CREATE PROCEDURE uspCustomerPastMiles
 	@intPassengerID AS INTEGER
 AS
 BEGIN
@@ -875,10 +999,10 @@ END
 GO
 
 -- --------------------------------------------------------------------------------
---	Create Procedure for PassengerFutureFlights (displays future flight data for passenger)
+--	Create Procedure for CustomerFutureFlights (displays future flight data for passenger)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspPassengerFutureFlights
+CREATE PROCEDURE uspCustomerFutureFlights
      @intPassengerID AS INTEGER
 AS
 BEGIN
@@ -900,10 +1024,10 @@ END
 GO
 
 -- --------------------------------------------------------------------------------
---	Create Procedure for PassengerFutureMiles (displays total future flight miles for passenger)
+--	Create Procedure for CustomerFutureMiles (displays total future flight miles for passenger)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspPassengerFutureMiles
+CREATE PROCEDURE uspCustomerFutureMiles
 	@intPassengerID AS INTEGER
 AS
 BEGIN
@@ -920,22 +1044,72 @@ GO
 --	PILOTS
 -- ----------------------
 -- --------------------------------------------------------------------------------
---	Create Procedure for PilotDataCall (populates pilot data in case of update)
+--	Create Procedure for CreatePilot (inserts new pilot data into TPilots)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspPilotDataCall
-     @intPilotID AS INTEGER
+CREATE PROCEDURE uspCreatePilot
+	 @intPilotID		AS INTEGER OUTPUT
+	,@strFirstName		AS VARCHAR(255)
+	,@strLastName		AS VARCHAR(255)
+	,@strEmployeeID		AS VARCHAR(255)
+	,@dtmDateOfHire		AS DATETIME	
+	,@dtmDateOfTermination AS DATETIME
+	,@dtmDateOfLicense	AS DATETIME	
+	,@intPilotRoleID	AS INTEGER		
+AS
+SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
+BEGIN TRANSACTION
+	
+	SELECT @intPilotID = MAX(intPilotID) + 1
+	FROM TPilots
+
+	SELECT @intPilotID = COALESCE(@intPilotID, 1) -- first ID is 1 if table is empty
+
+	INSERT INTO TPilots (intPilotID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID)
+	VALUES		(@intPilotID, @strFirstName, @strLastName, @strEmployeeID, @dtmDateOfHire, @dtmDateOfTermination, @dtmDateOfLicense, @intPilotRoleID)
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for DeletePilot (deletes selected pilot from TPilots)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspDeletePilot
+	@intPilotID		AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+
+	DELETE FROM TPilots
+	WHERE intPilotID = @intPilotID
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for UpdatePilot (updates pilot data in TPilots)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspUpdatePilot
+     @intPilotID		AS INTEGER
+	,@strFirstName		AS VARCHAR(255)
+	,@strLastName		AS VARCHAR(255)
+	,@strEmployeeID		AS VARCHAR(10)
+	,@dtmDateofHire		AS DATETIME
+	,@dtmDateofTermination AS DATETIME
+	,@dtmDateofLicense	AS DATETIME
+	,@intPilotRoleID	AS INTEGER
 AS
 BEGIN
-	SELECT 
-		 strFirstName
-		,strLastName
-		,strEmployeeID
-		,dtmDateofHire
-		,dtmDateofTermination
-		,dtmDateofLicense
-		,intPilotRoleID
-	FROM TPilots
+	UPDATE TPilots 
+	SET	 strFirstName = @strFirstName
+		,strLastName = @strLastName
+		,strEmployeeID = @strEmployeeID
+		,dtmDateofHire = @dtmDateofHire
+		,dtmDateofTermination = @dtmDateofTermination
+		,dtmDateofLicense = @dtmDateofLicense
+		,intPilotRoleID = @intPilotRoleID
 	WHERE TPilots.intPilotID = @intPilotID
 END
 GO
@@ -1027,20 +1201,66 @@ GO
 --	ATTENDANTS
 -- ----------------------
 -- --------------------------------------------------------------------------------
---	Create Procedure for AttendantDataCall (populates attendant data in case of update)
+--	Create Procedure for CreateAttendant (inserts new attendant data into TAttendants)
 -- --------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE uspAttendantDataCall
-     @intAttendantID AS INTEGER
+CREATE PROCEDURE uspCreateAttendant
+	 @intAttendantID	AS INTEGER OUTPUT
+	,@strFirstName		AS VARCHAR(255)
+	,@strLastName		AS VARCHAR(255)
+	,@strEmployeeID		AS VARCHAR(255)
+	,@dtmDateOfHire		AS DATETIME	
+	,@dtmDateOfTermination AS DATETIME	
+AS
+SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
+BEGIN TRANSACTION
+	
+	SELECT @intAttendantID = MAX(intAttendantID) + 1
+	FROM TAttendants
+
+	SELECT @intAttendantID = COALESCE(@intAttendantID, 1) -- first ID is 1 if table is empty
+
+	INSERT INTO TAttendants (intAttendantID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination)
+	VALUES		(@intAttendantID, @strFirstName, @strLastName, @strEmployeeID, @dtmDateOfHire, @dtmDateOfTermination)
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for DeleteAttendant (deletes selected attendant from TAttendants)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspDeleteAttendant
+	@intAttendantID		AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+
+	DELETE FROM TAttendants
+	WHERE intAttendantID = @intAttendantID
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for UpdateAttendant (updates attendant data in TAttendants)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspUpdateAttendant
+     @intAttendantID	AS INTEGER
+	,@strFirstName		AS VARCHAR(255)
+	,@strLastName		AS VARCHAR(255)
+	,@strEmployeeID		AS VARCHAR(10)
+	,@dtmDateofHire		AS DATETIME
+	,@dtmDateofTermination AS DATETIME
 AS
 BEGIN
-	SELECT 
-		 strFirstName
-		,strLastName
-		,strEmployeeID
-		,dtmDateofHire
-		,dtmDateofTermination
-	FROM TAttendants
+	UPDATE TAttendants 
+	SET  strFirstName = @strFirstName
+		,strLastName = @strLastName
+		,strEmployeeID = @strEmployeeID
+		,dtmDateofHire = @dtmDateofHire
+		,dtmDateofTermination = @dtmDateofTermination
 	WHERE TAttendants.intAttendantID = @intAttendantID
 END
 GO

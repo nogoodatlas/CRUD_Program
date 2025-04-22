@@ -54,7 +54,6 @@
 
     Private Sub btnAddPilot_Click(sender As Object, e As EventArgs) Handles btnAddPilot.Click
         'variables for new pilot data and select and insert statements
-        Dim strInsert As String
         Dim strSelect As String
         Dim frmPilot As New frmPilotMain
         Dim strFirstName As String
@@ -67,7 +66,7 @@
         Dim blnValidated As Boolean = True
 
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
-        Dim cmdInsert As OleDb.OleDbCommand ' insert command object
+        Dim cmdCreatePilot As New OleDb.OleDbCommand() ' stored procedure command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
         Dim intNextPrimaryKey As Integer ' holds next highest PK value
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
@@ -124,20 +123,17 @@
 
                 End If
 
-                ' build insert statement (columns must match DB columns in name and the # of columns)
-                strInsert = "INSERT INTO TPilots (intPilotID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID)" &
-                    " VALUES (" & intNextPrimaryKey & ",'" & strFirstName & "','" & strLastName & "','" & strEmployeeID & "','" & dteHireDate & "','" & dteTerminationDate & "','" & dteLicenseDate & "'," & intPilotRole & ")"
+                ' text to call stored procedures
+                cmdCreatePilot.CommandText = "EXECUTE uspCreatePilot " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "', '" & dteLicenseDate & "', " & intPilotRole
+                cmdCreatePilot.CommandType = CommandType.StoredProcedure
 
-                'set next primary key equal to global variable for pilot ID
+                ' call stored procedures which will insert the record
+                cmdCreatePilot = New OleDb.OleDbCommand(cmdCreatePilot.CommandText, m_conAdministrator)
                 gblPilotID = intNextPrimaryKey
 
-                'MessageBox.Show(strInsert)
-
-                ' use insert command with sql string and connection object
-                cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
-
                 ' execute query to insert data
-                intRowsAffected = cmdInsert.ExecuteNonQuery()
+                intRowsAffected = cmdCreatePilot.ExecuteNonQuery()
+
 
                 ' If not 0 insert successful
                 If intRowsAffected > 0 Then

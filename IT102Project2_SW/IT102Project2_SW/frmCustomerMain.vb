@@ -45,11 +45,11 @@
 
             End If
 
-            ' Build the select statement using the stored procedure uspPassengerPastFlights
-            cmdSelect = New OleDb.OleDbCommand("uspPassengerPastFlights", m_conAdministrator)
+            ' Build the select statement using the stored procedure uspCustomerPastFlights
+            cmdSelect = New OleDb.OleDbCommand("uspCustomerPastFlights", m_conAdministrator)
             cmdSelect.CommandType = CommandType.StoredProcedure
 
-            ' here we are defining the parameter used within uspPassengerPastFlights
+            ' here we are defining the parameter used within uspCustomerPastFlights
             objParam = cmdSelect.Parameters.Add("@intPassengerID", OleDb.OleDbType.Integer)
             objParam.Direction = ParameterDirection.Input
             objParam.Value = gblPassengerID
@@ -117,11 +117,11 @@
 
             End If
 
-            ' Build the select statement using the stored procedure uspPassengerPastMiles
-            cmdSelect = New OleDb.OleDbCommand("uspPassengerPastMiles", m_conAdministrator)
+            ' Build the select statement using the stored procedure uspCustomerPastMiles
+            cmdSelect = New OleDb.OleDbCommand("uspCustomerPastMiles", m_conAdministrator)
             cmdSelect.CommandType = CommandType.StoredProcedure
 
-            ' here we are defining the parameter used within uspPassengerPastMiles
+            ' here we are defining the parameter used within uspCustomerPastMiles
             objParam = cmdSelect.Parameters.Add("@intPassengerID", OleDb.OleDbType.Integer)
             objParam.Direction = ParameterDirection.Input
             objParam.Value = gblPassengerID
@@ -181,11 +181,11 @@
 
             End If
 
-            ' Build the select statement using the stored procedure uspPassengerFutureFlights
-            cmdSelect = New OleDb.OleDbCommand("uspPassengerFutureFlights", m_conAdministrator)
+            ' Build the select statement using the stored procedure uspCustomerFutureFlights
+            cmdSelect = New OleDb.OleDbCommand("uspCustomerFutureFlights", m_conAdministrator)
             cmdSelect.CommandType = CommandType.StoredProcedure
 
-            ' here we are defining the parameter used within uspPassengerFutureFlights
+            ' here we are defining the parameter used within uspCustomerFutureFlights
             objParam = cmdSelect.Parameters.Add("@intPassengerID", OleDb.OleDbType.Integer)
             objParam.Direction = ParameterDirection.Input
             objParam.Value = gblPassengerID
@@ -251,11 +251,11 @@
 
             End If
 
-            ' Build the select statement using the stored procedure uspPassengerFutureMiles
-            cmdSelect = New OleDb.OleDbCommand("uspPassengerFutureMiles", m_conAdministrator)
+            ' Build the select statement using the stored procedure uspCustomerFutureMiles
+            cmdSelect = New OleDb.OleDbCommand("uspCustomerFutureMiles", m_conAdministrator)
             cmdSelect.CommandType = CommandType.StoredProcedure
 
-            ' here we are defining the parameter used within uspPassengerFutureMiles
+            ' here we are defining the parameter used within uspCustomerFutureMiles
             objParam = cmdSelect.Parameters.Add("@intPassengerID", OleDb.OleDbType.Integer)
             objParam.Direction = ParameterDirection.Input
             objParam.Value = gblPassengerID
