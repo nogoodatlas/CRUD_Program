@@ -942,9 +942,10 @@ CREATE PROCEDURE uspUpdateCustomer
 	,@strPhoneNumber	AS VARCHAR(20)
 	,@strEmail			AS VARCHAR(255)
 AS
-BEGIN
-	SELECT 
-		 strFirstName = @strFirstName
+BEGIN TRANSACTION
+
+	UPDATE TPassengers 
+	SET	 strFirstName = @strFirstName
 		,strLastName = @strLastName
 		,strAddress = @strAddress
 		,strCity = @strCity
@@ -952,9 +953,9 @@ BEGIN
 		,strZip = @strZip
 		,strPhoneNumber = @strPhoneNumber
 		,strEmail = @strEmail
-	FROM TPassengers
 	WHERE TPassengers.intPassengerID = @intPassengerID
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -964,7 +965,8 @@ GO
 CREATE PROCEDURE uspCustomerPastFlights
      @intPassengerID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
@@ -979,7 +981,8 @@ BEGIN
 		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
 	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate <= GETDATE() 
 	ORDER BY TF.dtmFlightDate
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -989,13 +992,15 @@ GO
 CREATE PROCEDURE uspCustomerPastMiles
 	@intPassengerID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
 	FROM TFlights AS TF JOIN TFlightPassengers AS TFP
 		 ON TF.intFlightID = TFP.intFlightID
 		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
 	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate <= GETDATE()
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1005,7 +1010,8 @@ GO
 CREATE PROCEDURE uspCustomerFutureFlights
      @intPassengerID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
@@ -1020,7 +1026,8 @@ BEGIN
 		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
 	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate >= GETDATE() 
 	ORDER BY TF.dtmFlightDate
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1030,13 +1037,15 @@ GO
 CREATE PROCEDURE uspCustomerFutureMiles
 	@intPassengerID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
 	FROM TFlights AS TF JOIN TFlightPassengers AS TFP
 		 ON TF.intFlightID = TFP.intFlightID
 		 JOIN TPassengers AS TP ON TP.intPassengerID = TFP.intPassengerID
 	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate >= GETDATE()
-END
+
+COMMIT TRANSACTION
 GO
 
 
@@ -1101,7 +1110,8 @@ CREATE PROCEDURE uspUpdatePilot
 	,@dtmDateofLicense	AS DATETIME
 	,@intPilotRoleID	AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	UPDATE TPilots 
 	SET	 strFirstName = @strFirstName
 		,strLastName = @strLastName
@@ -1111,7 +1121,8 @@ BEGIN
 		,dtmDateofLicense = @dtmDateofLicense
 		,intPilotRoleID = @intPilotRoleID
 	WHERE TPilots.intPilotID = @intPilotID
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1121,7 +1132,8 @@ GO
 CREATE PROCEDURE uspPilotPastFlights
      @intPilotID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
@@ -1136,7 +1148,8 @@ BEGIN
 		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
 	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate <= GETDATE() 
 	ORDER BY TF.dtmFlightDate
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1146,13 +1159,15 @@ GO
 CREATE PROCEDURE uspPilotPastMiles
 	@intPilotID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
 	FROM TFlights AS TF JOIN TPilotFlights AS TPF
 		 ON TF.intFlightID = TPF.intFlightID
 		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
 	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate <= GETDATE() 
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1162,7 +1177,8 @@ GO
 CREATE PROCEDURE uspPilotFutureFlights
      @intPilotID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
@@ -1177,7 +1193,8 @@ BEGIN
 		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
 	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate >= GETDATE() 
 	ORDER BY TF.dtmFlightDate
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1187,13 +1204,15 @@ GO
 CREATE PROCEDURE uspPilotFutureMiles
 	@intPilotID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
 	FROM TFlights AS TF JOIN TPilotFlights AS TPF
 		 ON TF.intFlightID = TPF.intFlightID
 		 JOIN TPilots AS TP ON TP.intPilotID = TPF.intPilotID
 	WHERE TPF.intPilotID = @intPilotID AND TF.dtmFlightDate >= GETDATE() 
-END
+
+COMMIT TRANSACTION
 GO
 
 
@@ -1254,7 +1273,8 @@ CREATE PROCEDURE uspUpdateAttendant
 	,@dtmDateofHire		AS DATETIME
 	,@dtmDateofTermination AS DATETIME
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	UPDATE TAttendants 
 	SET  strFirstName = @strFirstName
 		,strLastName = @strLastName
@@ -1262,7 +1282,8 @@ BEGIN
 		,dtmDateofHire = @dtmDateofHire
 		,dtmDateofTermination = @dtmDateofTermination
 	WHERE TAttendants.intAttendantID = @intAttendantID
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1272,7 +1293,8 @@ GO
 CREATE PROCEDURE uspAttendantPastFlights
      @intAttendantID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
@@ -1287,7 +1309,8 @@ BEGIN
 		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
 	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate <= GETDATE() 
 	ORDER BY TF.dtmFlightDate
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1297,13 +1320,15 @@ GO
 CREATE PROCEDURE uspAttendantPastMiles
 	@intAttendantID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
 	FROM TFlights AS TF JOIN TAttendantFlights AS TAF
 		 ON TF.intFlightID = TAF.intFlightID
 		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
 	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate <= GETDATE() 
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1313,7 +1338,8 @@ GO
 CREATE PROCEDURE uspAttendantFutureFlights
      @intAttendantID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
@@ -1328,7 +1354,8 @@ BEGIN
 		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
 	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate >= GETDATE() 
 	ORDER BY TF.dtmFlightDate
-END
+
+COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
@@ -1338,13 +1365,15 @@ GO
 CREATE PROCEDURE uspAttendantFutureMiles
 	@intAttendantID AS INTEGER
 AS
-BEGIN
+BEGIN TRANSACTION
+
 	SELECT ISNULL(SUM(TF.intMilesFlown), 0) AS TotalMiles
 	FROM TFlights AS TF JOIN TAttendantFlights AS TAF
 		 ON TF.intFlightID = TAF.intFlightID
 		 JOIN TAttendants AS TA ON TA.intAttendantID = TAF.intAttendantID
 	WHERE TAF.intAttendantID = @intAttendantID AND TF.dtmFlightDate >= GETDATE() 
-END
+
+COMMIT TRANSACTION
 GO
 
 
