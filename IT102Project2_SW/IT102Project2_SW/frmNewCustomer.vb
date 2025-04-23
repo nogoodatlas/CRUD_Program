@@ -70,10 +70,10 @@
         Dim blnValidated As Boolean = True
         Dim frmCustomer As New frmCustomerMain
 
+        Dim intPassengerID As Integer ' holds next highest PK value
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
         Dim cmdCreateCustomer As New OleDb.OleDbCommand() ' stored procedure command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
-        Dim intNextPrimaryKey As Integer ' holds next highest PK value
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
 
         ' put values into strings
@@ -90,7 +90,7 @@
         strEmail = txtEmail.Text
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, strLogin, strPassword, strEmail)
+        Call ValidateInput(blnValidated, dteDOB, strLogin, strPassword, strEmail)
 
         If blnValidated = True Then
 
@@ -109,36 +109,13 @@
 
                 End If
 
-                strSelect = "SELECT MAX(intPassengerID) + 1 AS intNextPrimaryKey " &
-                                "FROM TPassengers"
-
-                ' Execute command
-                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-                drSourceTable = cmdSelect.ExecuteReader
-
-                ' Read result( highest ID )
-                drSourceTable.Read()
-
-                ' Null? (empty table)
-                If drSourceTable.IsDBNull(0) = True Then
-
-                    ' Yes, start numbering at 1
-                    intNextPrimaryKey = 1
-
-                Else
-
-                    ' No, get the next highest ID
-                    intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
-
-                End If
-
                 ' text to call stored procedures
-                cmdCreateCustomer.CommandText = "EXECUTE uspCreateCustomer " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & dteDOB & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strLogin & "', '" & strPassword & "', '" & strPhoneNumber & "', '" & strEmail & "'"
+                cmdCreateCustomer.CommandText = "EXECUTE uspCreateCustomer " & intPassengerID & ", '" & strFirstName & "', '" & strLastName & "', '" & dteDOB &
+                "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strLogin & "', '" & strPassword & "', '" & strPhoneNumber & "', '" & strEmail & "'"
                 cmdCreateCustomer.CommandType = CommandType.StoredProcedure
 
                 ' call stored procedures which will insert the record
                 cmdCreateCustomer = New OleDb.OleDbCommand(cmdCreateCustomer.CommandText, m_conAdministrator)
-                gblPassengerID = intNextPrimaryKey
 
                 ' execute query to insert data
                 intRowsAffected = cmdCreateCustomer.ExecuteNonQuery()
@@ -148,6 +125,18 @@
                     MessageBox.Show("Passenger has been added")    ' let user know success
                     ' close new player form
                 End If
+
+                strSelect = "SELECT MAX(intPassengerID) AS MaxPassenger " &
+                            "FROM TPassengers"
+
+                'Execute command
+                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+                drSourceTable = cmdSelect.ExecuteReader
+
+                'Read result (highest ID)
+                drSourceTable.Read()
+
+                gblPassengerID = CInt(drSourceTable("MaxPassenger"))
 
                 CloseDatabaseConnection()       ' close connection if insert didn't work
 
@@ -163,9 +152,9 @@
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal strLogin As String, ByVal strPassword As String, ByVal strEmail As String)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteDOB As Date, ByVal strLogin As String, ByVal strPassword As String, ByVal strEmail As String)
         Call ValidateName(blnValidated)
-        Call ValidateDOB(blnValidated)
+        Call ValidateDOB(blnValidated, dteDOB)
         Call ValidateAddress(blnValidated)
         Call ValidateCity(blnValidated)
         Call ValidateState(blnValidated)
@@ -191,8 +180,20 @@
         End If
     End Sub
 
-    Private Sub ValidateDOB(ByRef blnValidated As Boolean)
-        'ASK BOB IF WE CAN LOOK UP HOW TO GET THE DIFFERENCE BETWEEN TWO DATES
+    Private Sub ValidateDOB(ByRef blnValidated As Boolean, ByVal dteDOB As Date)
+        'declare variables
+        Dim dteCurrentDate As Date = DateTime.Now
+        Dim dteDifference As TimeSpan = dteCurrentDate - dteDOB 'used stack overflow to learn this
+        Dim intAge As Integer
+
+        'calculate customer's current age
+        intAge = dteDifference.TotalDays / 365
+
+        'validate that customer is at least 18 years old
+        If intAge < 18 Then
+            MessageBox.Show("You must be 18 or older to create an account.")
+            blnValidated = False
+        End If
     End Sub
 
     Private Sub ValidateAddress(ByRef blnValidated As Boolean)
@@ -252,6 +253,8 @@
         'validates that both input passwords match
         If txtPassword.Text <> txtConfirmPass.Text Then
             MessageBox.Show("Passwords must be identical")
+            txtPassword.Focus()
+            blnValidated = False
         End If
     End Sub
 
@@ -282,7 +285,7 @@
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

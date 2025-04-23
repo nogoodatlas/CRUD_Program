@@ -91,6 +91,18 @@
                 ' populate the variable with the data
                 gblPilotID = cboPilots.SelectedValue
 
+                strSelect = "SELECT intEmployeeID " &
+                            "FROM TEmployees WHERE intEmployeeRoleID = 1 AND intEmployeeNum = " & gblPilotID
+
+                ' Retrieve all the records 
+                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+                drSourceTable = cmdSelect.ExecuteReader
+
+                drSourceTable.Read()
+
+                ' populate the variable with the data
+                gblEmployeeID = drSourceTable("intEmployeeID")
+
                 ' close the database connection
                 CloseDatabaseConnection()
 

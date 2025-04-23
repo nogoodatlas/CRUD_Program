@@ -23,7 +23,7 @@
 
             ' Build the select statement using PK from name selected
             strSelect = "SELECT strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination " &
-                        " FROM TAttendants WHERE intAttendantID = " & gblAttendantID
+                        "FROM TAttendants WHERE intAttendantID = " & gblAttendantID
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
@@ -37,6 +37,21 @@
             txtEmployeeID.Text = drSourceTable("strEmployeeID")
             dtmHireDate.Value = drSourceTable("dtmDateofHire")
             dtmTerminationDate.Value = drSourceTable("dtmDateofTermination")
+
+
+            strSelect = "SELECT strLoginID, strPassword " &
+                        "FROM TEmployees WHERE intEmployeeRoleID = 2 AND intEmployeeNum = " & gblAttendantID
+
+            ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            drSourceTable = cmdSelect.ExecuteReader
+
+            drSourceTable.Read()
+
+            'populate the textboxes with the data
+            txtLoginID.Text = drSourceTable("strLoginID")
+            txtPassword.Text = drSourceTable("strPassword")
+            txtConfirmPass.Text = drSourceTable("strPassword")
 
             ' close the database connection
             CloseDatabaseConnection()
@@ -53,6 +68,8 @@
         Dim strEmployeeID As String
         Dim dteHireDate As Date
         Dim dteTerminationDate As Date
+        Dim strLogin As String
+        Dim strPassword As String
         Dim blnValidated As Boolean = True
         Dim intRowsAffected As Integer
 
@@ -65,9 +82,11 @@
         strEmployeeID = txtEmployeeID.Text
         dteHireDate = dtmHireDate.Value
         dteTerminationDate = dtmTerminationDate.Value
+        strLogin = txtLoginID.Text
+        strPassword = txtPassword.Text
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate)
+        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, strLogin, strPassword)
 
         If blnValidated = True Then
 
@@ -88,7 +107,8 @@
                 End If
 
                 ' text to call stored procedures
-                cmdUpdate.CommandText = "EXECUTE uspUpdateAttendant " & gblAttendantID & ", '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
+                cmdUpdate.CommandText = "EXECUTE uspUpdateAttendant " & gblEmployeeID & ", " & gblAttendantID & ", '" & strFirstName & "', '" & strLastName & "', '" &
+                strLogin & "', '" & strPassword & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
                 cmdUpdate.CommandType = CommandType.StoredProcedure
 
                 ' call stored procedures which will insert the record
@@ -116,10 +136,11 @@
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date, ByVal strLogin As String, ByVal strPassword As String)
         Call ValidateName(blnValidated)
         Call ValidateEmployeeID(blnValidated)
         Call ValidateHireTerminationDate(blnValidated, dteHireDate, dteTerminationDate)
+        Call ValidateLogin(blnValidated, strLogin, strPassword)
     End Sub
 
     Private Sub ValidateName(ByRef blnValidated As Boolean)
@@ -163,7 +184,34 @@
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub ValidateLogin(ByRef blnValidated As Boolean, ByVal strLogin As String, ByVal strPassword As String)
+        'Validates that the login/password fields are not empty
+        If txtLoginID.Text = String.Empty Or txtPassword.Text = String.Empty Or txtConfirmPass.Text = String.Empty Then
+            MessageBox.Show("You must create a Login ID and Password to continue.")
+            txtLoginID.Focus()
+            blnValidated = False
+        End If
+
+        'Validates that the login/password is at least 5 characters long
+        If strLogin.Length < 5 Then
+            MessageBox.Show("Login ID must be at least 5 characters in length.")
+            txtLoginID.Focus()
+            blnValidated = False
+        ElseIf strPassword.Length < 5 Then
+            MessageBox.Show("Password must be at least 5 characters in length.")
+            txtPassword.Focus()
+            blnValidated = False
+        End If
+
+        'validates that both input passwords match
+        If txtPassword.Text <> txtConfirmPass.Text Then
+            MessageBox.Show("Passwords must be identical")
+            txtPassword.Focus()
+            blnValidated = False
+        End If
+    End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

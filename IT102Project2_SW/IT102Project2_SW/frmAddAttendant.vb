@@ -14,11 +14,14 @@ Public Class frmAddAttendant
         Dim strPassword As String
         Dim blnValidated As Boolean = True
 
+        'placeholder variables for stored procedure
+        Dim intEmployeeID As Integer
+        Dim intEmployeeRole As Integer
+        Dim intAttendantID As Integer
+
         Dim cmdCreateAttendant As New OleDb.OleDbCommand() 'select command object
-        Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
-        Dim intNextPrimaryKey As Integer ' holds next highest PK value
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
 
         ' put values into strings
@@ -50,49 +53,13 @@ Public Class frmAddAttendant
 
                 End If
 
-                'strSelect = "SELECT MAX(intAttendantID) + 1 AS intNextPrimaryKey " &
-                '                " FROM TAttendants"
-
-                '' Execute command
-                'cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-                'drSourceTable = cmdSelect.ExecuteReader
-
-                '' Read result( highest ID )
-                'drSourceTable.Read()
-
-                '' Null? (empty table)
-                'If drSourceTable.IsDBNull(0) = True Then
-
-                '    ' Yes, start numbering at 1
-                '    intNextPrimaryKey = 1
-
-                'Else
-
-                '    ' No, get the next highest ID
-                '    intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
-
-                'End If
-
                 ' text to call stored procedures
-                'cmdCreateAttendant.CommandText = "EXECUTE uspCreateAttendant @intEmployeeID OUTPUT, @intEmployeeRoleID OUTPUT, " & intNextPrimaryKey & ", '" & strLogin & "', '" & strPassword & "', '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
-
-                cmdCreateAttendant = New OleDb.OleDbCommand("uspCreateAttendant", m_conAdministrator)
+                cmdCreateAttendant.CommandText = "EXECUTE uspCreateAttendant " & intEmployeeID & ", " & intEmployeeRole & ", " & intAttendantID & ", '" & strFirstName &
+                "', '" & strLastName & "', '" & strLogin & "', '" & strPassword & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
                 cmdCreateAttendant.CommandType = CommandType.StoredProcedure
 
-                objParam = cmdCreateAttendant.Parameters.Add("@intEmployeeID", OleDb.OleDbType.Integer)
-                objParam.Direction = ParameterDirection.Output
-
-                objParam = cmdCreateAttendant.Parameters.Add("@intEmployeeRoleID", OleDb.OleDbType.Integer)
-                objParam.Direction = ParameterDirection.Output
-
-                objParam = cmdCreateAttendant.Parameters.Add("@intAttendantID", OleDb.OleDbType.Integer)
-                objParam.Direction = ParameterDirection.Output
-
-                drSourceTable = cmdCreateAttendant.ExecuteReader
-
                 '' call stored procedures which will insert the record
-                'cmdCreateAttendant = New OleDb.OleDbCommand(cmdCreateAttendant.CommandText, m_conAdministrator)
-                'gblAttendantID = intNextPrimaryKey
+                cmdCreateAttendant = New OleDb.OleDbCommand(cmdCreateAttendant.CommandText, m_conAdministrator)
 
                 ' execute query to insert data
                 intRowsAffected = cmdCreateAttendant.ExecuteNonQuery()
@@ -102,6 +69,19 @@ Public Class frmAddAttendant
                     MessageBox.Show("Attendant has been added")    ' let user know success
                     ' close new player form
                 End If
+
+                strSelect = "SELECT MAX(intAttendantID) AS MaxAttendant, MAX(intEmployeeID) AS MaxEmployee " &
+                            "FROM TAttendants, TEmployees"
+
+                'Execute command
+                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+                drSourceTable = cmdSelect.ExecuteReader
+
+                'Read result (highest ID)
+                drSourceTable.Read()
+
+                gblAttendantID = CInt(drSourceTable("MaxAttendant"))
+                gblEmployeeID = CInt(drSourceTable("MaxEmployee"))
 
                 CloseDatabaseConnection()       ' close connection if insert didn't work
 
@@ -187,10 +167,12 @@ Public Class frmAddAttendant
         'validates that both input passwords match
         If txtPassword.Text <> txtConfirmPass.Text Then
             MessageBox.Show("Passwords must be identical")
+            txtPassword.Focus()
+            blnValidated = False
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

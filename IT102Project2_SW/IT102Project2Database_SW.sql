@@ -45,10 +45,10 @@ IF OBJECT_ID ('uspCreateCustomer')		IS NOT NULL DROP PROCEDURE uspCreateCustomer
 IF OBJECT_ID ('uspDeleteCustomer')		IS NOT NULL DROP PROCEDURE uspDeleteCustomer
 IF OBJECT_ID ('uspUpdateCustomer')		IS NOT NULL DROP PROCEDURE uspUpdateCustomer
 
-IF OBJECT_ID ('uspCustomerPastFlights')	IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
-IF OBJECT_ID ('uspCustomerPastMiles')	IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
-IF OBJECT_ID ('uspCustomerFutureFlights') IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
-IF OBJECT_ID ('uspCustomerFutureMiles')	IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
+IF OBJECT_ID ('uspCustomerPastFlights')		IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
+IF OBJECT_ID ('uspCustomerPastMiles')		IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
+IF OBJECT_ID ('uspCustomerFutureFlights')	IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
+IF OBJECT_ID ('uspCustomerFutureMiles')		IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
 
 -- -----------------------------------
 --	Employees (Pilots, Attendants, Admin)
@@ -62,10 +62,10 @@ IF OBJECT_ID ('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
 IF OBJECT_ID ('uspDeletePilot')			IS NOT NULL DROP PROCEDURE uspDeletePilot
 IF OBJECT_ID ('uspUpdatePilot')			IS NOT NULL DROP PROCEDURE uspUpdatePilot
 
-IF OBJECT_ID ('uspPilotPastFlights')		IS NOT NULL DROP PROCEDURE uspPilotPastFlights
+IF OBJECT_ID ('uspPilotPastFlights')	IS NOT NULL DROP PROCEDURE uspPilotPastFlights
 IF OBJECT_ID ('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
 IF OBJECT_ID ('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
-IF OBJECT_ID ('uspPilotFutureMiles')		IS NOT NULL DROP PROCEDURE uspPilotFutureMiles
+IF OBJECT_ID ('uspPilotFutureMiles')	IS NOT NULL DROP PROCEDURE uspPilotFutureMiles
 
 -- -----------------------------------
 --	Attendants
@@ -75,8 +75,8 @@ IF OBJECT_ID ('uspDeleteAttendant')		IS NOT NULL DROP PROCEDURE uspDeleteAttenda
 IF OBJECT_ID ('uspUpdateAttendant')		IS NOT NULL DROP PROCEDURE uspUpdateAttendant
 
 IF OBJECT_ID ('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
-IF OBJECT_ID ('uspAttendantPastMiles')	IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
-IF OBJECT_ID ('uspAttendantFutureFlights') IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
+IF OBJECT_ID ('uspAttendantPastMiles')		IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
+IF OBJECT_ID ('uspAttendantFutureFlights')	IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
 IF OBJECT_ID ('uspAttendantFutureMiles')	IS NOT NULL DROP PROCEDURE uspAttendantFutureMiles
 
 -- --------------------------------------------------------------------------------
@@ -281,8 +281,6 @@ CREATE TABLE TMaintenanceMaintenanceWorkers
 -- 14	TMaintenanceMaintenanceWorkers	TMaintenanceWorker			intMaintenanceWorkerID
 -- 15	TFlightPassenger				TFlights					intFlightID
 -- 16	TEmployees						TEmployeeRoleID				intEmployeeRoleID
--- 17	TEmployees						TAttendants					strEmployeeID
--- 18	TEmployees						TPilots						strEmployeeID
 
 --1
 ALTER TABLE TPassengers ADD CONSTRAINT TPassengers_TStates_FK 
@@ -348,13 +346,6 @@ FOREIGN KEY ( intFlightID ) REFERENCES TFlights (intFlightID )
 ALTER TABLE TEmployees ADD CONSTRAINT TEmployees_TEmployeeRoles_FK
 FOREIGN KEY ( intEmployeeRoleID ) REFERENCES TEmployeeRoles ( intEmployeeRoleID )
 
---17
-ALTER TABLE TEmployees ADD CONSTRAINT TEmployees_TAttendants_FK
-FOREIGN KEY ( intEmployeeNum ) REFERENCES TAttendants ( intAttendantID )
-
---18
-ALTER TABLE TEmployees ADD CONSTRAINT TEmployees_TPilots_FK
-FOREIGN KEY ( intEmployeeNum ) REFERENCES TPilots ( intPilotID )
 
 -- --------------------------------------------------------------------------------
 --	Step #3 : Add Data - INSERTS
@@ -434,16 +425,16 @@ VALUES				  (1, 'Gressy', 'Nuckles', '32121', '1/1/2015', '1/1/2099', '12/1/2014
 
 INSERT INTO TEmployees (intEmployeeID, strLoginID, strPassword, intEmployeeRoleID, intEmployeeNum)
 VALUES				 (1, 'admin', 'admin', 3, 1)
-					,(2, 'roennair', 'ennair', 1, 5)
-					,(3, 'watoexet', 'toexet', 2, 5)
-					,(4, 'iwknapp', 'knapp', 1, 4)
-					,(5, 'myamanie', 'amanie', 2, 4)
-					,(6, 'tiseenow', 'seenow', 1, 1)
-					,(7, 'mityme', 'tyme', 2, 1)
-					,(8, 'imsoring', 'soring', 1, 2)
-					,(9, 'shujest', 'ujest', 2, 2)
-					,(10, 'huencharge', 'encharge', 1, 3)
-					,(11, 'bubiy', 'biy', 2, 3)
+					,(2, 'roennair', 'imflyin', 1, 5)
+					,(3, 'watoexet', 'emergency!', 2, 5)
+					,(4, 'iwknapp', 'honkshoo', 1, 4)
+					,(5, 'myamanie', 'wow_sofar', 2, 4)
+					,(6, 'tiseenow', 'gettin_tipsy', 1, 1)
+					,(7, 'mityme', 'wedrankin', 2, 1)
+					,(8, 'imsoring', 'flyinnn', 1, 2)
+					,(9, 'shujest', 'hahasofunny', 2, 2)
+					,(10, 'huencharge', 'notme!', 1, 3)
+					,(11, 'bubiy', 'adiosamigo', 2, 3)
 					
 
 INSERT INTO TMaintenances (intMaintenanceID, strWorkCompleted, dtmMaintenanceDate, intPlaneID)
@@ -544,7 +535,8 @@ VALUES				 (1, 2, 1, 2)
 					,(12, 7, 3, 8)
 
 
-
+SELECT * FROM TEmployees
+SELECT * FROM TAttendants
 -- ----------------------
 --	PASSENGERS
 -- ----------------------
@@ -825,6 +817,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+EXECUTE uspUpdatePilot 6, 1, 'Tip', 'Seenow', 'tiseenow', 'seenow', '12121', '1/1/2015', '1/1/2099', '12/1/2014', 1
 -- --------------------------------------------------------------------------------
 --	Create Procedure for PilotPastFlights (displays past flight data for pilot)
 -- --------------------------------------------------------------------------------
@@ -937,7 +930,7 @@ CREATE PROCEDURE uspCreateAttendant
 AS
 SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
 BEGIN TRANSACTION
-	
+
 -- Inserts values into TAttendants
 	SELECT @intAttendantID = MAX(intAttendantID) + 1
 	FROM TAttendants
@@ -947,7 +940,7 @@ BEGIN TRANSACTION
 	INSERT INTO TAttendants (intAttendantID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination)
 	VALUES		(@intAttendantID, @strFirstName, @strLastName, @strEmployeeID, @dtmDateOfHire, @dtmDateOfTermination)
 
--- Inserts values into TEmployee
+-- Inserts values into TEmployees
 	SELECT @intEmployeeID = MAX(intEmployeeID) + 1
 	FROM TEmployees
 
@@ -961,6 +954,8 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+SELECT MAX(intAttendantID) AS MaxAttendant, MAX(intEmployeeID) AS MaxEmployee
+FROM TAttendants, TEmployees
 -- --------------------------------------------------------------------------------
 --	Create Procedure for DeleteAttendant (deletes selected attendant from TAttendants)
 -- --------------------------------------------------------------------------------
@@ -1109,19 +1104,21 @@ CREATE PROCEDURE uspEmployeeLogin
 	,@strPassword	AS VARCHAR(30)
 AS
 BEGIN TRANSACTION	-- ask bob if I can look up how to do try/excepts, or ask for guidance on validation
+	BEGIN TRY
+		SELECT @intEmployeeID = intEmployeeID
+		FROM TEmployees
+		WHERE strLoginID = @strLoginID
+		AND strPassword = @strPassword
+	END TRY
 
-	SELECT @intEmployeeID = intEmployeeID
-	FROM TEmployees
-	WHERE strLoginID = @strLoginID
-	AND strPassword = @strPassword
-
-	--IF @intEmployeeID IS NULL
-	--	SET ???
-	--ELSE
-	--	SET ???
+	BEGIN CATCH
+		SELECT ERROR_NUMBER() AS ErrorNumber, 
+			   ERROR_MESSAGE() AS ErrorMessage;
+	END CATCH
+	
 
 COMMIT TRANSACTION
 GO
 
 DECLARE @intEmployeeID AS INTEGER
-EXECUTE uspEmployeeLogin @intEmployeeID OUTPUT, 'swoyak', 'password'
+EXECUTE uspEmployeeLogin 0, 'swoyak', 'password'

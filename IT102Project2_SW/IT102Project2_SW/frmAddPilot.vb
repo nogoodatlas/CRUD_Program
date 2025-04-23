@@ -67,6 +67,11 @@
         Dim strPassword As String
         Dim blnValidated As Boolean = True
 
+        'placeholder variables for stored procedure
+        Dim intEmployeeID As Integer
+        Dim intEmployeeRole As Integer
+        Dim intPilotID As Integer
+
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
         Dim cmdCreatePilot As New OleDb.OleDbCommand() ' stored procedure command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
@@ -104,31 +109,9 @@
 
                 End If
 
-                strSelect = "SELECT MAX(intPilotID) + 1 AS intNextPrimaryKey " &
-                                " FROM TPilots"
-
-                ' Execute command
-                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-                drSourceTable = cmdSelect.ExecuteReader
-
-                ' Read result( highest ID )
-                drSourceTable.Read()
-
-                ' Null? (empty table)
-                If drSourceTable.IsDBNull(0) = True Then
-
-                    ' Yes, start numbering at 1
-                    intNextPrimaryKey = 1
-
-                Else
-
-                    ' No, get the next highest ID
-                    intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
-
-                End If
-
                 ' text to call stored procedures
-                cmdCreatePilot.CommandText = "EXECUTE uspCreatePilot " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "', '" & dteLicenseDate & "', " & intPilotRole
+                cmdCreatePilot.CommandText = "EXECUTE uspCreatePilot " & intEmployeeID & ", " & intEmployeeRole & ", " & intPilotID & ", '" &
+                strFirstName & "', '" & strLastName & "', '" & strLogin & "', '" & strPassword & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "', '" & dteLicenseDate & "', " & intPilotRole
                 cmdCreatePilot.CommandType = CommandType.StoredProcedure
 
                 ' call stored procedures which will insert the record
@@ -144,6 +127,19 @@
                     MessageBox.Show("Pilot has been added")    ' let user know success
                     ' close new player form
                 End If
+
+                strSelect = "SELECT MAX(intPilotID) AS MaxPilot, MAX(intEmployeeID) AS MaxEmployee " &
+                            "FROM TPilots, TEmployees"
+
+                'Execute command
+                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+                drSourceTable = cmdSelect.ExecuteReader
+
+                'Read result (highest ID)
+                drSourceTable.Read()
+
+                gblPilotID = CInt(drSourceTable("MaxPilot"))
+                gblEmployeeID = CInt(drSourceTable("MaxEmployee"))
 
                 CloseDatabaseConnection()       ' close connection if insert didn't work
 
@@ -249,9 +245,12 @@
         'validates that both input passwords match
         If txtPassword.Text <> txtConfirmPass.Text Then
             MessageBox.Show("Passwords must be identical")
+            txtPassword.Focus()
+            blnValidated = False
         End If
     End Sub
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

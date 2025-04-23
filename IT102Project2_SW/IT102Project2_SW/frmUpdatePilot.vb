@@ -54,6 +54,19 @@
             dtmLicenseDate.Value = drSourceTable("dtmDateofLicense")
             cboPilotRoles.SelectedValue = drSourceTable("intPilotRoleID")
 
+            strSelect = "SELECT strLoginID, strPassword " &
+                        "FROM TEmployees WHERE intEmployeeRoleID = 1 AND intEmployeeNum = " & gblPilotID
+
+            ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            drSourceTable = cmdSelect.ExecuteReader
+
+            drSourceTable.Read()
+
+            'populate the textboxes with the data
+            txtLoginID.Text = drSourceTable("strLoginID")
+            txtPassword.Text = drSourceTable("strPassword")
+            txtConfirmPass.Text = drSourceTable("strPassword")
             ' close the database connection
             CloseDatabaseConnection()
 
@@ -71,6 +84,8 @@
         Dim dteTerminationDate As Date
         Dim dteLicenseDate As Date
         Dim intPilotRole As Integer
+        Dim strLogin As String
+        Dim strPassword As String
         Dim blnValidated As Boolean = True
         Dim intRowsAffected As Integer
 
@@ -85,9 +100,12 @@
         dteTerminationDate = dtmTerminationDate.Value
         dteLicenseDate = dtmLicenseDate.Value
         intPilotRole = cboPilotRoles.SelectedValue
+        strLogin = txtLoginID.Text
+        strPassword = txtPassword.Text
+
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, dteLicenseDate)
+        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, dteLicenseDate, strLogin, strPassword)
 
         If blnValidated = True Then
 
@@ -108,7 +126,8 @@
                 End If
 
                 ' text to call stored procedures
-                cmdUpdate.CommandText = "EXECUTE uspUpdatePilot " & gblPilotID & ", '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "', '" & dteLicenseDate & "', " & intPilotRole
+                cmdUpdate.CommandText = "EXECUTE uspUpdatePilot " & gblEmployeeID & ", " & gblPilotID & ", '" & strFirstName & "', '" & strLastName & "', '" &
+                strLogin & "', '" & strPassword & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "', '" & dteLicenseDate & "', " & intPilotRole
                 cmdUpdate.CommandType = CommandType.StoredProcedure
 
                 ' call stored procedures which will update the record
@@ -136,12 +155,13 @@
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date, ByVal dteLicenseDate As Date)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date, ByVal dteLicenseDate As Date, ByVal strLogin As String, ByVal strPassword As String)
         Call ValidateName(blnValidated)
         Call ValidateEmployeeID(blnValidated)
         Call ValidateHireTerminationDate(blnValidated, dteHireDate, dteTerminationDate)
         Call ValidateLicenseDate(blnValidated, dteLicenseDate)
         Call ValidatePilotRole(blnValidated)
+        Call ValidateLogin(blnValidated, strLogin, strPassword)
     End Sub
 
     Private Sub ValidateName(ByRef blnValidated As Boolean)
@@ -203,7 +223,34 @@
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub ValidateLogin(ByRef blnValidated As Boolean, ByVal strLogin As String, ByVal strPassword As String)
+        'Validates that the login/password fields are not empty
+        If txtLoginID.Text = String.Empty Or txtPassword.Text = String.Empty Or txtConfirmPass.Text = String.Empty Then
+            MessageBox.Show("You must create a Login ID and Password to continue.")
+            txtLoginID.Focus()
+            blnValidated = False
+        End If
+
+        'Validates that the login/password is at least 5 characters long
+        If strLogin.Length < 5 Then
+            MessageBox.Show("Login ID must be at least 5 characters in length.")
+            txtLoginID.Focus()
+            blnValidated = False
+        ElseIf strPassword.Length < 5 Then
+            MessageBox.Show("Password must be at least 5 characters in length.")
+            txtPassword.Focus()
+            blnValidated = False
+        End If
+
+        'validates that both input passwords match
+        If txtPassword.Text <> txtConfirmPass.Text Then
+            MessageBox.Show("Passwords must be identical")
+            txtPassword.Focus()
+            blnValidated = False
+        End If
+    End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

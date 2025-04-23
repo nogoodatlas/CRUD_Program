@@ -22,7 +22,7 @@ Partial Class frmAddPilot
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnAddPilot = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.dtmLicenseDate = New System.Windows.Forms.DateTimePicker()
@@ -50,15 +50,15 @@ Partial Class frmAddPilot
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
-        'btnExit
+        'btnCancel
         '
-        Me.btnExit.Location = New System.Drawing.Point(353, 662)
-        Me.btnExit.Margin = New System.Windows.Forms.Padding(4)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(139, 57)
-        Me.btnExit.TabIndex = 12
-        Me.btnExit.Text = "&Exit"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnCancel.Location = New System.Drawing.Point(353, 662)
+        Me.btnCancel.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(139, 57)
+        Me.btnCancel.TabIndex = 12
+        Me.btnCancel.Text = "&Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'btnAddPilot
         '
@@ -289,7 +289,7 @@ Partial Class frmAddPilot
         Me.ClientSize = New System.Drawing.Size(528, 787)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnAddPilot)
         Me.Name = "frmAddPilot"
         Me.Text = "Add Pilot"
@@ -301,7 +301,7 @@ Partial Class frmAddPilot
 
     End Sub
 
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnCancel As Button
     Friend WithEvents btnAddPilot As Button
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents dtmLicenseDate As DateTimePicker
