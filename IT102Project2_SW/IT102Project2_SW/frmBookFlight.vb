@@ -22,10 +22,10 @@
             End If
 
             ' Build the select statement
-            strSelect = "SELECT TF.intFlightID, 'Flight ' + TF.strFlightNumber + ' - ' + TA.strAirportCode AS FlightInfo" &
-                        " FROM TFlights AS TF JOIN TAirports AS TA " &
-                        " ON TF.intFromAirportID = TA.intAirportID " &
-                        " WHERE TF.dtmFlightDate >= GETDATE()"
+            strSelect = "SELECT TF.intFlightID, 'Flight ' + TF.strFlightNumber + ' - ' + TA.strAirportCode AS FlightInfo " &
+                        "FROM TFlights AS TF JOIN TAirports AS TA " &
+                        "ON TF.intFromAirportID = TA.intAirportID " &
+                        "WHERE TF.dtmFlightDate >= GETDATE()"
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)

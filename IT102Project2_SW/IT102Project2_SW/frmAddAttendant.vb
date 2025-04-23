@@ -10,9 +10,12 @@ Public Class frmAddAttendant
         Dim strEmployeeID As String
         Dim dteHireDate As Date
         Dim dteTerminationDate As Date
+        Dim strLogin As String
+        Dim strPassword As String
         Dim blnValidated As Boolean = True
 
         Dim cmdCreateAttendant As New OleDb.OleDbCommand() 'select command object
+        Dim objParam As OleDb.OleDbParameter ' this will be used to add parameters needed for stored procedures
         Dim cmdSelect As OleDb.OleDbCommand ' select command object
         Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
         Dim intNextPrimaryKey As Integer ' holds next highest PK value
@@ -24,9 +27,11 @@ Public Class frmAddAttendant
         strEmployeeID = txtEmployeeID.Text
         dteHireDate = dtmHireDate.Value
         dteTerminationDate = dtmTerminationDate.Value
+        strLogin = txtLoginID.Text
+        strPassword = txtPassword.Text
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate)
+        Call ValidateInput(blnValidated, dteHireDate, dteTerminationDate, strLogin, strPassword)
 
         If blnValidated = True Then
 
@@ -45,36 +50,49 @@ Public Class frmAddAttendant
 
                 End If
 
-                strSelect = "SELECT MAX(intAttendantID) + 1 AS intNextPrimaryKey " &
-                                " FROM TAttendants"
+                'strSelect = "SELECT MAX(intAttendantID) + 1 AS intNextPrimaryKey " &
+                '                " FROM TAttendants"
 
-                ' Execute command
-                cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-                drSourceTable = cmdSelect.ExecuteReader
+                '' Execute command
+                'cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+                'drSourceTable = cmdSelect.ExecuteReader
 
-                ' Read result( highest ID )
-                drSourceTable.Read()
+                '' Read result( highest ID )
+                'drSourceTable.Read()
 
-                ' Null? (empty table)
-                If drSourceTable.IsDBNull(0) = True Then
+                '' Null? (empty table)
+                'If drSourceTable.IsDBNull(0) = True Then
 
-                    ' Yes, start numbering at 1
-                    intNextPrimaryKey = 1
+                '    ' Yes, start numbering at 1
+                '    intNextPrimaryKey = 1
 
-                Else
+                'Else
 
-                    ' No, get the next highest ID
-                    intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
+                '    ' No, get the next highest ID
+                '    intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
 
-                End If
+                'End If
 
                 ' text to call stored procedures
-                cmdCreateAttendant.CommandText = "EXECUTE uspCreateAttendant " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
+                'cmdCreateAttendant.CommandText = "EXECUTE uspCreateAttendant @intEmployeeID OUTPUT, @intEmployeeRoleID OUTPUT, " & intNextPrimaryKey & ", '" & strLogin & "', '" & strPassword & "', '" & strFirstName & "', '" & strLastName & "', '" & strEmployeeID & "', '" & dteHireDate & "', '" & dteTerminationDate & "'"
+
+                cmdCreateAttendant = New OleDb.OleDbCommand("uspCreateAttendant", m_conAdministrator)
                 cmdCreateAttendant.CommandType = CommandType.StoredProcedure
 
-                ' call stored procedures which will insert the record
-                cmdCreateAttendant = New OleDb.OleDbCommand(cmdCreateAttendant.CommandText, m_conAdministrator)
-                gblAttendantID = intNextPrimaryKey
+                objParam = cmdCreateAttendant.Parameters.Add("@intEmployeeID", OleDb.OleDbType.Integer)
+                objParam.Direction = ParameterDirection.Output
+
+                objParam = cmdCreateAttendant.Parameters.Add("@intEmployeeRoleID", OleDb.OleDbType.Integer)
+                objParam.Direction = ParameterDirection.Output
+
+                objParam = cmdCreateAttendant.Parameters.Add("@intAttendantID", OleDb.OleDbType.Integer)
+                objParam.Direction = ParameterDirection.Output
+
+                drSourceTable = cmdCreateAttendant.ExecuteReader
+
+                '' call stored procedures which will insert the record
+                'cmdCreateAttendant = New OleDb.OleDbCommand(cmdCreateAttendant.CommandText, m_conAdministrator)
+                'gblAttendantID = intNextPrimaryKey
 
                 ' execute query to insert data
                 intRowsAffected = cmdCreateAttendant.ExecuteNonQuery()
@@ -99,10 +117,11 @@ Public Class frmAddAttendant
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal dteHireDate As Date, ByVal dteTerminationDate As Date, ByVal strLogin As String, ByVal strPassword As String)
         Call ValidateName(blnValidated)
         Call ValidateEmployeeID(blnValidated)
         Call ValidateHireTerminationDate(blnValidated, dteHireDate, dteTerminationDate)
+        Call ValidateLogin(blnValidated, strLogin, strPassword)
     End Sub
 
     Private Sub ValidateName(ByRef blnValidated As Boolean)
@@ -143,6 +162,31 @@ Public Class frmAddAttendant
             MessageBox.Show("Termination date must be later than hire date.")
             dtmTerminationDate.Focus()
             blnValidated = False
+        End If
+    End Sub
+
+    Private Sub ValidateLogin(ByRef blnValidated As Boolean, ByVal strLogin As String, ByVal strPassword As String)
+        'Validates that the login/password fields are not empty
+        If txtLoginID.Text = String.Empty Or txtPassword.Text = String.Empty Or txtConfirmPass.Text = String.Empty Then
+            MessageBox.Show("You must create a Login ID and Password to continue.")
+            txtLoginID.Focus()
+            blnValidated = False
+        End If
+
+        'Validates that the login/password is at least 5 characters long
+        If strLogin.Length < 5 Then
+            MessageBox.Show("Login ID must be at least 5 characters in length.")
+            txtLoginID.Focus()
+            blnValidated = False
+        ElseIf strPassword.Length < 5 Then
+            MessageBox.Show("Password must be at least 5 characters in length.")
+            txtPassword.Focus()
+            blnValidated = False
+        End If
+
+        'validates that both input passwords match
+        If txtPassword.Text <> txtConfirmPass.Text Then
+            MessageBox.Show("Passwords must be identical")
         End If
     End Sub
 

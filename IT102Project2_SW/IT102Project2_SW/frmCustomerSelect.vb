@@ -122,4 +122,35 @@
         'closes form
         Close()
     End Sub
+
+    Private Sub btnSubmit2_Click(sender As Object, e As EventArgs) Handles btnSubmit2.Click
+        'declare variables
+        Dim strLogin As String
+        Dim strPass As String
+        Dim blnValidated As Boolean = True
+
+        'put values into strings
+        strLogin = txtLoginID.Text
+        strPass = txtPassword.Text
+
+        Call ValidateLogin(blnValidated)
+
+    End Sub
+
+    Private Sub ValidateLogin(ByRef blnValidated As Boolean)
+        Call ValidateExistence(blnValidated) 'validates that the login inputs are not empty
+        Call ValidateValidity(blnValidated) 'validates that both the login inputs match a specific employee
+    End Sub
+
+    Private Sub ValidateExistence(ByRef blnValidated As Boolean)
+        If txtLoginID.Text = String.Empty Or txtPassword.Text = String.Empty Then
+            MessageBox.Show("Invalid Login ID or Password.")
+            txtLoginID.Focus()
+            blnValidated = False
+        End If
+    End Sub
+
+    Private Sub ValidateValidity(blnValidated)
+
+    End Sub
 End Class

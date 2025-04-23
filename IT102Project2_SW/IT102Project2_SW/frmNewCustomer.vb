@@ -57,11 +57,14 @@
         'variables for new customer data and select and insert statements
         Dim strSelect As String
         Dim strFirstName As String
+        Dim dteDOB As Date
         Dim strLastName As String
         Dim strAddress As String
         Dim strCity As String
         Dim intState As Integer
         Dim strZip As String
+        Dim strLogin As String
+        Dim strPassword As String
         Dim strPhoneNumber As String
         Dim strEmail As String
         Dim blnValidated As Boolean = True
@@ -76,15 +79,18 @@
         ' put values into strings
         strFirstName = txtFirstName.Text
         strLastName = txtLastName.Text
+        dteDOB = dtmDOB.Value
         strAddress = txtAddress.Text
         strCity = txtCities.Text
         intState = cboStates.SelectedValue
         strZip = txtZip.Text
+        strLogin = txtLoginID.Text
+        strPassword = txtPassword.Text
         strPhoneNumber = txtPhone.Text
         strEmail = txtEmail.Text
 
         ' validate data is entered
-        Call ValidateInput(blnValidated, strEmail)
+        Call ValidateInput(blnValidated, strLogin, strPassword, strEmail)
 
         If blnValidated = True Then
 
@@ -127,7 +133,7 @@
                 End If
 
                 ' text to call stored procedures
-                cmdCreateCustomer.CommandText = "EXECUTE uspCreateCustomer " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strPhoneNumber & "', '" & strEmail & "'"
+                cmdCreateCustomer.CommandText = "EXECUTE uspCreateCustomer " & intNextPrimaryKey & ", '" & strFirstName & "', '" & strLastName & "', '" & dteDOB & "', '" & strAddress & "', '" & strCity & "'," & intState & ", '" & strZip & "', '" & strLogin & "', '" & strPassword & "', '" & strPhoneNumber & "', '" & strEmail & "'"
                 cmdCreateCustomer.CommandType = CommandType.StoredProcedure
 
                 ' call stored procedures which will insert the record
@@ -157,12 +163,14 @@
         End If
     End Sub
 
-    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal strEmail As String)
+    Private Sub ValidateInput(ByRef blnValidated As Boolean, ByVal strLogin As String, ByVal strPassword As String, ByVal strEmail As String)
         Call ValidateName(blnValidated)
+        Call ValidateDOB(blnValidated)
         Call ValidateAddress(blnValidated)
         Call ValidateCity(blnValidated)
         Call ValidateState(blnValidated)
         Call ValidateZipcode(blnValidated)
+        Call ValidateLogin(blnValidated, strLogin, strPassword)
         Call ValidatePhone(blnValidated)
         Call ValidateEmail(blnValidated, strEmail)
     End Sub
@@ -181,6 +189,10 @@
             txtLastName.Focus()
             blnValidated = False
         End If
+    End Sub
+
+    Private Sub ValidateDOB(ByRef blnValidated As Boolean)
+        'ASK BOB IF WE CAN LOOK UP HOW TO GET THE DIFFERENCE BETWEEN TWO DATES
     End Sub
 
     Private Sub ValidateAddress(ByRef blnValidated As Boolean)
@@ -215,6 +227,31 @@
             MessageBox.Show("Please enter your zipcode.")
             txtZip.Focus()
             blnValidated = False
+        End If
+    End Sub
+
+    Private Sub ValidateLogin(ByRef blnValidated As Boolean, ByVal strLogin As String, ByVal strPassword As String)
+        'Validates that the login/password fields are not empty
+        If txtLoginID.Text = String.Empty Or txtPassword.Text = String.Empty Or txtConfirmPass.Text = String.Empty Then
+            MessageBox.Show("You must create a Login ID and Password to continue.")
+            txtLoginID.Focus()
+            blnValidated = False
+        End If
+
+        'Validates that the login/password is at least 5 characters long
+        If strLogin.Length < 5 Then
+            MessageBox.Show("Login ID must be at least 5 characters in length.")
+            txtLoginID.Focus()
+            blnValidated = False
+        ElseIf strPassword.Length < 5 Then
+            MessageBox.Show("Password must be at least 5 characters in length.")
+            txtPassword.Focus()
+            blnValidated = False
+        End If
+
+        'validates that both input passwords match
+        If txtPassword.Text <> txtConfirmPass.Text Then
+            MessageBox.Show("Passwords must be identical")
         End If
     End Sub
 

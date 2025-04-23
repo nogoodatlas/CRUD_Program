@@ -41,38 +41,43 @@ IF OBJECT_ID ('TStates')				IS NOT NULL DROP TABLE TStates
 -- -----------------------------------
 --	Customers/Passengers
 -- -----------------------------------
-IF OBJECT_ID('uspCreateCustomer')		IS NOT NULL DROP PROCEDURE uspCreateCustomer
-IF OBJECT_ID('uspDeleteCustomer')		IS NOT NULL DROP PROCEDURE uspDeleteCustomer
-IF OBJECT_ID('uspUpdateCustomer')		IS NOT NULL DROP PROCEDURE uspUpdateCustomer
+IF OBJECT_ID ('uspCreateCustomer')		IS NOT NULL DROP PROCEDURE uspCreateCustomer
+IF OBJECT_ID ('uspDeleteCustomer')		IS NOT NULL DROP PROCEDURE uspDeleteCustomer
+IF OBJECT_ID ('uspUpdateCustomer')		IS NOT NULL DROP PROCEDURE uspUpdateCustomer
 
-IF OBJECT_ID('uspCustomerPastFlights')	IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
-IF OBJECT_ID('uspCustomerPastMiles')	IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
-IF OBJECT_ID('uspCustomerFutureFlights') IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
-IF OBJECT_ID('uspCustomerFutureMiles')	IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
+IF OBJECT_ID ('uspCustomerPastFlights')	IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
+IF OBJECT_ID ('uspCustomerPastMiles')	IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
+IF OBJECT_ID ('uspCustomerFutureFlights') IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
+IF OBJECT_ID ('uspCustomerFutureMiles')	IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
+
+-- -----------------------------------
+--	Employees (Pilots, Attendants, Admin)
+-- -----------------------------------
+IF OBJECT_ID ('uspEmployeeLogin')		IS NOT NULL DROP PROCEDURE uspEmployeeLogin
 
 -- -----------------------------------
 --	Pilots
 -- -----------------------------------
-IF OBJECT_ID('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
-IF OBJECT_ID('uspDeletePilot')			IS NOT NULL DROP PROCEDURE uspDeletePilot
-IF OBJECT_ID('uspUpdatePilot')			IS NOT NULL DROP PROCEDURE uspUpdatePilot
+IF OBJECT_ID ('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
+IF OBJECT_ID ('uspDeletePilot')			IS NOT NULL DROP PROCEDURE uspDeletePilot
+IF OBJECT_ID ('uspUpdatePilot')			IS NOT NULL DROP PROCEDURE uspUpdatePilot
 
-IF OBJECT_ID('uspPilotPastFlights')		IS NOT NULL DROP PROCEDURE uspPilotPastFlights
-IF OBJECT_ID('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
-IF OBJECT_ID('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
-IF OBJECT_ID('uspPilotFutureMiles')		IS NOT NULL DROP PROCEDURE uspPilotFutureMiles
+IF OBJECT_ID ('uspPilotPastFlights')		IS NOT NULL DROP PROCEDURE uspPilotPastFlights
+IF OBJECT_ID ('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
+IF OBJECT_ID ('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
+IF OBJECT_ID ('uspPilotFutureMiles')		IS NOT NULL DROP PROCEDURE uspPilotFutureMiles
 
 -- -----------------------------------
 --	Attendants
 -- -----------------------------------
-IF OBJECT_ID('uspCreateAttendant')		IS NOT NULL DROP PROCEDURE uspCreateAttendant
-IF OBJECT_ID('uspDeleteAttendant')		IS NOT NULL DROP PROCEDURE uspDeleteAttendant
-IF OBJECT_ID('uspUpdateAttendant')		IS NOT NULL DROP PROCEDURE uspUpdateAttendant
+IF OBJECT_ID ('uspCreateAttendant')		IS NOT NULL DROP PROCEDURE uspCreateAttendant
+IF OBJECT_ID ('uspDeleteAttendant')		IS NOT NULL DROP PROCEDURE uspDeleteAttendant
+IF OBJECT_ID ('uspUpdateAttendant')		IS NOT NULL DROP PROCEDURE uspUpdateAttendant
 
-IF OBJECT_ID('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
-IF OBJECT_ID('uspAttendantPastMiles')	IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
-IF OBJECT_ID('uspAttendantFutureFlights') IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
-IF OBJECT_ID('uspAttendantFutureMiles')	IS NOT NULL DROP PROCEDURE uspAttendantFutureMiles
+IF OBJECT_ID ('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
+IF OBJECT_ID ('uspAttendantPastMiles')	IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
+IF OBJECT_ID ('uspAttendantFutureFlights') IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
+IF OBJECT_ID ('uspAttendantFutureMiles')	IS NOT NULL DROP PROCEDURE uspAttendantFutureMiles
 
 -- --------------------------------------------------------------------------------
 --	Step #1 : Create table 
@@ -82,10 +87,13 @@ CREATE TABLE TPassengers
 	 intPassengerID			INTEGER			NOT NULL
 	,strFirstName			VARCHAR(255)	NOT NULL
 	,strLastName			VARCHAR(255)	NOT NULL
+	,dtmDOB					DATETIME		NOT NULL
 	,strAddress				VARCHAR(255)	NOT NULL
 	,strCity				VARCHAR(255)	NOT NULL
 	,intStateID				INTEGER			NOT NULL
 	,strZip					VARCHAR(255)	NOT NULL
+	,strLoginID				VARCHAR(255)	NOT NULL
+	,strPassword			VARCHAR(255)	NOT NULL
 	,strPhoneNumber			VARCHAR(255)	NOT NULL
 	,strEmail				VARCHAR(255)	NOT NULL
 	,CONSTRAINT TPassengers_PK PRIMARY KEY ( intPassengerID )
@@ -140,10 +148,10 @@ CREATE TABLE TEmployeeRoles
 CREATE TABLE TEmployees
 (
 	 intEmployeeID			INTEGER			NOT NULL
-	,strEmployeeLoginID		VARCHAR(255)	NOT NULL
-	,strEmployeePassword	VARCHAR(255)	NOT NULL
+	,strLoginID				VARCHAR(255)	NOT NULL
+	,strPassword			VARCHAR(255)	NOT NULL
 	,intEmployeeRoleID		INTEGER			NOT NULL
-	,intEmployeeNum			INTEGER	NOT NULL 
+	,intEmployeeNum			INTEGER			NOT NULL
 	,CONSTRAINT TEmployees_PF PRIMARY KEY ( intEmployeeID )
 )
 
@@ -392,13 +400,13 @@ VALUES				(1, 'Cincinnati', 'CVG')
 				   ,(6, 'Orlando', 'MCO')
 
 
-INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail)
-VALUES				  (1, 'Knelly', 'Nervious','321 Elm St.', 'Cincinnati', 1, '45201', '5135553333', 'nnelly@gmail.com')
-					 ,(2, 'Orville', 'Waite', '987 Oak St.', 'Cleveland', 1, '45218', '5135556333', 'owright@gmail.com')
-					 ,(3, 'Eileen', 'Awnewe', '1569 Windisch Rd.', 'Dayton', 1, '45069', '5135555333', 'eonewe1@yahoo.com')
-					 ,(4, 'Bob', 'Eninocean', '44561 Oak Ave.', 'Florence', 2, '45246', '8596663333', 'bobenocean@gmail.com')
-					 ,(5, 'Ware', 'Hyjeked', '44881 Pine Ave.', 'Aurora', 3, '45546', '2825553333', 'Hyjekedohmy@gmail.com')
-					 ,(6, 'Kay', 'Oss', '4484 Bushfield Ave.', 'Lawrenceburg', 3, '45546', '2825553333', 'wehavekayoss@gmail.com')
+INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, dtmDOB, strAddress, strCity, intStateID, strZip, strLoginID, strPassword, strPhoneNumber, strEmail)
+VALUES				  (1, 'Knelly', 'Nervious', '06/15/1982', '321 Elm St.', 'Cincinnati', 1, '45201', 'nnelly', 'soNervousRN', '5135553333', 'nnelly@gmail.com')
+					 ,(2, 'Orville', 'Waite', '09/22/1998', '987 Oak St.', 'Cleveland', 1, '45218', 'owright', 'flightBros!', '5135556333', 'owright@gmail.com')
+					 ,(3, 'Eileen', 'Awnewe', '12/05/1990', '1569 Windisch Rd.', 'Dayton', 1, '45069', 'eonewe1', 'eiSeeYou_', '5135555333', 'eonewe1@yahoo.com')
+					 ,(4, 'Bob', 'Eninocean', '03/10/1985', '44561 Oak Ave.', 'Florence', 2, '45246', 'bobenocean', 'bobbin_away!', '8596663333', 'bobenocean@gmail.com')
+					 ,(5, 'Ware', 'Hyjeked', '07/18/2000', '44881 Pine Ave.', 'Aurora', 3, '45546', 'hyjekedohmy', 'goindown!', '2825553333', 'Hyjekedohmy@gmail.com')
+					 ,(6, 'Kay', 'Oss', '04/04/1990', '4484 Bushfield Ave.', 'Lawrenceburg', 3, '45546', 'wehavekayoss', 'kayotic_good', '2825553333', 'wehavekayoss@gmail.com')
 
 
 INSERT INTO TPilots (intPilotID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID)
@@ -424,7 +432,7 @@ VALUES				  (1, 'Gressy', 'Nuckles', '32121', '1/1/2015', '1/1/2099', '12/1/2014
 					 ,(4, 'Ides', 'Racrozed', '37676', '1/1/2014', '1/1/2015','12/1/2013')
 
 
-INSERT INTO TEmployees (intEmployeeID, strEmployeeLoginID, strEmployeePassword, intEmployeeRoleID, intEmployeeNum)
+INSERT INTO TEmployees (intEmployeeID, strLoginID, strPassword, intEmployeeRoleID, intEmployeeNum)
 VALUES				 (1, 'admin', 'admin', 3, 1)
 					,(2, 'roennair', 'ennair', 1, 5)
 					,(3, 'watoexet', 'toexet', 2, 5)
@@ -536,348 +544,6 @@ VALUES				 (1, 2, 1, 2)
 					,(12, 7, 3, 8)
 
 
--- --------------------------------------------------------------------------------
---	Query #1: List all flights for each passenger. Show Passenger First Name 
---	and Last Name. Show Flight Number and Date. Sort by Passenger Last Name ascending
---	JOIN
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,TF.strFlightNumber
-	,TF.dtmFlightDate
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-ORDER BY
-	TP.strLastName ASC
-
--- --------------------------------------------------------------------------------
---	Query #2: List all flights for a passenger “Ware Hyjeked”. Show Flight 
---	Number and Flight Date. Sort by Flight Date, descending
---	JOIN
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,TF.strFlightNumber
-	,TF.dtmFlightDate
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-WHERE
-	TP.intPassengerID = 5
-ORDER BY
-	TF.dtmFlightDate DESC
-
--- --------------------------------------------------------------------------------
---	Query #3: List all passengers that have taken a flight with FlyMe2theMoon.  
---	Show Passenger First Name and Last Name only. Only show passenger once.
---	JOIN, DISTINCT
--- --------------------------------------------------------------------------------
-
-SELECT DISTINCT
-	 TP.strFirstName
-	,TP.strLastName
-FROM	
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights As TF
-	ON TF.intFlightID = TFP.intFlightID
-
--- --------------------------------------------------------------------------------
---	Query #4: Show only passengers in the database who have not taken a flight. 
---	Show Passenger First Name and Last Name
---	SUBQUERY
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-FROM 
-	TPassengers As TP
-WHERE TP.intPassengerID NOT IN 
-(SELECT
-	TP.intPassengerID
-FROM	
-TPassengers AS TP JOIN TFlightPassengers AS TFP
-ON TP.intPassengerID = TFP.intPassengerID
-JOIN TFlights As TF
-ON TF.intFlightID = TFP.intFlightID)
-	
-
--- --------------------------------------------------------------------------------
---	Query #5: Show only planes that have not had any maintenance completed. 
---	Show All Plane information
---	SUBQUERY
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.intPlaneID
-	,TP.strPlaneNumber
-	,TPT.strPlaneType
-FROM 
-	TPlanes AS TP JOIN TPlaneTypes AS TPT
-	ON TP.intPlaneTypeID = TPT.intPlaneTypeID
-WHERE TP.intPlaneID NOT IN
-(SELECT
-	TP.intPlaneID
-FROM
-	TPlanes AS TP JOIN TPlaneTypes AS TPT
-	ON TP.intPlaneTypeID = TPT.intPlaneTypeID
-	JOIN TMaintenances AS TM
-	ON TM.intPlaneID = TP.intPlaneID)
-
--- --------------------------------------------------------------------------------
---	Query #6: Show total number of flights for each pilot. If the pilot has ZERO, 
---	show them too. Show Pilot first name and last name and total flight
---	COUNT, ISNULL
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,ISNULL(COUNT(TPF.intPilotID), 0) AS TotalFlights
-FROM
-	TPilots AS TP LEFT JOIN TPilotFlights AS TPF
-	ON TP.intPilotID = TPF.intPilotID
-GROUP BY
-	TP.strFirstName, TP.strLastName
-
--- --------------------------------------------------------------------------------
---	Query #7: Show total number of hours of maintenance performed on each plane.  
---	Show all plane information and hours
---	SUM
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TPT.strPlaneType
-	,TP.strPlaneNumber
-	,SUM(TMMW.intHours) AS TotalHoursWorked
-FROM 
-	TPlanes AS TP JOIN TMaintenances AS TM
-	ON TP.intPlaneID = TM.intPlaneID
-	JOIN TPlaneTypes AS TPT
-	ON TPT.intPlaneTypeID = TP.intPlaneTypeID
-	JOIN TMaintenanceMaintenanceWorkers AS TMMW
-	ON TMMW.intMaintenanceID = TM.intMaintenanceID
-GROUP BY
-	TP.strPlaneNumber, TPT.strPlaneType
-
--- --------------------------------------------------------------------------------
---	Query #8: Show total flight miles for each passenger who have flown over 
---	5000 miles in total. Show Passenger first name and last name and Total Miles.  
---	Sort by Total Miles, descending
---	SUM, HAVING
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,SUM(TF.intMilesFlown) AS TotalMilesFlown
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-GROUP BY
-	TP.strFirstName, TP.strLastName
-HAVING
-	SUM(TF.intMilesFlown) > 5000
-ORDER BY
-	TotalMilesFlown DESC
-
--- --------------------------------------------------------------------------------
---	Query #9: Show the passenger(s) that have flown the most miles. Show 
---	Passenger first name and last name and Total Miles
---	SUM
--- --------------------------------------------------------------------------------
-
-SELECT TOP 1
-	 TP.strFirstName
-	,TP.strLastName
-	,SUM(TF.intMilesFlown) AS TotalMilesFlown
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-GROUP BY
-	TP.strFirstName, TP.strLastName
-
--- --------------------------------------------------------------------------------
---	Query #10: Show average flight miles for each Pilot during the April, 2022
---	AVG, JOIN, WHERE
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,AVG(TF.intMilesFlown) AS AVGMilesFlown
-FROM
-	TPilots AS TP JOIN TPilotFlights AS TPF
-	ON TP.intPilotID = TPF.intPilotID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TPF.intFlightID
-WHERE
--- How do I specify what month and/or year I want to focus on?
-	MONTH(TF.dtmFlightDate) = MONTH(TF.dtmFlightDate)
-GROUP BY
-	TP.strFirstName, TP.strLastName
-
--- --------------------------------------------------------------------------------
---	Query #11: Show all Boeing 767-300F that have been worked on by Maintenance 
---	Worker “Gressy Nuckles”
---	JOIN, WHERE
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strPlaneNumber
-	,TM.dtmMaintenanceDate
-FROM
-	TPlanes AS TP JOIN TMaintenances AS TM
-	ON TP.intPlaneID = TM.intPlaneID
-	JOIN TMaintenanceMaintenanceWorkers AS TMMW
-	ON TMMW.intMaintenanceID = TM.intMaintenanceID
-	JOIN TMaintenanceWorkers AS TMW
-	ON TMW.intMaintenanceWorkerID = TMMW.intMaintenanceWorkerID
-WHERE
-	TP.intPlaneTypeID = 3
-and TMW.intMaintenanceWorkerID = 1
-
-
--- --------------------------------------------------------------------------------
---	Query #12: Show all Passengers that have taken a flight where Pilot “Ima Soring” 
---	and Attendant “Sherley Ujest” were on the same flight. Show Passenger First 
---	Name and Last Name. Show Flight Number and Date
---	JOIN, WHERE
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,TF.strFlightNumber
-	,TF.dtmFlightDate
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-	JOIN TAttendantFlights AS TAF
-	ON TAF.intFlightID = TF.intFlightID
-	JOIN TAttendants AS TA
-	ON TA.intAttendantID = TAF.intAttendantID
-	JOIN TPilotFlights AS TPF
-	ON TPF.intFlightID = TF.intFlightID
-	JOIN TPilots AS TPi
-	ON TPi.intPilotID = TPF.intPilotID
-WHERE
-	TA.strLastName = 'Ujest'
-and TPi.strLastName = 'Soring'
-
--- --------------------------------------------------------------------------------
---	Query #13: Show Attendants and their total flights(only if more than 1) where 
---	they originated out of CVG airport during April, 2022. Show Attendant First 
---	Name and Last Name and Total Flights. Sort by Total Flights descending
---	COUNT, HAVING, WHERE
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TA.strFirstName
-	,TA.strLastName
-	,COUNT(TAF.intFlightID) AS TotalFlights
-FROM
-	TAttendants AS TA JOIN TAttendantFlights AS TAF
-	ON TA.intAttendantID = TAF.intAttendantID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TAF.intFlightID
-	JOIN TAirports AS TAP
-	ON TAP.intAirportID = TF.intFromAirportID
-WHERE
-	TAP.strAirportCode = 'CVG'
--- How do I specify what month and/or year I want to focus on?
-and MONTH(TF.dtmFlightDate) = MONTH(TF.dtmFlightDate)
-GROUP BY
-	TA.strFirstName, TA.strLastName
-ORDER BY
-	TotalFlights DESC
-
--- --------------------------------------------------------------------------------
---	Query #14: Show all Passengers that have NOT taken a flight where Pilot 
---	“Ima Soring” and Attendant “Sherley Ujest” were on the same flight. 
---	Show Passenger First Name and Last Name
---	SUBQUERY, JOIN
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,TF.strFlightNumber
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-WHERE 
-	TF.intFlightID NOT IN
-(SELECT
-	TF.intFlightID
-FROM
-	TPassengers AS TP JOIN TFlightPassengers AS TFP
-	ON TP.intPassengerID = TFP.intPassengerID
-	JOIN TFlights AS TF
-	ON TF.intFlightID = TFP.intFlightID
-	JOIN TAttendantFlights AS TAF
-	ON TAF.intFlightID = TF.intFlightID
-	JOIN TAttendants AS TA
-	ON TA.intAttendantID = TAF.intAttendantID
-	JOIN TPilotFlights AS TPF
-	ON TPF.intFlightID = TF.intFlightID
-	JOIN TPilots AS TPi
-	ON TPi.intPilotID = TPF.intPilotID
-WHERE
-	TA.strLastName = 'Ujest'
-and TPi.strLastName = 'Soring')
-
--- --------------------------------------------------------------------------------
---	Query #15: Show total number of times Pilot “Tip Seenow” has flown  Boeing 747-B
---	COUNT, JOIN
--- --------------------------------------------------------------------------------
-
-SELECT
-	COUNT(TPF.intPilotID) AS TimesFlown
-FROM 
-	TFlights AS TF JOIN TPilotFlights AS TPF
-	ON TF.intFlightID = TPF.intFlightID
-	JOIN TPilots AS TP
-	ON TP.intPilotID = TPF.intPilotID
-	JOIN TPlanes As TPl
-	ON TPl.intPlaneID = TF.intPlaneID
-WHERE
-	TPl.intPlaneTypeID = 2
-and TP.intPilotID = 1
-
--- --------------------------------------------------------------------------------
---	Query #16: Show all Passengers that live on a street with the work “Oak” in it
---	LIKE
--- --------------------------------------------------------------------------------
-
-SELECT
-	 TP.strFirstName
-	,TP.strLastName
-	,TP.strAddress
-FROM
-	TPassengers AS TP
-WHERE
-	TP.strAddress LIKE '%Oak%'
-
-
 
 -- ----------------------
 --	PASSENGERS
@@ -890,10 +556,13 @@ CREATE PROCEDURE uspCreateCustomer
 	 @intPassengerID	AS INTEGER OUTPUT
 	,@strFirstName		AS VARCHAR(255)
 	,@strLastName		AS VARCHAR(255)
+	,@dtmDOB			AS DATETIME
 	,@strAddress		AS VARCHAR(255)
 	,@strCity			AS VARCHAR(255)
 	,@intStateID		AS INTEGER		
 	,@strZip			AS VARCHAR(255)
+	,@strLoginID		AS VARCHAR(255)
+	,@strPassword		AS VARCHAR(255)
 	,@strPhoneNumber	AS VARCHAR(255)
 	,@strEmail			AS VARCHAR(255)
 AS
@@ -905,8 +574,8 @@ BEGIN TRANSACTION
 
 	SELECT @intPassengerID = COALESCE(@intPassengerID, 1) -- first ID is 1 if table is empty
 
-	INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, strAddress, strCity, intStateID, strZip, strPhoneNumber, strEmail)
-	VALUES		(@intPassengerID, @strFirstName, @strLastName, @strAddress, @strCity, @intStateID, @strZip, @strPhoneNumber, @strEmail)
+	INSERT INTO TPassengers (intPassengerID, strFirstName, strLastName, dtmDOB, strAddress, strCity, intStateID, strZip, strLoginID, strPassword, strPhoneNumber, strEmail)
+	VALUES		(@intPassengerID, @strFirstName, @strLastName, @dtmDOB, @strAddress, @strCity, @intStateID, @strZip, @strLoginID, @strPassword, @strPhoneNumber, @strEmail)
 
 COMMIT TRANSACTION
 GO
@@ -935,10 +604,13 @@ CREATE PROCEDURE uspUpdateCustomer
      @intPassengerID	AS INTEGER
 	,@strFirstName		AS VARCHAR(255)
 	,@strLastName		AS VARCHAR(255)
+	,@dtmDOB			AS DATETIME
 	,@strAddress		AS VARCHAR(255)
 	,@strCity			AS VARCHAR(255)
 	,@intStateID		AS INTEGER
 	,@strZip			AS VARCHAR(20)
+	,@strLoginID		AS VARCHAR(255)
+	,@strPassword		AS VARCHAR(255)
 	,@strPhoneNumber	AS VARCHAR(20)
 	,@strEmail			AS VARCHAR(255)
 AS
@@ -947,10 +619,13 @@ BEGIN TRANSACTION
 	UPDATE TPassengers 
 	SET	 strFirstName = @strFirstName
 		,strLastName = @strLastName
+		,dtmDOB = @dtmDOB
 		,strAddress = @strAddress
 		,strCity = @strCity
 		,intStateID = @intStateID
 		,strZip = @strZip
+		,strLoginID = @strLoginID
+		,strPassword = @strPassword
 		,strPhoneNumber = @strPhoneNumber
 		,strEmail = @strEmail
 	WHERE TPassengers.intPassengerID = @intPassengerID
@@ -1057,9 +732,13 @@ GO
 -- --------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE uspCreatePilot
-	 @intPilotID		AS INTEGER OUTPUT
+	 @intEmployeeID		AS INTEGER OUTPUT
+	,@intEmployeeRoleID	AS INTEGER OUTPUT  -- has a default value
+	,@intPilotID		AS INTEGER OUTPUT
 	,@strFirstName		AS VARCHAR(255)
 	,@strLastName		AS VARCHAR(255)
+	,@strLoginID		AS VARCHAR(30)
+	,@strPassword		AS VARCHAR(30)
 	,@strEmployeeID		AS VARCHAR(255)
 	,@dtmDateOfHire		AS DATETIME	
 	,@dtmDateOfTermination AS DATETIME
@@ -1068,7 +747,8 @@ CREATE PROCEDURE uspCreatePilot
 AS
 SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
 BEGIN TRANSACTION
-	
+
+-- Inserts values into TPilots
 	SELECT @intPilotID = MAX(intPilotID) + 1
 	FROM TPilots
 
@@ -1076,6 +756,17 @@ BEGIN TRANSACTION
 
 	INSERT INTO TPilots (intPilotID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination, dtmDateofLicense, intPilotRoleID)
 	VALUES		(@intPilotID, @strFirstName, @strLastName, @strEmployeeID, @dtmDateOfHire, @dtmDateOfTermination, @dtmDateOfLicense, @intPilotRoleID)
+
+-- Inserts values into TEmployee
+	SELECT @intEmployeeID = MAX(intEmployeeID) + 1
+	FROM TEmployees
+
+	SELECT @intEmployeeID = COALESCE(@intEmployeeID, 1) -- first ID is 1 if table is empty
+
+	SET @intEmployeeRoleID = 1 -- employee role is set to 1 (pilot) by default
+
+	INSERT INTO TEmployees (intEmployeeID, strLoginID, strPassword, intEmployeeRoleID, intEmployeeNum)
+	VALUES		(@intEmployeeID, @strLoginID, @strPassword, @intEmployeeRoleID, @intPilotID)
 
 COMMIT TRANSACTION
 GO
@@ -1101,9 +792,12 @@ GO
 -- --------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE uspUpdatePilot
-     @intPilotID		AS INTEGER
+	 @intEmployeeID		AS INTEGER
+    ,@intPilotID		AS INTEGER
 	,@strFirstName		AS VARCHAR(255)
 	,@strLastName		AS VARCHAR(255)
+	,@strLoginID		AS VARCHAR(30)
+	,@strPassword		AS VARCHAR(30)
 	,@strEmployeeID		AS VARCHAR(10)
 	,@dtmDateofHire		AS DATETIME
 	,@dtmDateofTermination AS DATETIME
@@ -1121,6 +815,12 @@ BEGIN TRANSACTION
 		,dtmDateofLicense = @dtmDateofLicense
 		,intPilotRoleID = @intPilotRoleID
 	WHERE TPilots.intPilotID = @intPilotID
+
+	UPDATE TEmployees
+	SET	 strLoginID = @strLoginID
+		,strPassword = @strPassword
+	WHERE intEmployeeNum = @intPilotID
+	AND intEmployeeID = @intEmployeeID
 
 COMMIT TRANSACTION
 GO
@@ -1224,9 +924,13 @@ GO
 -- --------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE uspCreateAttendant
-	 @intAttendantID	AS INTEGER OUTPUT
+	 @intEmployeeID		AS INTEGER OUTPUT
+	,@intEmployeeRoleID	AS INTEGER OUTPUT  -- has a default value
+	,@intAttendantID	AS INTEGER OUTPUT
 	,@strFirstName		AS VARCHAR(255)
 	,@strLastName		AS VARCHAR(255)
+	,@strLoginID		AS VARCHAR(30)
+	,@strPassword		AS VARCHAR(30)
 	,@strEmployeeID		AS VARCHAR(255)
 	,@dtmDateOfHire		AS DATETIME	
 	,@dtmDateOfTermination AS DATETIME	
@@ -1234,6 +938,7 @@ AS
 SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
 BEGIN TRANSACTION
 	
+-- Inserts values into TAttendants
 	SELECT @intAttendantID = MAX(intAttendantID) + 1
 	FROM TAttendants
 
@@ -1241,6 +946,17 @@ BEGIN TRANSACTION
 
 	INSERT INTO TAttendants (intAttendantID, strFirstName, strLastName, strEmployeeID, dtmDateofHire, dtmDateofTermination)
 	VALUES		(@intAttendantID, @strFirstName, @strLastName, @strEmployeeID, @dtmDateOfHire, @dtmDateOfTermination)
+
+-- Inserts values into TEmployee
+	SELECT @intEmployeeID = MAX(intEmployeeID) + 1
+	FROM TEmployees
+
+	SELECT @intEmployeeID = COALESCE(@intEmployeeID, 1) -- first ID is 1 if table is empty
+
+	SET @intEmployeeRoleID = 2 -- employee role is set to 2 (attendant) by default
+
+	INSERT INTO TEmployees (intEmployeeID, strLoginID, strPassword, intEmployeeRoleID, intEmployeeNum)
+	VALUES		(@intEmployeeID, @strLoginID, @strPassword, @intEmployeeRoleID, @intAttendantID)
 
 COMMIT TRANSACTION
 GO
@@ -1266,9 +982,12 @@ GO
 -- --------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE uspUpdateAttendant
-     @intAttendantID	AS INTEGER
+     @intEmployeeID		AS INTEGER
+	,@intAttendantID	AS INTEGER
 	,@strFirstName		AS VARCHAR(255)
 	,@strLastName		AS VARCHAR(255)
+	,@strLoginID		AS VARCHAR(30)
+	,@strPassword		AS VARCHAR(30)
 	,@strEmployeeID		AS VARCHAR(10)
 	,@dtmDateofHire		AS DATETIME
 	,@dtmDateofTermination AS DATETIME
@@ -1282,6 +1001,12 @@ BEGIN TRANSACTION
 		,dtmDateofHire = @dtmDateofHire
 		,dtmDateofTermination = @dtmDateofTermination
 	WHERE TAttendants.intAttendantID = @intAttendantID
+
+	UPDATE TEmployees
+	SET	 strLoginID = @strLoginID
+		,strPassword = @strPassword
+	WHERE intEmployeeNum = @intAttendantID
+	AND intEmployeeID = @intEmployeeID
 
 COMMIT TRANSACTION
 GO
@@ -1377,5 +1102,26 @@ COMMIT TRANSACTION
 GO
 
 
+GO
+CREATE PROCEDURE uspEmployeeLogin
+	 @intEmployeeID	AS INTEGER OUTPUT
+	,@strLoginID	AS VARCHAR(30)
+	,@strPassword	AS VARCHAR(30)
+AS
+BEGIN TRANSACTION	-- ask bob if I can look up how to do try/excepts, or ask for guidance on validation
 
+	SELECT @intEmployeeID = intEmployeeID
+	FROM TEmployees
+	WHERE strLoginID = @strLoginID
+	AND strPassword = @strPassword
 
+	--IF @intEmployeeID IS NULL
+	--	SET ???
+	--ELSE
+	--	SET ???
+
+COMMIT TRANSACTION
+GO
+
+DECLARE @intEmployeeID AS INTEGER
+EXECUTE uspEmployeeLogin @intEmployeeID OUTPUT, 'swoyak', 'password'

@@ -26,6 +26,8 @@ Partial Class frmNavigation
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.lblUserType = New System.Windows.Forms.Label()
         Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnCustomer = New System.Windows.Forms.Button()
+        Me.btnEmployee = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cboUserType
@@ -64,13 +66,33 @@ Partial Class frmNavigation
         Me.btnExit.Text = "Exit"
         Me.btnExit.UseVisualStyleBackColor = True
         '
+        'btnCustomer
+        '
+        Me.btnCustomer.Location = New System.Drawing.Point(49, 148)
+        Me.btnCustomer.Name = "btnCustomer"
+        Me.btnCustomer.Size = New System.Drawing.Size(95, 40)
+        Me.btnCustomer.TabIndex = 1
+        Me.btnCustomer.Text = "Customer Login"
+        Me.btnCustomer.UseVisualStyleBackColor = True
+        '
+        'btnEmployee
+        '
+        Me.btnEmployee.Location = New System.Drawing.Point(272, 148)
+        Me.btnEmployee.Name = "btnEmployee"
+        Me.btnEmployee.Size = New System.Drawing.Size(95, 40)
+        Me.btnEmployee.TabIndex = 1
+        Me.btnEmployee.Text = "Employee Login"
+        Me.btnEmployee.UseVisualStyleBackColor = True
+        '
         'frmNavigation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(413, 165)
+        Me.ClientSize = New System.Drawing.Size(413, 211)
         Me.Controls.Add(Me.lblUserType)
+        Me.Controls.Add(Me.btnEmployee)
         Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnCustomer)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.cboUserType)
         Me.Name = "frmNavigation"
@@ -84,4 +106,6 @@ Partial Class frmNavigation
     Friend WithEvents btnSubmit As Button
     Friend WithEvents lblUserType As Label
     Friend WithEvents btnExit As Button
+    Friend WithEvents btnCustomer As Button
+    Friend WithEvents btnEmployee As Button
 End Class

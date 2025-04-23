@@ -27,7 +27,15 @@ Partial Class frmPilotSelect
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.txtPassword = New System.Windows.Forms.TextBox()
+        Me.txtLoginID = New System.Windows.Forms.TextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.btnSubmit2 = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -77,16 +85,83 @@ Partial Class frmPilotSelect
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.txtPassword)
+        Me.GroupBox2.Controls.Add(Me.txtLoginID)
+        Me.GroupBox2.Controls.Add(Me.Button1)
+        Me.GroupBox2.Controls.Add(Me.Label3)
+        Me.GroupBox2.Controls.Add(Me.btnSubmit2)
+        Me.GroupBox2.Controls.Add(Me.Label2)
+        Me.GroupBox2.Location = New System.Drawing.Point(36, 252)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(325, 198)
+        Me.GroupBox2.TabIndex = 1
+        Me.GroupBox2.TabStop = False
+        '
+        'txtPassword
+        '
+        Me.txtPassword.Location = New System.Drawing.Point(70, 99)
+        Me.txtPassword.Name = "txtPassword"
+        Me.txtPassword.Size = New System.Drawing.Size(185, 22)
+        Me.txtPassword.TabIndex = 4
+        '
+        'txtLoginID
+        '
+        Me.txtLoginID.Location = New System.Drawing.Point(70, 43)
+        Me.txtLoginID.Name = "txtLoginID"
+        Me.txtLoginID.Size = New System.Drawing.Size(185, 22)
+        Me.txtLoginID.TabIndex = 4
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(197, 136)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(102, 44)
+        Me.Button1.TabIndex = 3
+        Me.Button1.Text = "Exit"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(26, 74)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(70, 16)
+        Me.Label3.TabIndex = 0
+        Me.Label3.Text = "Password:"
+        '
+        'btnSubmit2
+        '
+        Me.btnSubmit2.Location = New System.Drawing.Point(29, 136)
+        Me.btnSubmit2.Name = "btnSubmit2"
+        Me.btnSubmit2.Size = New System.Drawing.Size(102, 44)
+        Me.btnSubmit2.TabIndex = 2
+        Me.btnSubmit2.Text = "Submit"
+        Me.btnSubmit2.UseVisualStyleBackColor = True
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(26, 18)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(59, 16)
+        Me.Label2.TabIndex = 0
+        Me.Label2.Text = "Login ID:"
+        '
         'frmPilotSelect
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(396, 255)
+        Me.ClientSize = New System.Drawing.Size(396, 462)
+        Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "frmPilotSelect"
         Me.Text = "Select Pilot"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -96,4 +171,11 @@ Partial Class frmPilotSelect
     Friend WithEvents btnSubmit As Button
     Friend WithEvents btnExit As Button
     Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents txtPassword As TextBox
+    Friend WithEvents txtLoginID As TextBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Label3 As Label
+    Friend WithEvents btnSubmit2 As Button
+    Friend WithEvents Label2 As Label
 End Class
