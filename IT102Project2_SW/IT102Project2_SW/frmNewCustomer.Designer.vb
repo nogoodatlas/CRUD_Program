@@ -60,7 +60,7 @@ Partial Class frmNewCustomer
         Me.btnCreateCustomer.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCreateCustomer.Name = "btnCreateCustomer"
         Me.btnCreateCustomer.Size = New System.Drawing.Size(139, 57)
-        Me.btnCreateCustomer.TabIndex = 11
+        Me.btnCreateCustomer.TabIndex = 12
         Me.btnCreateCustomer.Text = "&Create Customer"
         Me.btnCreateCustomer.UseVisualStyleBackColor = True
         '
@@ -84,7 +84,7 @@ Partial Class frmNewCustomer
         Me.txtConfirmPass.Location = New System.Drawing.Point(30, 226)
         Me.txtConfirmPass.Name = "txtConfirmPass"
         Me.txtConfirmPass.Size = New System.Drawing.Size(226, 22)
-        Me.txtConfirmPass.TabIndex = 6
+        Me.txtConfirmPass.TabIndex = 11
         '
         'Label4
         '
@@ -100,14 +100,14 @@ Partial Class frmNewCustomer
         Me.txtPassword.Location = New System.Drawing.Point(30, 149)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.Size = New System.Drawing.Size(226, 22)
-        Me.txtPassword.TabIndex = 4
+        Me.txtPassword.TabIndex = 10
         '
         'txtLoginID
         '
         Me.txtLoginID.Location = New System.Drawing.Point(30, 67)
         Me.txtLoginID.Name = "txtLoginID"
         Me.txtLoginID.Size = New System.Drawing.Size(226, 22)
-        Me.txtLoginID.TabIndex = 4
+        Me.txtLoginID.TabIndex = 9
         '
         'Label5
         '
@@ -133,8 +133,8 @@ Partial Class frmNewCustomer
         Me.btnCancel.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(139, 57)
-        Me.btnCancel.TabIndex = 24
-        Me.btnCancel.Text = "&Cancel"
+        Me.btnCancel.TabIndex = 13
+        Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
         'GroupBox1
@@ -171,7 +171,7 @@ Partial Class frmNewCustomer
         Me.dtmDOB.Location = New System.Drawing.Point(179, 131)
         Me.dtmDOB.Name = "dtmDOB"
         Me.dtmDOB.Size = New System.Drawing.Size(250, 22)
-        Me.dtmDOB.TabIndex = 18
+        Me.dtmDOB.TabIndex = 2
         '
         'lblDOB
         '
@@ -186,7 +186,7 @@ Partial Class frmNewCustomer
         'lblEmail
         '
         Me.lblEmail.AutoSize = True
-        Me.lblEmail.Location = New System.Drawing.Point(22, 438)
+        Me.lblEmail.Location = New System.Drawing.Point(22, 433)
         Me.lblEmail.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmail.Name = "lblEmail"
         Me.lblEmail.Size = New System.Drawing.Size(44, 16)
@@ -196,7 +196,7 @@ Partial Class frmNewCustomer
         'lblPhone
         '
         Me.lblPhone.AutoSize = True
-        Me.lblPhone.Location = New System.Drawing.Point(22, 388)
+        Me.lblPhone.Location = New System.Drawing.Point(22, 384)
         Me.lblPhone.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPhone.Name = "lblPhone"
         Me.lblPhone.Size = New System.Drawing.Size(46, 16)
@@ -206,7 +206,7 @@ Partial Class frmNewCustomer
         'lblZip
         '
         Me.lblZip.AutoSize = True
-        Me.lblZip.Location = New System.Drawing.Point(22, 338)
+        Me.lblZip.Location = New System.Drawing.Point(22, 335)
         Me.lblZip.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblZip.Name = "lblZip"
         Me.lblZip.Size = New System.Drawing.Size(29, 16)
@@ -216,7 +216,7 @@ Partial Class frmNewCustomer
         'lblStates
         '
         Me.lblStates.AutoSize = True
-        Me.lblStates.Location = New System.Drawing.Point(22, 288)
+        Me.lblStates.Location = New System.Drawing.Point(22, 286)
         Me.lblStates.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblStates.Name = "lblStates"
         Me.lblStates.Size = New System.Drawing.Size(41, 16)
@@ -226,7 +226,7 @@ Partial Class frmNewCustomer
         'lblCities
         '
         Me.lblCities.AutoSize = True
-        Me.lblCities.Location = New System.Drawing.Point(22, 238)
+        Me.lblCities.Location = New System.Drawing.Point(22, 235)
         Me.lblCities.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCities.Name = "lblCities"
         Me.lblCities.Size = New System.Drawing.Size(32, 16)
@@ -236,7 +236,7 @@ Partial Class frmNewCustomer
         'lblAddress
         '
         Me.lblAddress.AutoSize = True
-        Me.lblAddress.Location = New System.Drawing.Point(22, 188)
+        Me.lblAddress.Location = New System.Drawing.Point(22, 186)
         Me.lblAddress.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblAddress.Name = "lblAddress"
         Me.lblAddress.Size = New System.Drawing.Size(61, 16)
@@ -256,7 +256,7 @@ Partial Class frmNewCustomer
         'lblFirstName
         '
         Me.lblFirstName.AutoSize = True
-        Me.lblFirstName.Location = New System.Drawing.Point(22, 38)
+        Me.lblFirstName.Location = New System.Drawing.Point(22, 39)
         Me.lblFirstName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFirstName.Name = "lblFirstName"
         Me.lblFirstName.Size = New System.Drawing.Size(75, 16)
@@ -270,7 +270,7 @@ Partial Class frmNewCustomer
         Me.cboStates.Margin = New System.Windows.Forms.Padding(4)
         Me.cboStates.Name = "cboStates"
         Me.cboStates.Size = New System.Drawing.Size(160, 24)
-        Me.cboStates.TabIndex = 4
+        Me.cboStates.TabIndex = 5
         '
         'txtEmail
         '
@@ -278,7 +278,7 @@ Partial Class frmNewCustomer
         Me.txtEmail.Margin = New System.Windows.Forms.Padding(4)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.Size = New System.Drawing.Size(280, 22)
-        Me.txtEmail.TabIndex = 7
+        Me.txtEmail.TabIndex = 8
         '
         'txtPhone
         '
@@ -286,7 +286,7 @@ Partial Class frmNewCustomer
         Me.txtPhone.Margin = New System.Windows.Forms.Padding(4)
         Me.txtPhone.Name = "txtPhone"
         Me.txtPhone.Size = New System.Drawing.Size(132, 22)
-        Me.txtPhone.TabIndex = 6
+        Me.txtPhone.TabIndex = 7
         '
         'txtCities
         '
@@ -294,7 +294,7 @@ Partial Class frmNewCustomer
         Me.txtCities.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCities.Name = "txtCities"
         Me.txtCities.Size = New System.Drawing.Size(132, 22)
-        Me.txtCities.TabIndex = 3
+        Me.txtCities.TabIndex = 4
         '
         'txtZip
         '
@@ -302,7 +302,7 @@ Partial Class frmNewCustomer
         Me.txtZip.Margin = New System.Windows.Forms.Padding(4)
         Me.txtZip.Name = "txtZip"
         Me.txtZip.Size = New System.Drawing.Size(132, 22)
-        Me.txtZip.TabIndex = 5
+        Me.txtZip.TabIndex = 6
         '
         'txtAddress
         '
@@ -310,7 +310,7 @@ Partial Class frmNewCustomer
         Me.txtAddress.Margin = New System.Windows.Forms.Padding(4)
         Me.txtAddress.Name = "txtAddress"
         Me.txtAddress.Size = New System.Drawing.Size(280, 22)
-        Me.txtAddress.TabIndex = 2
+        Me.txtAddress.TabIndex = 3
         '
         'txtLastName
         '

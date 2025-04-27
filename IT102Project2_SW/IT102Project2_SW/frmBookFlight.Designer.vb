@@ -33,7 +33,7 @@ Partial Class frmBookFlight
         Me.lblSeat = New System.Windows.Forms.Label()
         Me.cboSeats = New System.Windows.Forms.ComboBox()
         Me.btnSubmit = New System.Windows.Forms.Button()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'lblSelect
@@ -120,32 +120,32 @@ Partial Class frmBookFlight
         Me.cboSeats.Location = New System.Drawing.Point(191, 77)
         Me.cboSeats.Name = "cboSeats"
         Me.cboSeats.Size = New System.Drawing.Size(121, 24)
-        Me.cboSeats.TabIndex = 9
+        Me.cboSeats.TabIndex = 2
         '
         'btnSubmit
         '
         Me.btnSubmit.Location = New System.Drawing.Point(60, 221)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(91, 38)
-        Me.btnSubmit.TabIndex = 10
+        Me.btnSubmit.TabIndex = 3
         Me.btnSubmit.Text = "&Submit"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
-        'btnExit
+        'btnCancel
         '
-        Me.btnExit.Location = New System.Drawing.Point(242, 221)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(91, 38)
-        Me.btnExit.TabIndex = 11
-        Me.btnExit.Text = "&Exit"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnCancel.Location = New System.Drawing.Point(242, 221)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(91, 38)
+        Me.btnCancel.TabIndex = 4
+        Me.btnCancel.Text = "&Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'frmBookFlight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(392, 290)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.cboSeats)
         Me.Controls.Add(Me.lblSeat)
@@ -175,5 +175,5 @@ Partial Class frmBookFlight
     Friend WithEvents lblSeat As Label
     Friend WithEvents cboSeats As ComboBox
     Friend WithEvents btnSubmit As Button
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnCancel As Button
 End Class

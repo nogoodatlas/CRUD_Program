@@ -130,12 +130,6 @@
     <Compile Include="frmAttendantMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAttendantSelect.Designer.vb">
-      <DependentUpon>frmAttendantSelect.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmAttendantSelect.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmBookFlight.Designer.vb">
       <DependentUpon>frmBookFlight.vb</DependentUpon>
     </Compile>
@@ -148,10 +142,10 @@
     <Compile Include="frmCustomerMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCustomerSelect.Designer.vb">
-      <DependentUpon>frmCustomerSelect.vb</DependentUpon>
+    <Compile Include="frmCustomerLogin.Designer.vb">
+      <DependentUpon>frmCustomerLogin.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmCustomerSelect.vb">
+    <Compile Include="frmCustomerLogin.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmDeleteAttendant.Designer.vb">
@@ -164,6 +158,12 @@
       <DependentUpon>frmDeletePilot.vb</DependentUpon>
     </Compile>
     <Compile Include="frmDeletePilot.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmployeeLogin.Designer.vb">
+      <DependentUpon>frmEmployeeLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEmployeeLogin.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmManageAttendant.Designer.vb">
@@ -195,12 +195,6 @@
       <DependentUpon>frmPilotMain.vb</DependentUpon>
     </Compile>
     <Compile Include="frmPilotMain.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmPilotSelect.Designer.vb">
-      <DependentUpon>frmPilotSelect.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmPilotSelect.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmUpdateAttendant.Designer.vb">
@@ -261,23 +255,23 @@
     <EmbeddedResource Include="frmAttendantMain.resx">
       <DependentUpon>frmAttendantMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAttendantSelect.resx">
-      <DependentUpon>frmAttendantSelect.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmBookFlight.resx">
       <DependentUpon>frmBookFlight.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomerMain.resx">
       <DependentUpon>frmCustomerMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmCustomerSelect.resx">
-      <DependentUpon>frmCustomerSelect.vb</DependentUpon>
+    <EmbeddedResource Include="frmCustomerLogin.resx">
+      <DependentUpon>frmCustomerLogin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDeleteAttendant.resx">
       <DependentUpon>frmDeleteAttendant.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDeletePilot.resx">
       <DependentUpon>frmDeletePilot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmployeeLogin.resx">
+      <DependentUpon>frmEmployeeLogin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmManageAttendant.resx">
       <DependentUpon>frmManageAttendant.vb</DependentUpon>
@@ -293,9 +287,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPilotMain.resx">
       <DependentUpon>frmPilotMain.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmPilotSelect.resx">
-      <DependentUpon>frmPilotSelect.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUpdateAttendant.resx">
       <DependentUpon>frmUpdateAttendant.vb</DependentUpon>

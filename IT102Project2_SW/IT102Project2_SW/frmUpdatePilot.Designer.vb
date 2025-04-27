@@ -56,7 +56,7 @@ Partial Class frmUpdatePilot
         Me.btnUpdatePilot.Margin = New System.Windows.Forms.Padding(4)
         Me.btnUpdatePilot.Name = "btnUpdatePilot"
         Me.btnUpdatePilot.Size = New System.Drawing.Size(139, 57)
-        Me.btnUpdatePilot.TabIndex = 14
+        Me.btnUpdatePilot.TabIndex = 10
         Me.btnUpdatePilot.Text = "&Update Pilot"
         Me.btnUpdatePilot.UseVisualStyleBackColor = True
         '
@@ -80,7 +80,7 @@ Partial Class frmUpdatePilot
         Me.txtConfirmPass.Location = New System.Drawing.Point(30, 226)
         Me.txtConfirmPass.Name = "txtConfirmPass"
         Me.txtConfirmPass.Size = New System.Drawing.Size(226, 22)
-        Me.txtConfirmPass.TabIndex = 6
+        Me.txtConfirmPass.TabIndex = 9
         '
         'Label1
         '
@@ -96,14 +96,14 @@ Partial Class frmUpdatePilot
         Me.txtPassword.Location = New System.Drawing.Point(30, 149)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.Size = New System.Drawing.Size(226, 22)
-        Me.txtPassword.TabIndex = 4
+        Me.txtPassword.TabIndex = 8
         '
         'txtLoginID
         '
         Me.txtLoginID.Location = New System.Drawing.Point(30, 67)
         Me.txtLoginID.Name = "txtLoginID"
         Me.txtLoginID.Size = New System.Drawing.Size(226, 22)
-        Me.txtLoginID.TabIndex = 4
+        Me.txtLoginID.TabIndex = 7
         '
         'Label3
         '
@@ -153,21 +153,21 @@ Partial Class frmUpdatePilot
         Me.dtmLicenseDate.Location = New System.Drawing.Point(182, 298)
         Me.dtmLicenseDate.Name = "dtmLicenseDate"
         Me.dtmLicenseDate.Size = New System.Drawing.Size(250, 22)
-        Me.dtmLicenseDate.TabIndex = 16
+        Me.dtmLicenseDate.TabIndex = 5
         '
         'dtmTerminationDate
         '
         Me.dtmTerminationDate.Location = New System.Drawing.Point(182, 247)
         Me.dtmTerminationDate.Name = "dtmTerminationDate"
         Me.dtmTerminationDate.Size = New System.Drawing.Size(250, 22)
-        Me.dtmTerminationDate.TabIndex = 16
+        Me.dtmTerminationDate.TabIndex = 4
         '
         'dtmHireDate
         '
         Me.dtmHireDate.Location = New System.Drawing.Point(182, 199)
         Me.dtmHireDate.Name = "dtmHireDate"
         Me.dtmHireDate.Size = New System.Drawing.Size(250, 22)
-        Me.dtmHireDate.TabIndex = 16
+        Me.dtmHireDate.TabIndex = 3
         '
         'lblPhone
         '
@@ -246,7 +246,7 @@ Partial Class frmUpdatePilot
         Me.cboPilotRoles.Margin = New System.Windows.Forms.Padding(4)
         Me.cboPilotRoles.Name = "cboPilotRoles"
         Me.cboPilotRoles.Size = New System.Drawing.Size(160, 24)
-        Me.cboPilotRoles.TabIndex = 4
+        Me.cboPilotRoles.TabIndex = 6
         '
         'txtEmployeeID
         '
@@ -278,7 +278,7 @@ Partial Class frmUpdatePilot
         Me.btnCancel.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(139, 57)
-        Me.btnCancel.TabIndex = 23
+        Me.btnCancel.TabIndex = 11
         Me.btnCancel.Text = "&Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '

@@ -22,7 +22,7 @@ Partial Class frmAddAttendantFlight
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.lblFlightTo = New System.Windows.Forms.Label()
         Me.lblTo = New System.Windows.Forms.Label()
@@ -36,21 +36,21 @@ Partial Class frmAddAttendantFlight
         Me.lblSelect = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
-        'btnExit
+        'btnCancel
         '
-        Me.btnExit.Location = New System.Drawing.Point(252, 210)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(91, 38)
-        Me.btnExit.TabIndex = 23
-        Me.btnExit.Text = "&Exit"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnCancel.Location = New System.Drawing.Point(252, 210)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(91, 38)
+        Me.btnCancel.TabIndex = 3
+        Me.btnCancel.Text = "&Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'btnSubmit
         '
         Me.btnSubmit.Location = New System.Drawing.Point(70, 210)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(91, 38)
-        Me.btnSubmit.TabIndex = 22
+        Me.btnSubmit.TabIndex = 2
         Me.btnSubmit.Text = "&Submit"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
@@ -111,7 +111,7 @@ Partial Class frmAddAttendantFlight
         Me.cboAttendants.Location = New System.Drawing.Point(201, 29)
         Me.cboAttendants.Name = "cboAttendants"
         Me.cboAttendants.Size = New System.Drawing.Size(174, 24)
-        Me.cboAttendants.TabIndex = 37
+        Me.cboAttendants.TabIndex = 0
         '
         'lblAttendant
         '
@@ -128,7 +128,7 @@ Partial Class frmAddAttendantFlight
         Me.cboFlights.Location = New System.Drawing.Point(201, 75)
         Me.cboFlights.Name = "cboFlights"
         Me.cboFlights.Size = New System.Drawing.Size(174, 24)
-        Me.cboFlights.TabIndex = 35
+        Me.cboFlights.TabIndex = 1
         '
         'lblSelect
         '
@@ -148,7 +148,7 @@ Partial Class frmAddAttendantFlight
         Me.Controls.Add(Me.lblAttendant)
         Me.Controls.Add(Me.cboFlights)
         Me.Controls.Add(Me.lblSelect)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.lblFlightTo)
         Me.Controls.Add(Me.lblTo)
@@ -163,7 +163,7 @@ Partial Class frmAddAttendantFlight
 
     End Sub
 
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnCancel As Button
     Friend WithEvents btnSubmit As Button
     Friend WithEvents lblFlightTo As Label
     Friend WithEvents lblTo As Label

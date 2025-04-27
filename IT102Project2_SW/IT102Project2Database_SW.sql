@@ -45,6 +45,7 @@ IF OBJECT_ID ('uspCreateCustomer')		IS NOT NULL DROP PROCEDURE uspCreateCustomer
 IF OBJECT_ID ('uspDeleteCustomer')		IS NOT NULL DROP PROCEDURE uspDeleteCustomer
 IF OBJECT_ID ('uspUpdateCustomer')		IS NOT NULL DROP PROCEDURE uspUpdateCustomer
 
+IF OBJECT_ID ('uspBookFlight')				IS NOT NULL DROP PROCEDURE uspBookFlight
 IF OBJECT_ID ('uspCustomerPastFlights')		IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
 IF OBJECT_ID ('uspCustomerPastMiles')		IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
 IF OBJECT_ID ('uspCustomerFutureFlights')	IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
@@ -62,6 +63,7 @@ IF OBJECT_ID ('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
 IF OBJECT_ID ('uspDeletePilot')			IS NOT NULL DROP PROCEDURE uspDeletePilot
 IF OBJECT_ID ('uspUpdatePilot')			IS NOT NULL DROP PROCEDURE uspUpdatePilot
 
+IF OBJECT_ID ('uspAddPilotFlight')		IS NOT NULL DROP PROCEDURE uspAddPilotFlight
 IF OBJECT_ID ('uspPilotPastFlights')	IS NOT NULL DROP PROCEDURE uspPilotPastFlights
 IF OBJECT_ID ('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
 IF OBJECT_ID ('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
@@ -74,6 +76,7 @@ IF OBJECT_ID ('uspCreateAttendant')		IS NOT NULL DROP PROCEDURE uspCreateAttenda
 IF OBJECT_ID ('uspDeleteAttendant')		IS NOT NULL DROP PROCEDURE uspDeleteAttendant
 IF OBJECT_ID ('uspUpdateAttendant')		IS NOT NULL DROP PROCEDURE uspUpdateAttendant
 
+IF OBJECT_ID ('uspAddAttendantFlight')		IS NOT NULL DROP PROCEDURE uspAddAttendantFlight
 IF OBJECT_ID ('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
 IF OBJECT_ID ('uspAttendantPastMiles')		IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
 IF OBJECT_ID ('uspAttendantFutureFlights')	IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
@@ -626,6 +629,30 @@ COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
+--	Create Procedure for BookFlight (adds rows to TFlightPassengers)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspBookFlight
+	 @intFlightPassengerID	AS INTEGER OUTPUT
+	,@intFlightID		AS INTEGER
+	,@intPassengerID	AS INTEGER
+	,@strSeat			AS VARCHAR(255)
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+	
+	SELECT @intFlightPassengerID = MAX(intFlightPassengerID) + 1
+	FROM TFlightPassengers
+
+	SELECT @intFlightPassengerID = COALESCE(@intFlightPassengerID, 1) -- first ID is 1 if table is empty
+
+	INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)
+	VALUES		(@intFlightPassengerID, @intFlightID, @intPassengerID, @strSeat)
+
+COMMIT TRANSACTION
+GO
+	
+-- --------------------------------------------------------------------------------
 --	Create Procedure for CustomerPastFlights (displays past flight data for passenger)
 -- --------------------------------------------------------------------------------
 GO
@@ -819,6 +846,29 @@ GO
 
 EXECUTE uspUpdatePilot 6, 1, 'Tip', 'Seenow', 'tiseenow', 'seenow', '12121', '1/1/2015', '1/1/2099', '12/1/2014', 1
 -- --------------------------------------------------------------------------------
+--	Create Procedure for AddPilotFlight (adds rows to TPilotFlights)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAddPilotFlight
+	 @intPilotFlightID	AS INTEGER OUTPUT
+	,@intPilotID		AS INTEGER
+	,@intFlightID		AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+	
+	SELECT @intPilotFlightID = MAX(intPilotFlightID) + 1
+	FROM TPilotFlights
+
+	SELECT @intPilotFlightID = COALESCE(@intPilotFlightID, 1) -- first ID is 1 if table is empty
+
+	INSERT INTO TPilotFlights (intPilotFlightID, intPilotID, intFlightID)
+	VALUES		(@intPilotFlightID, @intPilotID, @intFlightID)
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
 --	Create Procedure for PilotPastFlights (displays past flight data for pilot)
 -- --------------------------------------------------------------------------------
 GO
@@ -1007,6 +1057,29 @@ COMMIT TRANSACTION
 GO
 
 -- --------------------------------------------------------------------------------
+--	Create Procedure for AddAttendantFlight (adds rows to TAttendantFlights)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAddAttendantFlight
+	 @intAttendantFlightID	AS INTEGER OUTPUT
+	,@intAttendantID		AS INTEGER
+	,@intFlightID			AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+	
+	SELECT @intAttendantFlightID = MAX(intAttendantFlightID) + 1
+	FROM TAttendantFlights
+
+	SELECT @intAttendantFlightID = COALESCE(@intAttendantFlightID, 1) -- first ID is 1 if table is empty
+
+	INSERT INTO TAttendantFlights (intAttendantFlightID, intAttendantID, intFlightID)
+	VALUES		(@intAttendantFlightID, @intAttendantID, @intFlightID)
+
+COMMIT TRANSACTION
+GO
+
+-- --------------------------------------------------------------------------------
 --	Create Procedure for AttendantPastFlights (displays past flight data for attendant)
 -- --------------------------------------------------------------------------------
 GO
@@ -1097,28 +1170,3 @@ COMMIT TRANSACTION
 GO
 
 
-GO
-CREATE PROCEDURE uspEmployeeLogin
-	 @intEmployeeID	AS INTEGER OUTPUT
-	,@strLoginID	AS VARCHAR(30)
-	,@strPassword	AS VARCHAR(30)
-AS
-BEGIN TRANSACTION	-- ask bob if I can look up how to do try/excepts, or ask for guidance on validation
-	BEGIN TRY
-		SELECT @intEmployeeID = intEmployeeID
-		FROM TEmployees
-		WHERE strLoginID = @strLoginID
-		AND strPassword = @strPassword
-	END TRY
-
-	BEGIN CATCH
-		SELECT ERROR_NUMBER() AS ErrorNumber, 
-			   ERROR_MESSAGE() AS ErrorMessage;
-	END CATCH
-	
-
-COMMIT TRANSACTION
-GO
-
-DECLARE @intEmployeeID AS INTEGER
-EXECUTE uspEmployeeLogin 0, 'swoyak', 'password'

@@ -24,7 +24,7 @@ Partial Class frmAdminMain
     Private Sub InitializeComponent()
         Me.btnManageAttendants = New System.Windows.Forms.Button()
         Me.btnManagePilots = New System.Windows.Forms.Button()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnDone = New System.Windows.Forms.Button()
         Me.btnStatistics = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
@@ -46,14 +46,14 @@ Partial Class frmAdminMain
         Me.btnManagePilots.Text = "Manage &Pilots"
         Me.btnManagePilots.UseVisualStyleBackColor = True
         '
-        'btnExit
+        'btnDone
         '
-        Me.btnExit.Location = New System.Drawing.Point(229, 143)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(160, 59)
-        Me.btnExit.TabIndex = 11
-        Me.btnExit.Text = "&Done"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnDone.Location = New System.Drawing.Point(229, 143)
+        Me.btnDone.Name = "btnDone"
+        Me.btnDone.Size = New System.Drawing.Size(160, 59)
+        Me.btnDone.TabIndex = 11
+        Me.btnDone.Text = "&Done"
+        Me.btnDone.UseVisualStyleBackColor = True
         '
         'btnStatistics
         '
@@ -71,7 +71,7 @@ Partial Class frmAdminMain
         Me.ClientSize = New System.Drawing.Size(413, 244)
         Me.Controls.Add(Me.btnManageAttendants)
         Me.Controls.Add(Me.btnManagePilots)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnDone)
         Me.Controls.Add(Me.btnStatistics)
         Me.Name = "frmAdminMain"
         Me.Text = "Admin Main Menu"
@@ -81,6 +81,6 @@ Partial Class frmAdminMain
 
     Friend WithEvents btnManageAttendants As Button
     Friend WithEvents btnManagePilots As Button
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnDone As Button
     Friend WithEvents btnStatistics As Button
 End Class

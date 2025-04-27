@@ -26,7 +26,7 @@ Partial Class frmCustomerMain
         Me.btnBookFlight = New System.Windows.Forms.Button()
         Me.btnPastFlights = New System.Windows.Forms.Button()
         Me.btnFutureFlights = New System.Windows.Forms.Button()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnDone = New System.Windows.Forms.Button()
         Me.lstDisplayFlights = New System.Windows.Forms.ListBox()
         Me.SuspendLayout()
         '
@@ -66,14 +66,14 @@ Partial Class frmCustomerMain
         Me.btnFutureFlights.Text = "Show &Future Flights"
         Me.btnFutureFlights.UseVisualStyleBackColor = True
         '
-        'btnExit
+        'btnDone
         '
-        Me.btnExit.Location = New System.Drawing.Point(113, 453)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(144, 38)
-        Me.btnExit.TabIndex = 1
-        Me.btnExit.Text = "&Done"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnDone.Location = New System.Drawing.Point(113, 453)
+        Me.btnDone.Name = "btnDone"
+        Me.btnDone.Size = New System.Drawing.Size(144, 38)
+        Me.btnDone.TabIndex = 1
+        Me.btnDone.Text = "&Done"
+        Me.btnDone.UseVisualStyleBackColor = True
         '
         'lstDisplayFlights
         '
@@ -92,7 +92,7 @@ Partial Class frmCustomerMain
         Me.Controls.Add(Me.lstDisplayFlights)
         Me.Controls.Add(Me.btnFutureFlights)
         Me.Controls.Add(Me.btnPastFlights)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnDone)
         Me.Controls.Add(Me.btnBookFlight)
         Me.Controls.Add(Me.btnUpdate)
         Me.Name = "frmCustomerMain"
@@ -105,6 +105,6 @@ Partial Class frmCustomerMain
     Friend WithEvents btnBookFlight As Button
     Friend WithEvents btnPastFlights As Button
     Friend WithEvents btnFutureFlights As Button
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnDone As Button
     Friend WithEvents lstDisplayFlights As ListBox
 End Class

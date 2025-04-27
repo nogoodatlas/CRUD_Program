@@ -52,7 +52,7 @@ Partial Class frmUpdateAttendant
         Me.btnUpdateAttendant.Margin = New System.Windows.Forms.Padding(4)
         Me.btnUpdateAttendant.Name = "btnUpdateAttendant"
         Me.btnUpdateAttendant.Size = New System.Drawing.Size(139, 57)
-        Me.btnUpdateAttendant.TabIndex = 17
+        Me.btnUpdateAttendant.TabIndex = 8
         Me.btnUpdateAttendant.Text = "&Update Attendant"
         Me.btnUpdateAttendant.UseVisualStyleBackColor = True
         '
@@ -76,7 +76,7 @@ Partial Class frmUpdateAttendant
         Me.txtConfirmPass.Location = New System.Drawing.Point(30, 226)
         Me.txtConfirmPass.Name = "txtConfirmPass"
         Me.txtConfirmPass.Size = New System.Drawing.Size(226, 22)
-        Me.txtConfirmPass.TabIndex = 6
+        Me.txtConfirmPass.TabIndex = 7
         '
         'Label1
         '
@@ -92,14 +92,14 @@ Partial Class frmUpdateAttendant
         Me.txtPassword.Location = New System.Drawing.Point(30, 149)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.Size = New System.Drawing.Size(226, 22)
-        Me.txtPassword.TabIndex = 4
+        Me.txtPassword.TabIndex = 6
         '
         'txtLoginID
         '
         Me.txtLoginID.Location = New System.Drawing.Point(30, 67)
         Me.txtLoginID.Name = "txtLoginID"
         Me.txtLoginID.Size = New System.Drawing.Size(226, 22)
-        Me.txtLoginID.TabIndex = 4
+        Me.txtLoginID.TabIndex = 5
         '
         'Label3
         '
@@ -145,14 +145,14 @@ Partial Class frmUpdateAttendant
         Me.dtmTerminationDate.Location = New System.Drawing.Point(184, 236)
         Me.dtmTerminationDate.Name = "dtmTerminationDate"
         Me.dtmTerminationDate.Size = New System.Drawing.Size(245, 22)
-        Me.dtmTerminationDate.TabIndex = 16
+        Me.dtmTerminationDate.TabIndex = 4
         '
         'dtmHireDate
         '
         Me.dtmHireDate.Location = New System.Drawing.Point(184, 188)
         Me.dtmHireDate.Name = "dtmHireDate"
         Me.dtmHireDate.Size = New System.Drawing.Size(245, 22)
-        Me.dtmHireDate.TabIndex = 16
+        Me.dtmHireDate.TabIndex = 3
         '
         'lblTerminationDate
         '
@@ -234,7 +234,7 @@ Partial Class frmUpdateAttendant
         Me.btnCancel.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(139, 57)
-        Me.btnCancel.TabIndex = 20
+        Me.btnCancel.TabIndex = 9
         Me.btnCancel.Text = "&Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '

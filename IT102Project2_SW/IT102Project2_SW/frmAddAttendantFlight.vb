@@ -121,18 +121,13 @@ Public Class frmAddAttendantFlight
 
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         'declare variables
-        Dim strSelect As String
-        Dim strInsert As String
-        Dim frmAttendant As New frmAttendantSelect
         Dim intFlight As Integer 'stores flight ID
         Dim intAttendant As Integer 'stores Attendant ID
+        Dim intAttendantFlightID As Integer ' holds next highest PK value
         Dim result As DialogResult  ' this is the result of which button the user selects
         Dim blnValidated As Boolean = True
 
-        Dim cmdSelect As OleDb.OleDbCommand ' select command object
-        Dim cmdInsert As OleDb.OleDbCommand ' insert command object
-        Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
-        Dim intNextPrimaryKey As Integer ' holds next highest PK value
+        Dim cmdInsert As New OleDb.OleDbCommand() ' insert command object
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
 
         'validate inputs
@@ -170,40 +165,14 @@ Public Class frmAddAttendantFlight
                         MessageBox.Show("Action Canceled")
                     Case DialogResult.Yes
 
-                        strSelect = "Select MAX(intAttendantFlightID) + 1 As intNextPrimaryKey " &
-                                " FROM TAttendantFlights"
-
-                        ' Execute command
-                        cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-                        drSourceTable = cmdSelect.ExecuteReader
-
-                        ' Read result( highest ID )
-                        drSourceTable.Read()
-
-                        ' Null? (empty table)
-                        If drSourceTable.IsDBNull(0) = True Then
-
-                            ' Yes, start numbering at 1
-                            intNextPrimaryKey = 1
-
-                        Else
-
-                            ' No, get the next highest ID
-                            intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
-
-                        End If
-
                         ' build insert statement (columns must match DB columns in name and the # of columns)
-                        strInsert = "INSERT INTO TAttendantFlights (intAttendantFlightID, intAttendantID, intFlightID)" &
-                            " VALUES (" & intNextPrimaryKey & "," & intAttendant & "," & intFlight & ")"
+                        cmdInsert.CommandText = "EXECUTE uspAddAttendantFlight " & intAttendantFlightID & "," & intAttendant & "," & intFlight
+                        cmdInsert.CommandType = CommandType.StoredProcedure
 
-                        'assign global variable
-                        gblAttendantID = intAttendant
+                        ' use insert command with sql command and connection object
+                        cmdInsert = New OleDb.OleDbCommand(cmdInsert.CommandText, m_conAdministrator)
 
-                        'MessageBox.Show(strInsert)
-
-                        ' use insert command with sql string and connection object
-                        cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
+                        ' execute query to insert data
 
                         ' execute query to insert data
                         intRowsAffected = cmdInsert.ExecuteNonQuery()
@@ -218,9 +187,6 @@ Public Class frmAddAttendantFlight
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
-
-            'open attendant select upon adding attendant to flight
-            frmAttendant.ShowDialog()
 
             'closes form upon adding attendant to flight
             Close()
@@ -243,7 +209,7 @@ Public Class frmAddAttendantFlight
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

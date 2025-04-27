@@ -22,7 +22,7 @@ Partial Class frmAddPilotFlight
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.cboPilots = New System.Windows.Forms.ComboBox()
         Me.lblPilot = New System.Windows.Forms.Label()
@@ -36,21 +36,21 @@ Partial Class frmAddPilotFlight
         Me.lblSelect = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
-        'btnExit
+        'btnCancel
         '
-        Me.btnExit.Location = New System.Drawing.Point(254, 213)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(91, 38)
-        Me.btnExit.TabIndex = 35
-        Me.btnExit.Text = "&Exit"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnCancel.Location = New System.Drawing.Point(254, 213)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(91, 38)
+        Me.btnCancel.TabIndex = 4
+        Me.btnCancel.Text = "&Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'btnSubmit
         '
         Me.btnSubmit.Location = New System.Drawing.Point(72, 213)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(91, 38)
-        Me.btnSubmit.TabIndex = 34
+        Me.btnSubmit.TabIndex = 3
         Me.btnSubmit.Text = "&Submit"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
@@ -60,7 +60,7 @@ Partial Class frmAddPilotFlight
         Me.cboPilots.Location = New System.Drawing.Point(203, 23)
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Size = New System.Drawing.Size(174, 24)
-        Me.cboPilots.TabIndex = 33
+        Me.cboPilots.TabIndex = 1
         '
         'lblPilot
         '
@@ -128,7 +128,7 @@ Partial Class frmAddPilotFlight
         Me.cboFlights.Location = New System.Drawing.Point(203, 69)
         Me.cboFlights.Name = "cboFlights"
         Me.cboFlights.Size = New System.Drawing.Size(174, 24)
-        Me.cboFlights.TabIndex = 25
+        Me.cboFlights.TabIndex = 2
         '
         'lblSelect
         '
@@ -144,7 +144,7 @@ Partial Class frmAddPilotFlight
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(412, 275)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.cboPilots)
         Me.Controls.Add(Me.lblPilot)
@@ -163,7 +163,7 @@ Partial Class frmAddPilotFlight
 
     End Sub
 
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnCancel As Button
     Friend WithEvents btnSubmit As Button
     Friend WithEvents cboPilots As ComboBox
     Friend WithEvents lblPilot As Label

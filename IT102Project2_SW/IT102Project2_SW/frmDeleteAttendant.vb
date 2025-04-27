@@ -56,7 +56,6 @@
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        Dim frmAttendant As New frmAttendantSelect
         Dim intRowsAffected As Integer
         Dim blnValidated As Boolean = True
 
@@ -124,9 +123,6 @@
                 MessageBox.Show(ex.Message)
             End Try
 
-            'open attendant select upon deleting attendant
-            frmAttendant.ShowDialog()
-
             'closes form upon deleting attendant
             Close()
         End If
@@ -140,7 +136,7 @@
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

@@ -23,7 +23,7 @@
         frmStats.ShowDialog()
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub btnDone_Click(sender As Object, e As EventArgs) Handles btnDone.Click
         'closes form
         Close()
     End Sub

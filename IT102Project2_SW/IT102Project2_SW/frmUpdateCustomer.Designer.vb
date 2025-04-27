@@ -60,7 +60,7 @@ Partial Class frmUpdateCustomer
         Me.btnUpdateCustomer.Margin = New System.Windows.Forms.Padding(4)
         Me.btnUpdateCustomer.Name = "btnUpdateCustomer"
         Me.btnUpdateCustomer.Size = New System.Drawing.Size(139, 57)
-        Me.btnUpdateCustomer.TabIndex = 11
+        Me.btnUpdateCustomer.TabIndex = 12
         Me.btnUpdateCustomer.Text = "&Update Customer"
         Me.btnUpdateCustomer.UseVisualStyleBackColor = True
         '
@@ -70,7 +70,7 @@ Partial Class frmUpdateCustomer
         Me.btnCancel.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(139, 57)
-        Me.btnCancel.TabIndex = 16
+        Me.btnCancel.TabIndex = 13
         Me.btnCancel.Text = "&Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -108,7 +108,7 @@ Partial Class frmUpdateCustomer
         Me.dtmDOB.Location = New System.Drawing.Point(179, 131)
         Me.dtmDOB.Name = "dtmDOB"
         Me.dtmDOB.Size = New System.Drawing.Size(250, 22)
-        Me.dtmDOB.TabIndex = 18
+        Me.dtmDOB.TabIndex = 2
         '
         'lblDOB
         '
@@ -207,7 +207,7 @@ Partial Class frmUpdateCustomer
         Me.cboStates.Margin = New System.Windows.Forms.Padding(4)
         Me.cboStates.Name = "cboStates"
         Me.cboStates.Size = New System.Drawing.Size(160, 24)
-        Me.cboStates.TabIndex = 4
+        Me.cboStates.TabIndex = 5
         '
         'txtEmail
         '
@@ -215,7 +215,7 @@ Partial Class frmUpdateCustomer
         Me.txtEmail.Margin = New System.Windows.Forms.Padding(4)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.Size = New System.Drawing.Size(280, 22)
-        Me.txtEmail.TabIndex = 7
+        Me.txtEmail.TabIndex = 8
         '
         'txtPhone
         '
@@ -223,7 +223,7 @@ Partial Class frmUpdateCustomer
         Me.txtPhone.Margin = New System.Windows.Forms.Padding(4)
         Me.txtPhone.Name = "txtPhone"
         Me.txtPhone.Size = New System.Drawing.Size(132, 22)
-        Me.txtPhone.TabIndex = 6
+        Me.txtPhone.TabIndex = 7
         '
         'txtCities
         '
@@ -231,7 +231,7 @@ Partial Class frmUpdateCustomer
         Me.txtCities.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCities.Name = "txtCities"
         Me.txtCities.Size = New System.Drawing.Size(132, 22)
-        Me.txtCities.TabIndex = 3
+        Me.txtCities.TabIndex = 4
         '
         'txtZip
         '
@@ -239,7 +239,7 @@ Partial Class frmUpdateCustomer
         Me.txtZip.Margin = New System.Windows.Forms.Padding(4)
         Me.txtZip.Name = "txtZip"
         Me.txtZip.Size = New System.Drawing.Size(132, 22)
-        Me.txtZip.TabIndex = 5
+        Me.txtZip.TabIndex = 6
         '
         'txtAddress
         '
@@ -247,7 +247,7 @@ Partial Class frmUpdateCustomer
         Me.txtAddress.Margin = New System.Windows.Forms.Padding(4)
         Me.txtAddress.Name = "txtAddress"
         Me.txtAddress.Size = New System.Drawing.Size(280, 22)
-        Me.txtAddress.TabIndex = 2
+        Me.txtAddress.TabIndex = 3
         '
         'txtLastName
         '
@@ -288,14 +288,14 @@ Partial Class frmUpdateCustomer
         Me.txtLoginID.Location = New System.Drawing.Point(30, 67)
         Me.txtLoginID.Name = "txtLoginID"
         Me.txtLoginID.Size = New System.Drawing.Size(226, 22)
-        Me.txtLoginID.TabIndex = 4
+        Me.txtLoginID.TabIndex = 9
         '
         'txtPassword
         '
         Me.txtPassword.Location = New System.Drawing.Point(30, 149)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.Size = New System.Drawing.Size(226, 22)
-        Me.txtPassword.TabIndex = 4
+        Me.txtPassword.TabIndex = 10
         '
         'Label4
         '
@@ -311,7 +311,7 @@ Partial Class frmUpdateCustomer
         Me.txtConfirmPass.Location = New System.Drawing.Point(30, 226)
         Me.txtConfirmPass.Name = "txtConfirmPass"
         Me.txtConfirmPass.Size = New System.Drawing.Size(226, 22)
-        Me.txtConfirmPass.TabIndex = 6
+        Me.txtConfirmPass.TabIndex = 11
         '
         'GroupBox3
         '

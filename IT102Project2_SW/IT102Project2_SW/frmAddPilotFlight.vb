@@ -121,18 +121,13 @@ Public Class frmAddPilotFlight
 
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         'declare variables
-        Dim strSelect As String
-        Dim strInsert As String
-        Dim frmPilot As New frmPilotMain
         Dim intFlight As Integer 'stores flight ID
         Dim intPilot As Integer 'stores Pilot ID
+        Dim intPilotFlightID As Integer ' holds next highest PK value
         Dim result As DialogResult  ' this is the result of which button the user selects
         Dim blnValidated As Boolean = True
 
-        Dim cmdSelect As OleDb.OleDbCommand ' select command object
-        Dim cmdInsert As OleDb.OleDbCommand ' insert command object
-        Dim drSourceTable As OleDb.OleDbDataReader ' data reader for pulling info
-        Dim intNextPrimaryKey As Integer ' holds next highest PK value
+        Dim cmdInsert As New OleDb.OleDbCommand() ' insert command object
         Dim intRowsAffected As Integer  ' how many rows were affected when sql executed
 
         'validate inputs
@@ -170,40 +165,13 @@ Public Class frmAddPilotFlight
                         MessageBox.Show("Action Canceled")
                     Case DialogResult.Yes
 
-                        strSelect = "Select MAX(intPilotFlightID) + 1 As intNextPrimaryKey " &
-                                " FROM TPilotFlights"
-
-                        ' Execute command
-                        cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-                        drSourceTable = cmdSelect.ExecuteReader
-
-                        ' Read result( highest ID )
-                        drSourceTable.Read()
-
-                        ' Null? (empty table)
-                        If drSourceTable.IsDBNull(0) = True Then
-
-                            ' Yes, start numbering at 1
-                            intNextPrimaryKey = 1
-
-                        Else
-
-                            ' No, get the next highest ID
-                            intNextPrimaryKey = CInt(drSourceTable("intNextPrimaryKey"))
-
-                        End If
 
                         ' build insert statement (columns must match DB columns in name and the # of columns)
-                        strInsert = "INSERT INTO TPilotFlights (intPilotFlightID, intPilotID, intFlightID)" &
-                            " VALUES (" & intNextPrimaryKey & "," & intPilot & "," & intFlight & ")"
+                        cmdInsert.CommandText = "EXECUTE uspAddPilotFlight " & intPilotFlightID & "," & intPilot & "," & intFlight
+                        cmdInsert.CommandType = CommandType.StoredProcedure
 
-                        'assign global variable
-                        gblPilotID = intPilot
-
-                        'MessageBox.Show(strInsert)
-
-                        ' use insert command with sql string and connection object
-                        cmdInsert = New OleDb.OleDbCommand(strInsert, m_conAdministrator)
+                        ' use insert command with sql command and connection object
+                        cmdInsert = New OleDb.OleDbCommand(cmdInsert.CommandText, m_conAdministrator)
 
                         ' execute query to insert data
                         intRowsAffected = cmdInsert.ExecuteNonQuery()
@@ -218,9 +186,6 @@ Public Class frmAddPilotFlight
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
-
-            'open pilot select upon adding pilot to flight
-            frmPilot.ShowDialog()
 
             'closes form upon adding pilot to flight
             Close()
@@ -243,7 +208,7 @@ Public Class frmAddPilotFlight
         End If
     End Sub
 
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         'closes form
         Close()
     End Sub

@@ -25,7 +25,7 @@ Partial Class frmPilotMain
         Me.lstDisplayFlights = New System.Windows.Forms.ListBox()
         Me.btnFutureFlights = New System.Windows.Forms.Button()
         Me.btnPastFlights = New System.Windows.Forms.Button()
-        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnDone = New System.Windows.Forms.Button()
         Me.btnUpdate = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
@@ -56,14 +56,14 @@ Partial Class frmPilotMain
         Me.btnPastFlights.Text = "Show &Past Flights"
         Me.btnPastFlights.UseVisualStyleBackColor = True
         '
-        'btnExit
+        'btnDone
         '
-        Me.btnExit.Location = New System.Drawing.Point(204, 395)
-        Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(144, 38)
-        Me.btnExit.TabIndex = 6
-        Me.btnExit.Text = "&Done"
-        Me.btnExit.UseVisualStyleBackColor = True
+        Me.btnDone.Location = New System.Drawing.Point(204, 395)
+        Me.btnDone.Name = "btnDone"
+        Me.btnDone.Size = New System.Drawing.Size(144, 38)
+        Me.btnDone.TabIndex = 6
+        Me.btnDone.Text = "&Done"
+        Me.btnDone.UseVisualStyleBackColor = True
         '
         'btnUpdate
         '
@@ -82,7 +82,7 @@ Partial Class frmPilotMain
         Me.Controls.Add(Me.lstDisplayFlights)
         Me.Controls.Add(Me.btnFutureFlights)
         Me.Controls.Add(Me.btnPastFlights)
-        Me.Controls.Add(Me.btnExit)
+        Me.Controls.Add(Me.btnDone)
         Me.Controls.Add(Me.btnUpdate)
         Me.Name = "frmPilotMain"
         Me.Text = "Pilot Main Menu"
@@ -93,6 +93,6 @@ Partial Class frmPilotMain
     Friend WithEvents lstDisplayFlights As ListBox
     Friend WithEvents btnFutureFlights As Button
     Friend WithEvents btnPastFlights As Button
-    Friend WithEvents btnExit As Button
+    Friend WithEvents btnDone As Button
     Friend WithEvents btnUpdate As Button
 End Class
