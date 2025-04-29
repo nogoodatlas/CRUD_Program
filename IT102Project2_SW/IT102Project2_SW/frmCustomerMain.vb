@@ -1,4 +1,6 @@
-﻿Public Class frmCustomerMain
+﻿Imports System.Globalization
+
+Public Class frmCustomerMain
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
         'declare variable
         Dim frmUpdate As New frmUpdateCustomer
@@ -204,6 +206,7 @@
                 lstDisplayFlights.Items.Add("Flight Date: " & vbTab & vbTab & drSourceTable("dtmFlightDate"))
                 lstDisplayFlights.Items.Add("Flight Number: " & vbTab & vbTab & drSourceTable("strFlightNumber"))
                 lstDisplayFlights.Items.Add("Plane Number: " & vbTab & vbTab & drSourceTable("PlaneNum"))
+                lstDisplayFlights.Items.Add("Seat Number: " & vbTab & vbTab & drSourceTable("strSeat"))
                 lstDisplayFlights.Items.Add("City of Departure: " & vbTab & vbTab & drSourceTable("DepartureCity"))
                 lstDisplayFlights.Items.Add("City of Landing: " & vbTab & vbTab & drSourceTable("ArrivalCity"))
                 lstDisplayFlights.Items.Add("Miles Flown: " & vbTab & vbTab & drSourceTable("intMilesFlown"))

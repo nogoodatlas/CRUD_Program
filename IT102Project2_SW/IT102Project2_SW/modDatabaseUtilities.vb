@@ -8,7 +8,9 @@ Public Module modDatabaseUtilities
     Public gblPassengerID As String
     Public gblPilotID As String
     Public gblAttendantID As String
-    Public gblEmployeeID As String 'Added to allow for stored procedures that require EmployeeID to function
+    Public gblEmployeeID As String  'Added to allow for stored procedures that require EmployeeID to function
+    Public gblSeat As String        'Added to store the seating option selected for customer flight
+
     ' --------------------------------------------------------------------------------
     ' Properties
     ' --------------------------------------------------------------------------------

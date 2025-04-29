@@ -118,6 +118,12 @@
     <Compile Include="frmAdminMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmAirbusA350.Designer.vb">
+      <DependentUpon>frmAirbusA350.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAirbusA350.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmAirlineStatistics.Designer.vb">
       <DependentUpon>frmAirlineStatistics.vb</DependentUpon>
     </Compile>
@@ -134,6 +140,12 @@
       <DependentUpon>frmBookFlight.vb</DependentUpon>
     </Compile>
     <Compile Include="frmBookFlight.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateFlight.Designer.vb">
+      <DependentUpon>frmCreateFlight.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCreateFlight.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCustomerMain.Designer.vb">
@@ -249,6 +261,9 @@
     <EmbeddedResource Include="frmAdminMain.resx">
       <DependentUpon>frmAdminMain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAirbusA350.resx">
+      <DependentUpon>frmAirbusA350.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAirlineStatistics.resx">
       <DependentUpon>frmAirlineStatistics.vb</DependentUpon>
     </EmbeddedResource>
@@ -257,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmBookFlight.resx">
       <DependentUpon>frmBookFlight.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateFlight.resx">
+      <DependentUpon>frmCreateFlight.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomerMain.resx">
       <DependentUpon>frmCustomerMain.vb</DependentUpon>

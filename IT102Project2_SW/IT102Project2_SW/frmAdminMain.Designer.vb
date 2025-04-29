@@ -26,11 +26,12 @@ Partial Class frmAdminMain
         Me.btnManagePilots = New System.Windows.Forms.Button()
         Me.btnDone = New System.Windows.Forms.Button()
         Me.btnStatistics = New System.Windows.Forms.Button()
+        Me.btnCreateFlight = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'btnManageAttendants
         '
-        Me.btnManageAttendants.Location = New System.Drawing.Point(229, 43)
+        Me.btnManageAttendants.Location = New System.Drawing.Point(229, 33)
         Me.btnManageAttendants.Name = "btnManageAttendants"
         Me.btnManageAttendants.Size = New System.Drawing.Size(160, 59)
         Me.btnManageAttendants.TabIndex = 13
@@ -39,7 +40,7 @@ Partial Class frmAdminMain
         '
         'btnManagePilots
         '
-        Me.btnManagePilots.Location = New System.Drawing.Point(24, 43)
+        Me.btnManagePilots.Location = New System.Drawing.Point(24, 33)
         Me.btnManagePilots.Name = "btnManagePilots"
         Me.btnManagePilots.Size = New System.Drawing.Size(160, 59)
         Me.btnManagePilots.TabIndex = 12
@@ -48,7 +49,7 @@ Partial Class frmAdminMain
         '
         'btnDone
         '
-        Me.btnDone.Location = New System.Drawing.Point(229, 143)
+        Me.btnDone.Location = New System.Drawing.Point(126, 235)
         Me.btnDone.Name = "btnDone"
         Me.btnDone.Size = New System.Drawing.Size(160, 59)
         Me.btnDone.TabIndex = 11
@@ -57,20 +58,30 @@ Partial Class frmAdminMain
         '
         'btnStatistics
         '
-        Me.btnStatistics.Location = New System.Drawing.Point(24, 143)
+        Me.btnStatistics.Location = New System.Drawing.Point(24, 133)
         Me.btnStatistics.Name = "btnStatistics"
         Me.btnStatistics.Size = New System.Drawing.Size(160, 59)
         Me.btnStatistics.TabIndex = 10
         Me.btnStatistics.Text = "Airline &Statistics"
         Me.btnStatistics.UseVisualStyleBackColor = True
         '
+        'btnCreateFlight
+        '
+        Me.btnCreateFlight.Location = New System.Drawing.Point(229, 133)
+        Me.btnCreateFlight.Name = "btnCreateFlight"
+        Me.btnCreateFlight.Size = New System.Drawing.Size(160, 59)
+        Me.btnCreateFlight.TabIndex = 11
+        Me.btnCreateFlight.Text = "&Create Future Flight"
+        Me.btnCreateFlight.UseVisualStyleBackColor = True
+        '
         'frmAdminMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(413, 244)
+        Me.ClientSize = New System.Drawing.Size(413, 326)
         Me.Controls.Add(Me.btnManageAttendants)
         Me.Controls.Add(Me.btnManagePilots)
+        Me.Controls.Add(Me.btnCreateFlight)
         Me.Controls.Add(Me.btnDone)
         Me.Controls.Add(Me.btnStatistics)
         Me.Name = "frmAdminMain"
@@ -83,4 +94,5 @@ Partial Class frmAdminMain
     Friend WithEvents btnManagePilots As Button
     Friend WithEvents btnDone As Button
     Friend WithEvents btnStatistics As Button
+    Friend WithEvents btnCreateFlight As Button
 End Class

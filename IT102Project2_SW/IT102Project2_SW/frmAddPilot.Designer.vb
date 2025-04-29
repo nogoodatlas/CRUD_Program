@@ -238,6 +238,7 @@ Partial Class frmAddPilot
         '
         Me.txtConfirmPass.Location = New System.Drawing.Point(30, 226)
         Me.txtConfirmPass.Name = "txtConfirmPass"
+        Me.txtConfirmPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtConfirmPass.Size = New System.Drawing.Size(226, 22)
         Me.txtConfirmPass.TabIndex = 9
         '

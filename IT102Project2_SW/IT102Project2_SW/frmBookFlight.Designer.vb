@@ -30,10 +30,11 @@ Partial Class frmBookFlight
         Me.lblFlightFrom = New System.Windows.Forms.Label()
         Me.lblTo = New System.Windows.Forms.Label()
         Me.lblFlightTo = New System.Windows.Forms.Label()
-        Me.lblSeat = New System.Windows.Forms.Label()
-        Me.cboSeats = New System.Windows.Forms.ComboBox()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
+        Me.radReserved = New System.Windows.Forms.RadioButton()
+        Me.radAssigned = New System.Windows.Forms.RadioButton()
+        Me.lstFlightCost = New System.Windows.Forms.ListBox()
         Me.SuspendLayout()
         '
         'lblSelect
@@ -104,27 +105,9 @@ Partial Class frmBookFlight
         Me.lblFlightTo.Size = New System.Drawing.Size(137, 23)
         Me.lblFlightTo.TabIndex = 7
         '
-        'lblSeat
-        '
-        Me.lblSeat.AutoSize = True
-        Me.lblSeat.Location = New System.Drawing.Point(27, 85)
-        Me.lblSeat.Name = "lblSeat"
-        Me.lblSeat.Size = New System.Drawing.Size(79, 16)
-        Me.lblSeat.TabIndex = 8
-        Me.lblSeat.Text = "Select Seat:"
-        '
-        'cboSeats
-        '
-        Me.cboSeats.FormattingEnabled = True
-        Me.cboSeats.Items.AddRange(New Object() {"1A", "1B", "1C", "1D", "2A", "2B", "2C", "2D"})
-        Me.cboSeats.Location = New System.Drawing.Point(191, 77)
-        Me.cboSeats.Name = "cboSeats"
-        Me.cboSeats.Size = New System.Drawing.Size(121, 24)
-        Me.cboSeats.TabIndex = 2
-        '
         'btnSubmit
         '
-        Me.btnSubmit.Location = New System.Drawing.Point(60, 221)
+        Me.btnSubmit.Location = New System.Drawing.Point(54, 381)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(91, 38)
         Me.btnSubmit.TabIndex = 3
@@ -133,22 +116,54 @@ Partial Class frmBookFlight
         '
         'btnCancel
         '
-        Me.btnCancel.Location = New System.Drawing.Point(242, 221)
+        Me.btnCancel.Location = New System.Drawing.Point(236, 381)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(91, 38)
         Me.btnCancel.TabIndex = 4
         Me.btnCancel.Text = "&Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
+        'radReserved
+        '
+        Me.radReserved.AutoSize = True
+        Me.radReserved.Location = New System.Drawing.Point(48, 235)
+        Me.radReserved.Name = "radReserved"
+        Me.radReserved.Size = New System.Drawing.Size(119, 20)
+        Me.radReserved.TabIndex = 9
+        Me.radReserved.TabStop = True
+        Me.radReserved.Text = "Reserved Seat"
+        Me.radReserved.UseVisualStyleBackColor = True
+        '
+        'radAssigned
+        '
+        Me.radAssigned.AutoSize = True
+        Me.radAssigned.Location = New System.Drawing.Point(229, 235)
+        Me.radAssigned.Name = "radAssigned"
+        Me.radAssigned.Size = New System.Drawing.Size(116, 20)
+        Me.radAssigned.TabIndex = 10
+        Me.radAssigned.TabStop = True
+        Me.radAssigned.Text = "Assigned Seat"
+        Me.radAssigned.UseVisualStyleBackColor = True
+        '
+        'lstFlightCost
+        '
+        Me.lstFlightCost.FormattingEnabled = True
+        Me.lstFlightCost.ItemHeight = 16
+        Me.lstFlightCost.Location = New System.Drawing.Point(48, 275)
+        Me.lstFlightCost.Name = "lstFlightCost"
+        Me.lstFlightCost.Size = New System.Drawing.Size(297, 84)
+        Me.lstFlightCost.TabIndex = 11
+        '
         'frmBookFlight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(392, 290)
+        Me.ClientSize = New System.Drawing.Size(392, 444)
+        Me.Controls.Add(Me.lstFlightCost)
+        Me.Controls.Add(Me.radAssigned)
+        Me.Controls.Add(Me.radReserved)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSubmit)
-        Me.Controls.Add(Me.cboSeats)
-        Me.Controls.Add(Me.lblSeat)
         Me.Controls.Add(Me.lblFlightTo)
         Me.Controls.Add(Me.lblTo)
         Me.Controls.Add(Me.lblFlightFrom)
@@ -172,8 +187,9 @@ Partial Class frmBookFlight
     Friend WithEvents lblFlightFrom As Label
     Friend WithEvents lblTo As Label
     Friend WithEvents lblFlightTo As Label
-    Friend WithEvents lblSeat As Label
-    Friend WithEvents cboSeats As ComboBox
     Friend WithEvents btnSubmit As Button
     Friend WithEvents btnCancel As Button
+    Friend WithEvents radReserved As RadioButton
+    Friend WithEvents radAssigned As RadioButton
+    Friend WithEvents lstFlightCost As ListBox
 End Class

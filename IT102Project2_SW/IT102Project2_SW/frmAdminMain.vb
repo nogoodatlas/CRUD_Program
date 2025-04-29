@@ -23,6 +23,11 @@
         frmStats.ShowDialog()
     End Sub
 
+    Private Sub btnCreateFlight_Click(sender As Object, e As EventArgs) Handles btnCreateFlight.Click
+        'open form for creating future flights
+        frmCreateFlight.ShowDialog()
+    End Sub
+
     Private Sub btnDone_Click(sender As Object, e As EventArgs) Handles btnDone.Click
         'closes form
         Close()

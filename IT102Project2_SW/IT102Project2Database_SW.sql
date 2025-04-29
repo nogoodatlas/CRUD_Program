@@ -52,11 +52,6 @@ IF OBJECT_ID ('uspCustomerFutureFlights')	IS NOT NULL DROP PROCEDURE uspCustomer
 IF OBJECT_ID ('uspCustomerFutureMiles')		IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
 
 -- -----------------------------------
---	Employees (Pilots, Attendants, Admin)
--- -----------------------------------
-IF OBJECT_ID ('uspEmployeeLogin')		IS NOT NULL DROP PROCEDURE uspEmployeeLogin
-
--- -----------------------------------
 --	Pilots
 -- -----------------------------------
 IF OBJECT_ID ('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
@@ -175,7 +170,7 @@ CREATE TABLE TFlights
 	,dtmTimeOfLanding		TIME			
 	,intFromAirportID		INTEGER			NOT NULL
 	,intToAirportID			INTEGER			NOT NULL
-	,intMilesFlown			INTEGER			
+	,intMilesFlown			INTEGER			NOT NULL
 	,intPlaneID				INTEGER			NOT NULL
 	,CONSTRAINT TFlights_PK PRIMARY KEY ( intFlightID )
 )
@@ -249,6 +244,7 @@ CREATE TABLE TFlightPassengers
 	,intFlightID				INTEGER			NOT NULL
 	,intPassengerID				INTEGER			NOT NULL
 	,strSeat					VARCHAR(255)	NOT NULL
+	,monTotalCost				MONEY
 	,CONSTRAINT TFlightPassengers_PK PRIMARY KEY ( intFlightPassengerID )
 )
 
@@ -432,7 +428,7 @@ VALUES				 (1, 'admin', 'admin', 3, 1)
 					,(3, 'watoexet', 'emergency!', 2, 5)
 					,(4, 'iwknapp', 'honkshoo', 1, 4)
 					,(5, 'myamanie', 'wow_sofar', 2, 4)
-					,(6, 'tiseenow', 'gettin_tipsy', 1, 1)
+					,(6, 'tiseenow', 'seenow', 1, 1)
 					,(7, 'mityme', 'wedrankin', 2, 1)
 					,(8, 'imsoring', 'flyinnn', 1, 2)
 					,(9, 'shujest', 'hahasofunny', 2, 2)
@@ -496,31 +492,31 @@ VALUES				 (1, 1, 2)
 					,(12, 1, 6)
 					
 
-INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)
-VALUES				 (1, 1, 1, '1A')
-					,(2, 1, 2, '2A')
-					,(3, 1, 3, '1B')
-					,(4, 1, 4, '1C')
-					,(5, 1, 5, '1D')
-					,(6, 2, 5, '1A')
-					,(7, 2, 4, '2A')
-					,(8, 2, 3, '1B')
-					,(9, 3, 1, '1B')
-					,(10, 3, 2, '2A')
-					,(11, 3, 3, '1B')
-					,(12, 3, 4, '1C')
-					,(13, 3, 5, '1D')
-					,(14, 4, 2, '1A')
-					,(15, 4, 3, '1B')
-					,(16, 4, 4, '1C')
-					,(17, 4, 5, '1D')
-					,(18, 5, 1, '1A')
-					,(19, 5, 2, '2A')
-					,(20, 5, 3, '1B')
-					,(21, 5, 4, '2B')
-					,(22, 6, 1, '1A')
-					,(23, 6, 2, '2A')
-					,(24, 6, 3, '3A')
+INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat, monTotalCost)
+VALUES				 (1, 1, 1, '1A', NULL)
+					,(2, 1, 2, '2A', NULL)
+					,(3, 1, 3, '1B', NULL)
+					,(4, 1, 4, '1C', NULL)
+					,(5, 1, 5, '1D', NULL)
+					,(6, 2, 5, '1A', NULL)
+					,(7, 2, 4, '2A', NULL)
+					,(8, 2, 3, '1B', NULL)
+					,(9, 3, 1, '1B', NULL)
+					,(10, 3, 2, '2A', NULL)
+					,(11, 3, 3, '1B', NULL)
+					,(12, 3, 4, '1C', NULL)
+					,(13, 3, 5, '1D', NULL)
+					,(14, 4, 2, '1A', NULL)
+					,(15, 4, 3, '1B', NULL)
+					,(16, 4, 4, '1C', NULL)
+					,(17, 4, 5, '1D', NULL)
+					,(18, 5, 1, '1A', NULL)
+					,(19, 5, 2, '2A', NULL)
+					,(20, 5, 3, '1B', NULL)
+					,(21, 5, 4, '2B', NULL)
+					,(22, 6, 1, '1A', NULL)
+					,(23, 6, 2, '2A', NULL)
+					,(24, 6, 3, '3A', NULL)
 					
 
 INSERT INTO TMaintenanceMaintenanceWorkers (intMaintenanceMaintenanceWorkerID, intMaintenanceID, intMaintenanceWorkerID, intHours)
@@ -537,9 +533,11 @@ VALUES				 (1, 2, 1, 2)
 					,(11, 3, 3, 4)
 					,(12, 7, 3, 8)
 
-
-SELECT * FROM TEmployees
-SELECT * FROM TAttendants
+SELECT TPT.strPlaneType
+FROM TPlaneTypes AS TPT JOIN TPlanes AS TP
+	 ON TPT.intPlaneTypeID = TP.intPlaneTypeID
+	 JOIN TFlights AS TF
+	 ON TF.intPlaneID = TP.intPlaneID
 -- ----------------------
 --	PASSENGERS
 -- ----------------------
@@ -637,6 +635,7 @@ CREATE PROCEDURE uspBookFlight
 	,@intFlightID		AS INTEGER
 	,@intPassengerID	AS INTEGER
 	,@strSeat			AS VARCHAR(255)
+	,@monTotalCost		AS MONEY
 AS
 SET XACT_ABORT ON
 BEGIN TRANSACTION
@@ -646,8 +645,8 @@ BEGIN TRANSACTION
 
 	SELECT @intFlightPassengerID = COALESCE(@intFlightPassengerID, 1) -- first ID is 1 if table is empty
 
-	INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat)
-	VALUES		(@intFlightPassengerID, @intFlightID, @intPassengerID, @strSeat)
+	INSERT INTO TFlightPassengers (intFlightPassengerID, intFlightID, intPassengerID, strSeat, monTotalCost)
+	VALUES		(@intFlightPassengerID, @intFlightID, @intPassengerID, @strSeat, @monTotalCost)
 
 COMMIT TRANSACTION
 GO
@@ -709,8 +708,7 @@ BEGIN TRANSACTION
 	SELECT DISTINCT 
 		 TF.dtmFlightDate
 		,TF.strFlightNumber
-		,TF.dtmTimeofDeparture
-		,TF.dtmTimeofLanding
+		,TFP.strSeat
 		,TF.intMilesFlown
 		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
 		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
@@ -1004,8 +1002,8 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
-SELECT MAX(intAttendantID) AS MaxAttendant, MAX(intEmployeeID) AS MaxEmployee
-FROM TAttendants, TEmployees
+--SELECT MAX(intAttendantID) AS MaxAttendant, MAX(intEmployeeID) AS MaxEmployee
+--FROM TAttendants, TEmployees
 -- --------------------------------------------------------------------------------
 --	Create Procedure for DeleteAttendant (deletes selected attendant from TAttendants)
 -- --------------------------------------------------------------------------------

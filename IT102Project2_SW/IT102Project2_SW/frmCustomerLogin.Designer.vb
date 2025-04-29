@@ -82,6 +82,7 @@ Partial Class frmCustomerLogin
         '
         Me.txtPassword.Location = New System.Drawing.Point(69, 115)
         Me.txtPassword.Name = "txtPassword"
+        Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtPassword.Size = New System.Drawing.Size(185, 22)
         Me.txtPassword.TabIndex = 2
         '

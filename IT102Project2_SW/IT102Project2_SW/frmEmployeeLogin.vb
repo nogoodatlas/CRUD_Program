@@ -60,7 +60,7 @@
 
     Private Sub ValidateLogin(ByRef blnValidated As Boolean)
         If txtLoginID.Text = String.Empty Or txtPassword.Text = String.Empty Then
-            MessageBox.Show("Invalid Login ID or Password.")
+            MessageBox.Show("Please enter your Login ID and Password.")
             txtLoginID.Focus()
             blnValidated = False
         End If
@@ -78,14 +78,16 @@
             strSelect = "SELECT intEmployeeID, intEmployeeRoleID, intEmployeeNum FROM TEmployees " &
             "WHERE strLoginID = '" & strLogin & "' AND strPassword = '" & strPass & "'"
 
+            MessageBox.Show(strSelect)
+
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             drSourceTable = cmdSelect.ExecuteReader
 
             If drSourceTable.Read() Then
-                intEmployeeID = CInt(drSourceTable("intEmployeeID"))
-                intEmployeeRole = CInt(drSourceTable("intEmployeeRoleID"))
-                intEmployeeNum = CInt(drSourceTable("intEmployeeNum"))
+                intEmployeeID = drSourceTable("intEmployeeID")
+                intEmployeeRole = drSourceTable("intEmployeeRoleID")
+                intEmployeeNum = drSourceTable("intEmployeeNum")
             Else
                 MessageBox.Show("Invalid login and/or password")
                 drSourceTable.Close()
