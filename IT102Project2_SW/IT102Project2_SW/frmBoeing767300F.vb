@@ -1,5 +1,5 @@
-﻿Public Class frmAirbusA350
-    Private Sub frmAirbusA350_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+﻿Public Class frmBoeing767300F
+    Private Sub frmBoeing767300F_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'declare variables
         Dim strSelect As String = ""
         Dim strSeat As String = ""

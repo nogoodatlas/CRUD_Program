@@ -163,6 +163,7 @@ Public Class frmCustomerMain
         Try
 
             Dim strSelect As String = ""
+            Dim dblTotalCost As Double
             Dim cmdSelect As OleDb.OleDbCommand            ' this will be used for our Select statement
             Dim drSourceTable As OleDb.OleDbDataReader     ' this will be where our flight result set will 
             Dim dt As DataTable = New DataTable            ' this is the table we will load from our reader
@@ -201,7 +202,10 @@ Public Class frmCustomerMain
 
             While drSourceTable.Read()
 
+                dblTotalCost = drSourceTable("monTotalCost")
+
                 lstDisplayFlights.Items.Add("  ")
+
 
                 lstDisplayFlights.Items.Add("Flight Date: " & vbTab & vbTab & drSourceTable("dtmFlightDate"))
                 lstDisplayFlights.Items.Add("Flight Number: " & vbTab & vbTab & drSourceTable("strFlightNumber"))
@@ -210,6 +214,9 @@ Public Class frmCustomerMain
                 lstDisplayFlights.Items.Add("City of Departure: " & vbTab & vbTab & drSourceTable("DepartureCity"))
                 lstDisplayFlights.Items.Add("City of Landing: " & vbTab & vbTab & drSourceTable("ArrivalCity"))
                 lstDisplayFlights.Items.Add("Miles Flown: " & vbTab & vbTab & drSourceTable("intMilesFlown"))
+
+                lstDisplayFlights.Items.Add("")
+                lstDisplayFlights.Items.Add("Ticket Cost: " & vbTab & vbTab & dblTotalCost.ToString("c"))
 
                 lstDisplayFlights.Items.Add("  ")
                 lstDisplayFlights.Items.Add("=============================")

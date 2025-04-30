@@ -35,12 +35,14 @@ Partial Class frmBookFlight
         Me.radReserved = New System.Windows.Forms.RadioButton()
         Me.radAssigned = New System.Windows.Forms.RadioButton()
         Me.lstFlightCost = New System.Windows.Forms.ListBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblSelect
         '
         Me.lblSelect.AutoSize = True
-        Me.lblSelect.Location = New System.Drawing.Point(27, 39)
+        Me.lblSelect.Location = New System.Drawing.Point(27, 40)
         Me.lblSelect.Name = "lblSelect"
         Me.lblSelect.Size = New System.Drawing.Size(83, 16)
         Me.lblSelect.TabIndex = 0
@@ -49,7 +51,7 @@ Partial Class frmBookFlight
         'cboFlights
         '
         Me.cboFlights.FormattingEnabled = True
-        Me.cboFlights.Location = New System.Drawing.Point(191, 31)
+        Me.cboFlights.Location = New System.Drawing.Point(191, 32)
         Me.cboFlights.Name = "cboFlights"
         Me.cboFlights.Size = New System.Drawing.Size(174, 24)
         Me.cboFlights.TabIndex = 1
@@ -57,7 +59,7 @@ Partial Class frmBookFlight
         'lblDate
         '
         Me.lblDate.AutoSize = True
-        Me.lblDate.Location = New System.Drawing.Point(27, 140)
+        Me.lblDate.Location = New System.Drawing.Point(28, 89)
         Me.lblDate.Name = "lblDate"
         Me.lblDate.Size = New System.Drawing.Size(74, 16)
         Me.lblDate.TabIndex = 2
@@ -66,7 +68,7 @@ Partial Class frmBookFlight
         'lblFlightDate
         '
         Me.lblFlightDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblFlightDate.Location = New System.Drawing.Point(138, 133)
+        Me.lblFlightDate.Location = New System.Drawing.Point(139, 82)
         Me.lblFlightDate.Name = "lblFlightDate"
         Me.lblFlightDate.Size = New System.Drawing.Size(137, 23)
         Me.lblFlightDate.TabIndex = 3
@@ -74,7 +76,7 @@ Partial Class frmBookFlight
         'lblFrom
         '
         Me.lblFrom.AutoSize = True
-        Me.lblFrom.Location = New System.Drawing.Point(27, 186)
+        Me.lblFrom.Location = New System.Drawing.Point(28, 135)
         Me.lblFrom.Name = "lblFrom"
         Me.lblFrom.Size = New System.Drawing.Size(41, 16)
         Me.lblFrom.TabIndex = 4
@@ -83,7 +85,7 @@ Partial Class frmBookFlight
         'lblFlightFrom
         '
         Me.lblFlightFrom.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblFlightFrom.Location = New System.Drawing.Point(74, 179)
+        Me.lblFlightFrom.Location = New System.Drawing.Point(75, 128)
         Me.lblFlightFrom.Name = "lblFlightFrom"
         Me.lblFlightFrom.Size = New System.Drawing.Size(115, 23)
         Me.lblFlightFrom.TabIndex = 5
@@ -91,7 +93,7 @@ Partial Class frmBookFlight
         'lblTo
         '
         Me.lblTo.AutoSize = True
-        Me.lblTo.Location = New System.Drawing.Point(195, 186)
+        Me.lblTo.Location = New System.Drawing.Point(196, 135)
         Me.lblTo.Name = "lblTo"
         Me.lblTo.Size = New System.Drawing.Size(27, 16)
         Me.lblTo.TabIndex = 6
@@ -100,36 +102,36 @@ Partial Class frmBookFlight
         'lblFlightTo
         '
         Me.lblFlightTo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblFlightTo.Location = New System.Drawing.Point(228, 179)
+        Me.lblFlightTo.Location = New System.Drawing.Point(229, 128)
         Me.lblFlightTo.Name = "lblFlightTo"
         Me.lblFlightTo.Size = New System.Drawing.Size(137, 23)
         Me.lblFlightTo.TabIndex = 7
         '
         'btnSubmit
         '
-        Me.btnSubmit.Location = New System.Drawing.Point(54, 381)
+        Me.btnSubmit.Location = New System.Drawing.Point(60, 375)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(91, 38)
-        Me.btnSubmit.TabIndex = 3
+        Me.btnSubmit.TabIndex = 4
         Me.btnSubmit.Text = "&Submit"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
         'btnCancel
         '
-        Me.btnCancel.Location = New System.Drawing.Point(236, 381)
+        Me.btnCancel.Location = New System.Drawing.Point(242, 375)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(91, 38)
-        Me.btnCancel.TabIndex = 4
+        Me.btnCancel.TabIndex = 5
         Me.btnCancel.Text = "&Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
         'radReserved
         '
         Me.radReserved.AutoSize = True
-        Me.radReserved.Location = New System.Drawing.Point(48, 235)
+        Me.radReserved.Location = New System.Drawing.Point(12, 21)
         Me.radReserved.Name = "radReserved"
         Me.radReserved.Size = New System.Drawing.Size(119, 20)
-        Me.radReserved.TabIndex = 9
+        Me.radReserved.TabIndex = 2
         Me.radReserved.TabStop = True
         Me.radReserved.Text = "Reserved Seat"
         Me.radReserved.UseVisualStyleBackColor = True
@@ -137,10 +139,10 @@ Partial Class frmBookFlight
         'radAssigned
         '
         Me.radAssigned.AutoSize = True
-        Me.radAssigned.Location = New System.Drawing.Point(229, 235)
+        Me.radAssigned.Location = New System.Drawing.Point(169, 21)
         Me.radAssigned.Name = "radAssigned"
         Me.radAssigned.Size = New System.Drawing.Size(116, 20)
-        Me.radAssigned.TabIndex = 10
+        Me.radAssigned.TabIndex = 3
         Me.radAssigned.TabStop = True
         Me.radAssigned.Text = "Assigned Seat"
         Me.radAssigned.UseVisualStyleBackColor = True
@@ -149,19 +151,28 @@ Partial Class frmBookFlight
         '
         Me.lstFlightCost.FormattingEnabled = True
         Me.lstFlightCost.ItemHeight = 16
-        Me.lstFlightCost.Location = New System.Drawing.Point(48, 275)
+        Me.lstFlightCost.Location = New System.Drawing.Point(48, 218)
         Me.lstFlightCost.Name = "lstFlightCost"
-        Me.lstFlightCost.Size = New System.Drawing.Size(297, 84)
+        Me.lstFlightCost.Size = New System.Drawing.Size(297, 132)
         Me.lstFlightCost.TabIndex = 11
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.radAssigned)
+        Me.GroupBox1.Controls.Add(Me.radReserved)
+        Me.GroupBox1.Location = New System.Drawing.Point(48, 154)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(297, 55)
+        Me.GroupBox1.TabIndex = 12
+        Me.GroupBox1.TabStop = False
         '
         'frmBookFlight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(392, 444)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.lstFlightCost)
-        Me.Controls.Add(Me.radAssigned)
-        Me.Controls.Add(Me.radReserved)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.lblFlightTo)
@@ -174,6 +185,8 @@ Partial Class frmBookFlight
         Me.Controls.Add(Me.lblSelect)
         Me.Name = "frmBookFlight"
         Me.Text = "Book Flight"
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -192,4 +205,5 @@ Partial Class frmBookFlight
     Friend WithEvents radReserved As RadioButton
     Friend WithEvents radAssigned As RadioButton
     Friend WithEvents lstFlightCost As ListBox
+    Friend WithEvents GroupBox1 As GroupBox
 End Class

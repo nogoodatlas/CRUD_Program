@@ -136,6 +136,18 @@
     <Compile Include="frmAttendantMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmBoeing7478.Designer.vb">
+      <DependentUpon>frmBoeing7478.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBoeing7478.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBoeing767300F.Designer.vb">
+      <DependentUpon>frmBoeing767300F.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBoeing767300F.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmBookFlight.Designer.vb">
       <DependentUpon>frmBookFlight.vb</DependentUpon>
     </Compile>
@@ -269,6 +281,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAttendantMain.resx">
       <DependentUpon>frmAttendantMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBoeing7478.resx">
+      <DependentUpon>frmBoeing7478.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBoeing767300F.resx">
+      <DependentUpon>frmBoeing767300F.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmBookFlight.resx">
       <DependentUpon>frmBookFlight.vb</DependentUpon>

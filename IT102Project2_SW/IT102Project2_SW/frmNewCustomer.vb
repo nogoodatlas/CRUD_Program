@@ -181,17 +181,9 @@
     End Sub
 
     Private Sub ValidateDOB(ByRef blnValidated As Boolean, ByVal dteDOB As Date)
-        'declare variables
-        Dim dteCurrentDate As Date = DateTime.Now
-        Dim dteDifference As TimeSpan = dteCurrentDate - dteDOB 'used stack overflow to learn this
-        Dim intAge As Integer
-
-        'calculate customer's current age
-        intAge = dteDifference.TotalDays / 365
-
-        'validate that customer is at least 18 years old
-        If intAge < 18 Then
-            MessageBox.Show("You must be 18 or older to create an account.")
+        'validate that customer's DOB is not set later than current date
+        If dteDOB > DateTime.Now Then
+            MessageBox.Show("Date of birth cannot be later than current date.")
             blnValidated = False
         End If
     End Sub

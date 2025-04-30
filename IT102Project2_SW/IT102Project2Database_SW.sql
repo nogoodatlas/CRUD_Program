@@ -46,10 +46,18 @@ IF OBJECT_ID ('uspDeleteCustomer')		IS NOT NULL DROP PROCEDURE uspDeleteCustomer
 IF OBJECT_ID ('uspUpdateCustomer')		IS NOT NULL DROP PROCEDURE uspUpdateCustomer
 
 IF OBJECT_ID ('uspBookFlight')				IS NOT NULL DROP PROCEDURE uspBookFlight
+IF OBJECT_ID ('uspCustomerDetails')			IS NOT NULL DROP PROCEDURE uspCustomerDetails
 IF OBJECT_ID ('uspCustomerPastFlights')		IS NOT NULL DROP PROCEDURE uspCustomerPastFlights
 IF OBJECT_ID ('uspCustomerPastMiles')		IS NOT NULL DROP PROCEDURE uspCustomerPastMiles
 IF OBJECT_ID ('uspCustomerFutureFlights')	IS NOT NULL DROP PROCEDURE uspCustomerFutureFlights
 IF OBJECT_ID ('uspCustomerFutureMiles')		IS NOT NULL DROP PROCEDURE uspCustomerFutureMiles
+
+-- -----------------------------------
+--	Administrator
+-- -----------------------------------
+IF OBJECT_ID('uspCreateFlight')			IS NOT NULL DROP PROCEDURE uspCreateFlight
+IF OBJECT_ID ('uspAddPilotFlight')		IS NOT NULL DROP PROCEDURE uspAddPilotFlight
+IF OBJECT_ID ('uspAddAttendantFlight')	IS NOT NULL DROP PROCEDURE uspAddAttendantFlight
 
 -- -----------------------------------
 --	Pilots
@@ -58,7 +66,7 @@ IF OBJECT_ID ('uspCreatePilot')			IS NOT NULL DROP PROCEDURE uspCreatePilot
 IF OBJECT_ID ('uspDeletePilot')			IS NOT NULL DROP PROCEDURE uspDeletePilot
 IF OBJECT_ID ('uspUpdatePilot')			IS NOT NULL DROP PROCEDURE uspUpdatePilot
 
-IF OBJECT_ID ('uspAddPilotFlight')		IS NOT NULL DROP PROCEDURE uspAddPilotFlight
+
 IF OBJECT_ID ('uspPilotPastFlights')	IS NOT NULL DROP PROCEDURE uspPilotPastFlights
 IF OBJECT_ID ('uspPilotPastMiles')		IS NOT NULL DROP PROCEDURE uspPilotPastMiles
 IF OBJECT_ID ('uspPilotFutureFlights')	IS NOT NULL DROP PROCEDURE uspPilotFutureFlights
@@ -71,7 +79,7 @@ IF OBJECT_ID ('uspCreateAttendant')		IS NOT NULL DROP PROCEDURE uspCreateAttenda
 IF OBJECT_ID ('uspDeleteAttendant')		IS NOT NULL DROP PROCEDURE uspDeleteAttendant
 IF OBJECT_ID ('uspUpdateAttendant')		IS NOT NULL DROP PROCEDURE uspUpdateAttendant
 
-IF OBJECT_ID ('uspAddAttendantFlight')		IS NOT NULL DROP PROCEDURE uspAddAttendantFlight
+
 IF OBJECT_ID ('uspAttendantPastFlights')	IS NOT NULL DROP PROCEDURE uspAttendantPastFlights
 IF OBJECT_ID ('uspAttendantPastMiles')		IS NOT NULL DROP PROCEDURE uspAttendantPastMiles
 IF OBJECT_ID ('uspAttendantFutureFlights')	IS NOT NULL DROP PROCEDURE uspAttendantFutureFlights
@@ -164,8 +172,8 @@ CREATE TABLE TStates
 CREATE TABLE TFlights
 (
 	 intFlightID			INTEGER			NOT NULL
-	,strFlightNumber		VARCHAR(255)	NOT NULL
 	,dtmFlightDate			DATETIME		NOT NULL
+	,strFlightNumber		VARCHAR(255)	NOT NULL
 	,dtmTimeofDeparture		TIME			
 	,dtmTimeOfLanding		TIME			
 	,intFromAirportID		INTEGER			NOT NULL
@@ -457,7 +465,7 @@ VALUES				  (1, '4/1/2022', '111', '10:00:00', '12:00:00', 1, 2, 1200, 2)
 					 ,(8, '3/17/2022', '888','09:00:00', '11:00:00', 6, 4, 1100, 5)
 					 ,(9, '4/19/2022', '999','08:00:00', '10:00:00', 4, 2, 1000, 6)
 					 ,(10, '4/22/2022', '091','10:00:00', '12:00:00', 2, 1, 1200, 6)
-					 ,(11, '4/16/2025','321', NULL, NULL, 4, 6, 1100, 3)
+					 ,(11, '6/16/2025','321', NULL, NULL, 4, 6, 1100, 3)
 					 ,(12, '7/14/2025','123', NULL, NULL, 2, 1, 1200, 4)
 					 ,(13, '3/21/2026','246', NULL, NULL, 3, 1, 1000, 1)
 
@@ -533,11 +541,9 @@ VALUES				 (1, 2, 1, 2)
 					,(11, 3, 3, 4)
 					,(12, 7, 3, 8)
 
-SELECT TPT.strPlaneType
-FROM TPlaneTypes AS TPT JOIN TPlanes AS TP
-	 ON TPT.intPlaneTypeID = TP.intPlaneTypeID
-	 JOIN TFlights AS TF
-	 ON TF.intPlaneID = TP.intPlaneID
+
+
+
 -- ----------------------
 --	PASSENGERS
 -- ----------------------
@@ -573,6 +579,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for DeleteCustomer (deletes selected passenger from TPassengers)
 -- --------------------------------------------------------------------------------
@@ -588,6 +595,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for UpdateCustomer (updates passenger data in TPassengers)
@@ -626,6 +634,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for BookFlight (adds rows to TFlightPassengers)
 -- --------------------------------------------------------------------------------
@@ -651,6 +660,30 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 	
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for CustomerDetails (displays # of flights for customer)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspCustomerDetails
+	 @intPassengerID AS INTEGER
+AS
+BEGIN TRANSACTION
+	
+	-- select number of flights customer has had in the past
+	SELECT COUNT(TFP.intFlightID) AS PassengerFlights
+	FROM TFlightPassengers AS TFP JOIN TFlights AS TF 
+	ON TFP.intFlightID = TF.intFlightID
+	WHERE TFP.intPassengerID = @intPassengerID AND TF.dtmFlightDate <= GETDATE()
+
+	---- select customer age
+	--SELECT DATEDIFF(YY,dtmDOB,GETDATE()) AS PassengerAge
+	--FROM TPassengers WHERE intPassengerID = @intPassengerID
+
+COMMIT TRANSACTION
+GO
+
+EXECUTE uspCustomerDetails 3
 -- --------------------------------------------------------------------------------
 --	Create Procedure for CustomerPastFlights (displays past flight data for passenger)
 -- --------------------------------------------------------------------------------
@@ -678,6 +711,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for CustomerPastMiles (displays total past flight miles for passenger)
 -- --------------------------------------------------------------------------------
@@ -696,6 +730,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for CustomerFutureFlights (displays future flight data for passenger)
 -- --------------------------------------------------------------------------------
@@ -710,6 +745,7 @@ BEGIN TRANSACTION
 		,TF.strFlightNumber
 		,TFP.strSeat
 		,TF.intMilesFlown
+		,TFP.monTotalCost
 		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intFromAirportID) AS DepartureCity
 		,(SELECT strAirportCity FROM TAirports WHERE intAirportID = TF.intToAirportID) AS ArrivalCity
 		,(SELECT strPlaneNumber FROM TPlanes WHERE intPlaneID = TF.intPlaneID) AS PlaneNum
@@ -721,6 +757,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for CustomerFutureMiles (displays total future flight miles for passenger)
@@ -739,6 +776,102 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
+
+
+
+-- ----------------------
+--	ADMINISTRATOR
+-- ----------------------
+-- --------------------------------------------------------------------------------
+--	Create Procedure for CreateFlight (inserts new flight data into TFlights)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspCreateFlight
+	 @intFlightID			AS INTEGER OUTPUT
+	,@dtmTimeofDeparture	AS TIME OUTPUT -- has a default value
+	,@dtmTimeOfLanding		AS TIME	OUTPUT -- has a default value	
+	,@dtmFlightDate			AS DATETIME
+	,@strFlightNumber		AS VARCHAR(255)
+	,@intFromAirportID		AS INTEGER
+	,@intToAirportID		AS INTEGER
+	,@intMilesFlown			AS INTEGER
+	,@intPlaneID			AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+	
+	-- Create flight ID
+	SELECT @intFlightID = MAX(intFlightID) + 1
+	FROM TFlights
+
+	SELECT @intFlightID = COALESCE(@intFlightID, 1) -- first ID is 1 if table is empty
+
+	-- Set times of departure and landing as NULL by default (since the flight has not happened yet)
+	SET @dtmTimeofDeparture = NULL
+
+	SET @dtmTimeOfLanding = NULL
+
+	-- Insert data into TFlights
+	INSERT INTO TFlights (intFlightID, dtmFlightDate, strFlightNumber,  dtmTimeofDeparture, dtmTimeOfLanding, intFromAirportID, intToAirportID, intMilesFlown, intPlaneID)
+	VALUES		(@intFlightID, @dtmFlightDate, @strFlightNumber, @dtmTimeofDeparture, @dtmTimeOfLanding, @intFromAirportID, @intToAirportID, @intMilesFlown, @intPlaneID)
+
+COMMIT TRANSACTION
+GO
+
+--EXECUTE uspCreateFlight 0, NULL, NULL, '05/01/2025', '1234', 1, 2, 1600, 1
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AddPilotFlight (adds rows to TPilotFlights)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAddPilotFlight
+	 @intPilotFlightID	AS INTEGER OUTPUT
+	,@intPilotID		AS INTEGER
+	,@intFlightID		AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+	
+	-- Create PilotFlight ID
+	SELECT @intPilotFlightID = MAX(intPilotFlightID) + 1
+	FROM TPilotFlights
+
+	SELECT @intPilotFlightID = COALESCE(@intPilotFlightID, 1) -- first ID is 1 if table is empty
+
+	-- Insert data into TPilotFlights
+	INSERT INTO TPilotFlights (intPilotFlightID, intPilotID, intFlightID)
+	VALUES		(@intPilotFlightID, @intPilotID, @intFlightID)
+
+COMMIT TRANSACTION
+GO
+
+
+-- --------------------------------------------------------------------------------
+--	Create Procedure for AddAttendantFlight (adds rows to TAttendantFlights)
+-- --------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE uspAddAttendantFlight
+	 @intAttendantFlightID	AS INTEGER OUTPUT
+	,@intAttendantID		AS INTEGER
+	,@intFlightID			AS INTEGER
+AS
+SET XACT_ABORT ON
+BEGIN TRANSACTION
+	
+	-- Create AttendantFlight ID
+	SELECT @intAttendantFlightID = MAX(intAttendantFlightID) + 1
+	FROM TAttendantFlights
+
+	SELECT @intAttendantFlightID = COALESCE(@intAttendantFlightID, 1) -- first ID is 1 if table is empty
+
+	-- Insert data into TAttendantFlights
+	INSERT INTO TAttendantFlights (intAttendantFlightID, intAttendantID, intFlightID)
+	VALUES		(@intAttendantFlightID, @intAttendantID, @intFlightID)
+
+COMMIT TRANSACTION
+GO
+
+
 
 
 -- ----------------------
@@ -788,6 +921,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for DeletePilot (deletes selected pilot from TPilots)
 -- --------------------------------------------------------------------------------
@@ -803,6 +937,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for UpdatePilot (updates pilot data in TPilots)
@@ -842,29 +977,6 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
-EXECUTE uspUpdatePilot 6, 1, 'Tip', 'Seenow', 'tiseenow', 'seenow', '12121', '1/1/2015', '1/1/2099', '12/1/2014', 1
--- --------------------------------------------------------------------------------
---	Create Procedure for AddPilotFlight (adds rows to TPilotFlights)
--- --------------------------------------------------------------------------------
-GO
-CREATE PROCEDURE uspAddPilotFlight
-	 @intPilotFlightID	AS INTEGER OUTPUT
-	,@intPilotID		AS INTEGER
-	,@intFlightID		AS INTEGER
-AS
-SET XACT_ABORT ON
-BEGIN TRANSACTION
-	
-	SELECT @intPilotFlightID = MAX(intPilotFlightID) + 1
-	FROM TPilotFlights
-
-	SELECT @intPilotFlightID = COALESCE(@intPilotFlightID, 1) -- first ID is 1 if table is empty
-
-	INSERT INTO TPilotFlights (intPilotFlightID, intPilotID, intFlightID)
-	VALUES		(@intPilotFlightID, @intPilotID, @intFlightID)
-
-COMMIT TRANSACTION
-GO
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for PilotPastFlights (displays past flight data for pilot)
@@ -893,6 +1005,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for PilotPastMiles (displays total past flight miles for pilot)
 -- --------------------------------------------------------------------------------
@@ -910,6 +1023,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for PilotFutureFlights (displays future flight data for pilot)
@@ -938,6 +1052,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for PilotFutureMiles (displays total future flight miles for pilot)
 -- --------------------------------------------------------------------------------
@@ -955,6 +1070,8 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
+
 
 
 -- ----------------------
@@ -1002,8 +1119,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
---SELECT MAX(intAttendantID) AS MaxAttendant, MAX(intEmployeeID) AS MaxEmployee
---FROM TAttendants, TEmployees
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for DeleteAttendant (deletes selected attendant from TAttendants)
 -- --------------------------------------------------------------------------------
@@ -1019,6 +1135,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for UpdateAttendant (updates attendant data in TAttendants)
@@ -1054,28 +1171,6 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
--- --------------------------------------------------------------------------------
---	Create Procedure for AddAttendantFlight (adds rows to TAttendantFlights)
--- --------------------------------------------------------------------------------
-GO
-CREATE PROCEDURE uspAddAttendantFlight
-	 @intAttendantFlightID	AS INTEGER OUTPUT
-	,@intAttendantID		AS INTEGER
-	,@intFlightID			AS INTEGER
-AS
-SET XACT_ABORT ON
-BEGIN TRANSACTION
-	
-	SELECT @intAttendantFlightID = MAX(intAttendantFlightID) + 1
-	FROM TAttendantFlights
-
-	SELECT @intAttendantFlightID = COALESCE(@intAttendantFlightID, 1) -- first ID is 1 if table is empty
-
-	INSERT INTO TAttendantFlights (intAttendantFlightID, intAttendantID, intFlightID)
-	VALUES		(@intAttendantFlightID, @intAttendantID, @intFlightID)
-
-COMMIT TRANSACTION
-GO
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for AttendantPastFlights (displays past flight data for attendant)
@@ -1104,6 +1199,7 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 GO
 
+
 -- --------------------------------------------------------------------------------
 --	Create Procedure for AttendantPastMiles (displays total past flight miles for attendant)
 -- --------------------------------------------------------------------------------
@@ -1121,6 +1217,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for AttendantFutureFlights (displays future flight data for attendant)
@@ -1148,6 +1245,7 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
+
 
 -- --------------------------------------------------------------------------------
 --	Create Procedure for AttendantFutureMiles (displays total future flight miles for attendant)

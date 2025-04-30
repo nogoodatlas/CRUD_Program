@@ -53,9 +53,12 @@ Public Class frmAddPilotFlight
             cboFlights.DisplayMember = "FlightInfo"
             cboFlights.DataSource = dtf
 
-            'makes combobox empty by default
+            'makes fields empty by default
             cboPilots.Text = String.Empty
             cboFlights.Text = String.Empty
+            lblFlightDate.Text = String.Empty
+            lblFlightFrom.Text = String.Empty
+            lblFlightTo.Text = String.Empty
 
             ' Clean up
             drSourceTable.Close()

@@ -78,7 +78,7 @@
             strSelect = "SELECT intEmployeeID, intEmployeeRoleID, intEmployeeNum FROM TEmployees " &
             "WHERE strLoginID = '" & strLogin & "' AND strPassword = '" & strPass & "'"
 
-            MessageBox.Show(strSelect)
+            'MessageBox.Show(strSelect)
 
             ' Retrieve all the records 
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
